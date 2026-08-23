@@ -1,8 +1,13 @@
-# Runtime assets
+# Mojang audio cache
 
-The game intentionally keeps the same network asset behavior as the original V14 HTML.
+The game does not ship generic fallback sounds.
 
-It loads Three.js and Minecraft/Mojang sample resources from the same URLs already used by
-the standalone build, including the configured Minecraft-assets repository. No asset resolver,
-texture lookup, entity lookup, sound lookup, WebGL/WebGPU test code, or Mojang URL logic was
-removed during the split.
+`tools/build_mojang_audio.py` reads Mojang Bedrock `sounds.json` and `sound_definitions.json`, selects the sound events needed by the current block/mob profile, downloads their `.fsb` samples, converts them to browser-friendly MP3 with ffmpeg, and writes `mojang-audio-manifest.json`.
+
+Run:
+
+```bash
+python tools/build_mojang_audio.py
+```
+
+The runtime checks this generated cache first. If a generated file is absent it can still attempt direct/lazy FSB decoding, but a failed Mojang asset is logged and stays silent; no beep/noise replacement is synthesized.

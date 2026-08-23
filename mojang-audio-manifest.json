@@ -1,0 +1,12 @@
+{
+  "format": 1,
+  "generated_at": null,
+  "source": "Mojang/bedrock-samples",
+  "events": [],
+  "definitions": {},
+  "block_sounds": {},
+  "paths": {},
+  "failures": [],
+  "fallback_audio": false,
+  "note": "Run python tools/build_mojang_audio.py or the included GitHub Action to populate browser-ready Mojang audio."
+}

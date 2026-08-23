@@ -1,0 +1,53 @@
+{
+  "block_sound_groups": [
+    "grass",
+    "wood",
+    "stone",
+    "sand",
+    "gravel",
+    "cloth",
+    "leaves"
+  ],
+  "entity_types": [
+    "player",
+    "zombie",
+    "skeleton",
+    "creeper",
+    "cow",
+    "pig",
+    "chicken",
+    "sheep",
+    "spider",
+    "villager",
+    "enderman"
+  ],
+  "entity_actions": [
+    "ambient",
+    "say",
+    "idle",
+    "hurt",
+    "damage",
+    "death",
+    "die",
+    "attack",
+    "shoot",
+    "step",
+    "splash",
+    "swim"
+  ],
+  "event_names": [
+    "random.click",
+    "random.pop",
+    "random.orb",
+    "random.levelup",
+    "random.eat",
+    "random.burp",
+    "damage.hit",
+    "random.bow",
+    "random.shield_block",
+    "random.explode",
+    "random.fuse"
+  ],
+  "max_assets": 420,
+  "mp3_quality": 4
+}

@@ -72,3 +72,24 @@ body{image-rendering:auto}
 @keyframes panorama{from{transform:scale(1.05) translateX(-1.5%)}to{transform:scale(1.12) translateX(1.5%)}}
 @media (hover:hover) and (pointer:fine){#mobileControls{display:none}#lookSurface{z-index:1;cursor:crosshair}#hotbar{bottom:10px}.actionBtn{display:none}.mc-window{width:min(900px,90vw)}}
 @media (max-width:680px){.hot-slot{width:38px;height:38px}.item-icon{width:29px;height:29px}.stack-count{font-size:12px}.inventory-layout{grid-template-columns:1fr}.creative-list{grid-template-columns:repeat(6,1fr)}.mc-window{padding:9px}.craft-slot{width:44px;height:44px}.craft-grid{grid-template-columns:repeat(3,44px)}}
+
+/* V14.3 mobile/Java-style UI polish */
+html,body,#app{width:100%;height:100%;width:100dvw;height:100dvh;min-width:100%;min-height:100%;}
+#gameCanvas,#hud,#titleScreen,#screenLayer{width:100%;height:100%;}
+#screenLayer{padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));}
+.mc-window{position:relative;max-width:960px;max-height:calc(100dvh - max(16px,env(safe-area-inset-top)) - max(16px,env(safe-area-inset-bottom)));}
+.v143Close{position:sticky;float:right;top:0;right:0;z-index:20;width:42px;height:42px;margin:-5px -5px 4px 8px;border:2px solid #222;background:#777;color:#fff;box-shadow:inset 2px 2px #aaa,inset -2px -2px #444;font:900 28px/34px Arial;text-shadow:2px 2px #333;touch-action:manipulation;}
+.v143Close:active{background:#555;box-shadow:inset 2px 2px #444,inset -2px -2px #aaa}
+@media (orientation:landscape){
+  #screenLayer{align-items:center;overflow:hidden}
+  .mc-window{width:min(980px,96dvw);max-height:94dvh;overflow:auto}
+  .v6-crafting{height:min(94dvh,620px)!important;max-height:94dvh!important}
+  .crafting-panel{grid-template-columns:minmax(310px,1.1fr) minmax(260px,.9fr)!important}
+  .crafting-right .recipe-book{max-height:calc(94dvh - 155px)!important}
+}
+@media (orientation:portrait){
+  #screenLayer{align-items:flex-start;overflow:auto}
+  .mc-window{width:94dvw;max-height:92dvh;margin-top:2dvh}
+  .crafting-panel{grid-template-columns:1fr!important}
+  .crafting-right .recipe-book{max-height:30dvh!important}
+}

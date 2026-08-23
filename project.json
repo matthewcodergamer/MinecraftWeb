@@ -1,6 +1,6 @@
 {
-  "name": "Minecraft Three.js Studio V14",
-  "version": "0.14.0-fixed-multifile",
+  "name": "Minecraft Three.js V14.3 \u2014 Physics, Entity & World Polish",
+  "version": "0.14.3-physics-entity-world",
   "entry": "index.html",
   "runtime": {
     "entry": "index.html",
@@ -22,13 +22,23 @@
     "src/parts/82-v13-1-1-responsive-title.js",
     "src/parts/83-v13-2-antialiasing.js",
     "src/parts/90-v14-frustum-culling.js",
+    "src/parts/91-v14-1-bedrock-behavior.js",
+    "src/parts/92-v14-2-bedrock-audio.js",
+    "src/parts/93-v14-3-physics-entity-world-polish.js",
     "src/parts/99-finalize.js"
   ],
   "integrity": {
-    "original_module_sha256": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
-    "runtime_game_js_sha256": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
+    "runtime_game_js_sha256": "d8363ce7119ed332e62c94508ea5d9d6433897473177ad33446cf99c7fcf7d5b",
+    "js_game_js_sha256": "d8363ce7119ed332e62c94508ea5d9d6433897473177ad33446cf99c7fcf7d5b",
     "source_parts_reconstruct_exactly": true,
-    "root_game_js_sha256": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
-    "root_main_css_sha256": "99d08d7b33aadf04948a6f407b139be1a07b0a5980dba19b2497cc76160adb4e"
+    "root_main_css_sha256": "a689ad31fc1f83247f64526dc893b2947e089e52835a84c735d964f230ffdd32"
+  },
+  "systems": {
+    "behavior": "Mojang Bedrock behavior JSON -> cached components/groups/events/properties -> strict filters -> priority goals -> collision-aware Three.js navigation",
+    "audio": "Mojang sounds.json + sound_definitions.json -> weighted event resolver -> generated FSB-to-MP3 cache/direct decode -> Web Audio stereo/HRTF; synthesized fallback disabled",
+    "physics": "Sand/gravel falling-block simulation + multi-axis mob depenetration/recovery",
+    "world": "Biome/slope/water-gated village template fallback + stronghold marker/fallback + spawn-rule cache",
+    "rendering": "Quadruped pose/inheritance repair, cleaned fixed-direction sun/moon, cloud motion options, responsive VisualViewport sizing",
+    "player": "Calmer view bob, sprint FOV preserved, third-person walk/crouch/swim/attack animation hooks"
   }
 }
