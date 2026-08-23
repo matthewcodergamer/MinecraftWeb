@@ -1,11 +1,8 @@
-# Assets
+# Runtime assets
 
-This build preserves the original V14 asset resolver.
+The game intentionally keeps the same network asset behavior as the original V14 HTML.
 
-At runtime the game still resolves Minecraft sample assets from:
-- Mojang `bedrock-samples`
-- the configured `Minecraft-assets` GitHub repository
-- Three.js r180 from jsDelivr through the import map in `index.html`
-
-Nothing was removed from the original resolver. This folder is intentionally ready for
-future local asset mirroring if you later want the site to become self-contained/offline.
+It loads Three.js and Minecraft/Mojang sample resources from the same URLs already used by
+the standalone build, including the configured Minecraft-assets repository. No asset resolver,
+texture lookup, entity lookup, sound lookup, WebGL/WebGPU test code, or Mojang URL logic was
+removed during the split.
