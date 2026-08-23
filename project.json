@@ -3,9 +3,10 @@
   "version": "0.14.0-fixed-multifile",
   "entry": "index.html",
   "runtime": {
-    "css": "css/main.css",
-    "javascript": "js/game.js",
-    "strategy": "direct ES module; no runtime concatenation or Blob import"
+    "entry": "index.html",
+    "css": "main.css",
+    "javascript": "game.js",
+    "layout": "flat-root runtime for GitHub Pages/mobile upload reliability"
   },
   "sourceParts": [
     "src/parts/00-engine-core.js",
@@ -26,6 +27,8 @@
   "integrity": {
     "original_module_sha256": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
     "runtime_game_js_sha256": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
-    "source_parts_reconstruct_exactly": true
+    "source_parts_reconstruct_exactly": true,
+    "root_game_js_sha256": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
+    "root_main_css_sha256": "99d08d7b33aadf04948a6f407b139be1a07b0a5980dba19b2497cc76160adb4e"
   }
 }

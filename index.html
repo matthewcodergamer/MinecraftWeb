@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <title>Minecraft Web — Fresh Three.js Engine</title>
-<link rel="stylesheet" href="./css/main.css">
+<link rel="stylesheet" href="./main.css">
 
 </head>
 <body>
@@ -39,6 +39,15 @@
 <div id="screenLayer"></div><div id="toast"></div>
 </div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
-<script type="module" src="./js/game.js"></script>
+<script type="module" src="./game.js"></script>
+
+<script>
+window.__MC_BOOT_WATCHDOG__=setTimeout(function(){
+  if(!window.game && !document.querySelector('#titleScreen[style*="display: none"]')){
+    console.error('[BOOT] game.js did not finish starting. Check that game.js exists next to index.html.');
+  }
+},8000);
+</script>
+
 </body>
 </html>
