@@ -1,0 +1,42 @@
+{
+  "original_html_bytes": 552014,
+  "original_js_chars": 536893,
+  "original_css_chars": 11022,
+  "js_parts": 14,
+  "js_sha256_original": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
+  "js_sha256_reconstructed": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
+  "js_exact_match": true,
+  "css_sha256": "99d08d7b33aadf04948a6f407b139be1a07b0a5980dba19b2497cc76160adb4e",
+  "files": [
+    ".nojekyll",
+    "README.md",
+    "assets/README.md",
+    "css/main.css",
+    "docs/ARCHITECTURE.md",
+    "docs/GITHUB_PAGES.md",
+    "index.html",
+    "js/boot.js",
+    "js/parts-manifest.js",
+    "js/parts/00-engine-core.js",
+    "js/parts/10-studio-v6.js",
+    "js/parts/20-studio-v7.js",
+    "js/parts/30-studio-v8.js",
+    "js/parts/40-studio-v9.js",
+    "js/parts/50-studio-v10.js",
+    "js/parts/60-studio-v11.js",
+    "js/parts/70-studio-v12.js",
+    "js/parts/80-studio-v13.js",
+    "js/parts/81-v13-1-hotfix.js",
+    "js/parts/82-v13-1-1-responsive-title.js",
+    "js/parts/83-v13-2-antialiasing.js",
+    "js/parts/90-v14-frustum-culling.js",
+    "js/parts/99-finalize.js",
+    "legacy/Minecraft_ThreeJS_Studio_V14_Standalone.html",
+    "project.json"
+  ],
+  "node_syntax_check": {
+    "available": true,
+    "passed": true,
+    "output": ""
+  }
+}
