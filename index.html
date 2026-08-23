@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Minecraft Web — Fresh Three.js Engine</title>
+<link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+<div id="app">
+<canvas id="gameCanvas"></canvas>
+<div id="titleScreen">
+  <div id="titlePanorama"></div><div id="titleShade"></div>
+  <div id="titleContent">
+    <img id="mcLogo" src="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/gui/title/minecraft.png" alt="Minecraft" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
+    <div id="logoFallback">MINECRAFT</div>
+    <button class="titleBtn" id="playBtn">PLAY SURVIVAL</button>
+    <button class="titleBtn" id="creativeBtn">PLAY CREATIVE</button>
+    <button class="titleBtn" id="resetBtn">NEW WORLD</button>
+    <div id="titleSub">Fresh Three.js voxel engine • cached Mojang sample assets • mobile crafting</div>
+  </div>
+</div>
+<div id="loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Starting engine…</div></div>
+<div id="hud">
+  <div id="lookSurface"></div><div id="crosshair"></div><div id="damageVignette"></div>
+  <div id="topStatus"></div><div id="debug"></div><div id="mobileHint">drag anywhere to look • tap buttons to act</div>
+  <button id="voxelDiagToggle" type="button">DBG</button>
+  <div id="voxelOptions">
+    <div class="voxOptRow"><label><span>Texture quality ceiling</span><b id="voxelQualityValue">100%</b></label><input id="voxelQuality" type="range" min="25" max="100" step="25" value="100"></div>
+    <div class="voxOptRow"><label><span>LOD near distance</span><b id="voxelLodNearValue">10</b></label><input id="voxelLodNear" type="range" min="4" max="20" step="1" value="10"></div>
+    <div class="voxOptRow"><label><span>LOD far distance</span><b id="voxelLodFarValue">32</b></label><input id="voxelLodFar" type="range" min="16" max="60" step="1" value="32"></div>
+  </div>
+  <div id="voxelDiag"><div id="voxelDiagBar"><button class="voxBtn" id="voxelCopy" type="button">COPY</button><button class="voxBtn" id="voxelClear" type="button">CLEAR</button><button class="voxBtn" id="voxelValidate" type="button">VALIDATE</button><button class="voxBtn" id="voxelInspect" type="button">INSPECT BLOCK</button><button class="voxBtn" id="voxelTextures" type="button">TEXTURES</button><button class="voxBtn" id="voxelWorld" type="button">WORLD</button><button class="voxBtn" id="voxelExport" type="button">EXPORT</button><button class="voxBtn" id="voxelOptionsBtn" type="button">OPTIONS</button></div><div id="voxelCommandRow"><input id="voxelCommand" autocomplete="off" spellcheck="false" placeholder="help / inspect / faces / textures / chunks / uv / winding / renderer / world"><button class="voxBtn" id="voxelRunCommand" type="button">RUN</button></div><div id="voxelDiagText"></div></div>
+  <div id="hotbar"></div>
+  <div id="mobileControls"><div id="movePad"><div id="moveStick"></div></div><button class="actionBtn" id="jumpBtn">↑</button><button class="actionBtn" id="useBtn">▣</button><button class="actionBtn" id="breakBtn">⛏</button><button class="actionBtn" id="invBtn" aria-label="Inventory">☷</button><button class="actionBtn" id="craftBtn" aria-label="Crafting">⚒</button></div>
+</div>
+<div id="screenLayer"></div><div id="toast"></div>
+</div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
+<script type="module" src="./js/boot.js"></script>
+</body>
+</html>
