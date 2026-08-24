@@ -1,0 +1,1 @@
+Minecraft Java's modern background-music data uses minimum/maximum delays. Mojang's 24w44a example used min_delay 12000 and max_delay 24000 ticks (10–20 minutes at 20 TPS). V14.7 keeps that long in-game silence and uses a deliberately lower default web/mobile music level; user-selected music volume remains authoritative.
