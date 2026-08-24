@@ -1,25 +1,34 @@
-# Minecraft Three.js — V14.4 Java Primary
+# Minecraft Three.js V14.5 — Java Client Runtime
 
-Browser-first Minecraft-style survival runtime targeting iPhone Safari and desktop browsers.
+Minecraft Web Alpha **0.14.5** keeps the existing Three.js/WebGPU-capable world engine and moves the chosen client-facing systems to Java Edition data/assets.
 
-## V14.4 source strategy
+Runtime entry files remain `index.html`, `main.css`, and `game.js` at repository root.
 
-**Java Edition is now preferred** for client-facing assets and structured gameplay data:
+Key V14.5 systems:
 
-- Java title / HUD / inventory / crafting UI from `PrismarineJS/minecraft-assets` (target: 1.21.8)
-- Java item and block texture candidates before the older Bedrock candidates
-- Java registries and mechanics metadata from `PrismarineJS/minecraft-data`
-- Java-style attack speed, cooldown strength and HUD indicator
-- Java food values when the Java data cache is available
+- Java widget/title/inventory/crafting UI.
+- Java OGG audio only for runtime effects/music; Bedrock FSB fallback is disabled.
+- Java combat cooldown/attack strength and responsive attack HUD.
+- Java sun, moon and cloud resources.
+- Java core block/item textures and held-item rendering.
+- Correct Java torch non-full-block geometry.
+- Java-like biome tint for grass/tall grass/leaves.
+- Java sheep model and Java-like passive animal runtime.
+- Stronger player/entity anti-clipping recovery.
+- Existing world generation, falling sand/gravel, renderer, WebGPU/WebGL benchmark and other working V14 systems preserved.
 
-The existing Bedrock translation pipeline is intentionally retained for the parts where it is currently stronger for this engine: entity geometry, UVs, animations, data-driven behavior components/spawn rules, and the strict Mojang audio resolver.
+## Build
 
-Runtime entry on GitHub Pages: `index.html` → `runtime-loader.js` → ordered numbered source parts. The ZIP also includes the prebuilt `game.js` bundle for direct bundling/testing.
-
-Build from source parts with:
+Edit source files under `src/parts/` and run:
 
 ```bash
 python build.py
 ```
 
-The game does not claim complete Java Edition parity. V14.4 establishes the Java-primary translation layer while preserving all V14.3 physics/rendering/AI fixes.
+## Cache Java runtime assets
+
+The included `.github/workflows/build-java-runtime-assets.yml` runs `tools/build_java_runtime_assets.py`. It caches the Java GUI/environment/entity/block/item assets plus the OGG samples referenced by the configured Java sound events.
+
+Safari requires a user gesture before audio can begin; title music therefore starts after the first tap/key interaction on the title screen rather than before the user interacts with the page.
+
+See `UPDATE_V14_5.md` for the implementation details.
