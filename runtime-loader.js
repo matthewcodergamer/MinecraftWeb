@@ -24,6 +24,7 @@ const SOURCE_PARTS = [
   '95d-v14-5-java-celestials.js',
   '95e-v14-5-java-passive-ai.js',
   '95f-v14-5-java-collision-combat.js',
+  '95g-v14-5-java-icon-hotfix.js',
   '99-finalize.js'
 ];
 
