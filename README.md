@@ -2,7 +2,7 @@
 
 Minecraft Web Alpha **0.14.5** keeps the existing Three.js/WebGPU-capable world engine and moves the chosen client-facing systems to Java Edition data/assets.
 
-Runtime entry files remain `index.html`, `main.css`, and `game.js` at repository root.
+The live GitHub Pages runtime is `index.html` → `runtime-loader.js` → the ordered numbered source parts at repository root.
 
 Key V14.5 systems:
 
@@ -17,18 +17,10 @@ Key V14.5 systems:
 - Stronger player/entity anti-clipping recovery.
 - Existing world generation, falling sand/gravel, renderer, WebGPU/WebGL benchmark and other working V14 systems preserved.
 
-## Build
+## Java runtime cache
 
-Edit source files under `src/parts/` and run:
-
-```bash
-python build.py
-```
-
-## Cache Java runtime assets
-
-The included `.github/workflows/build-java-runtime-assets.yml` runs `tools/build_java_runtime_assets.py`. It caches the Java GUI/environment/entity/block/item assets plus the OGG samples referenced by the configured Java sound events.
+`.github/workflows/build-java-runtime-assets.yml` runs `tools/build_java_runtime_assets.py` when the Java source/profile changes. It caches the selected Java GUI/environment/entity/block/item assets plus effect OGG samples under `assets/java/`. Large music tracks stay streamed instead of being committed into the cache.
 
 Safari requires a user gesture before audio can begin; title music therefore starts after the first tap/key interaction on the title screen rather than before the user interacts with the page.
 
-See `UPDATE_V14_5.md` for the implementation details.
+See `UPDATE_V14_5.md` for implementation details.
