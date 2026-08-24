@@ -32,7 +32,8 @@
     "entity/enderman/enderman.png",
     "entity/iron_golem/iron_golem.png",
     "entity/sheep/sheep_wool.png",
-    "entity/sheep/sheep_wool_undercoat.png"
+    "entity/sheep/sheep_wool_undercoat.png",
+    "entity/shield_base.png"
   ],
   "data_files": [
     "items.json",
@@ -109,6 +110,7 @@
     "blocks/diamond_ore.png",
     "blocks/bedrock.png",
     "blocks/torch.png",
+    "blocks/white_wool.png",
     "blocks/crafting_table_top.png",
     "blocks/crafting_table_side.png",
     "blocks/bricks.png",
@@ -134,7 +136,6 @@
     "items/apple.png",
     "items/bread.png",
     "items/arrow.png",
-    "items/torch.png",
     "items/wooden_pickaxe.png",
     "items/stone_pickaxe.png",
     "items/iron_pickaxe.png",
@@ -155,10 +156,8 @@
     "items/porkchop.png",
     "items/chicken.png",
     "items/feather.png",
-    "items/white_wool.png",
     "items/mutton.png",
     "items/gunpowder.png",
-    "items/shield.png",
     "items/bow.png",
     "items/bone_meal.png"
   ]
