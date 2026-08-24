@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "generated_at": "2026-08-24T03:05:47.630205+00:00",
+  "generated_at": "2026-08-24T03:08:41.428829+00:00",
   "java_version": "1.21.8",
   "sources": {
     "assets": "PrismarineJS/minecraft-assets",
@@ -39,6 +39,7 @@
     "blocks/tnt_side.png",
     "blocks/tnt_top.png",
     "blocks/torch.png",
+    "blocks/white_wool.png",
     "colormap/foliage.png",
     "colormap/grass.png",
     "data/foods.json",
@@ -52,6 +53,7 @@
     "entity/sheep/sheep.png",
     "entity/sheep/sheep_wool.png",
     "entity/sheep/sheep_wool_undercoat.png",
+    "entity/shield_base.png",
     "entity/skeleton/skeleton.png",
     "entity/spider/spider.png",
     "entity/villager/villager.png",
@@ -609,21 +611,5 @@
     "step/wood5",
     "step/wood6"
   ],
-  "failures": [
-    {
-      "kind": "asset",
-      "path": "items/torch.png",
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "kind": "asset",
-      "path": "items/white_wool.png",
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "kind": "asset",
-      "path": "items/shield.png",
-      "error": "HTTP Error 404: Not Found"
-    }
-  ]
+  "failures": []
 }
