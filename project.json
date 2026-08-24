@@ -1,19 +1,19 @@
 {
   "name": "Minecraft Three.js V14.7 — Java-First Fidelity Repair",
-  "version": "0.14.7-fidelity-repair",
+  "version": "0.14.7-fidelity-hotfix.1",
   "entry": "index.html",
   "runtime": {"entry":"index.html","css":"main.css","loader":"runtime-loader.js","renderer":"Three.js r180 WebGPU/WebGL fallback","target":"mobile-first, iPhone 11-class baseline"},
-  "sourceParts": ["00-engine-core.js","10-studio-v6.js","20-studio-v7.js","30-studio-v8.js","40-studio-v9.js","50-studio-v10.js","60-studio-v11.js","70-studio-v12.js","80-studio-v13.js","81-v13-1-hotfix.js","82-v13-1-1-responsive-title.js","83-v13-2-antialiasing.js","90-v14-frustum-culling.js","91-v14-1-bedrock-behavior.js","92-v14-2-bedrock-audio.js","93-v14-3-physics-entity-world-polish.js","94a-v14-4-java-data-assets.js","94b-v14-4-java-combat-hud.js","94c-v14-4-java-ui-runtime.js","95a-v14-5-java-assets-render.js","95b-v14-5-java-ui.js","95c-v14-5-java-audio.js","95d-v14-5-java-celestials.js","95e-v14-5-java-passive-ai.js","95f-v14-5-java-collision-combat.js","95g-v14-5-java-icon-hotfix.js","96a-v14-6-render-sections.js","96b-v14-6-scheduling-entities.js","96c-v14-6-performance-governor.js","97a-v14-7-render-ui.js","97b-v14-7-items-audio.js","97c-v14-7-animation-collision.js","99-finalize.js"],
+  "sourceParts": ["00-engine-core.js","10-studio-v6.js","20-studio-v7.js","30-studio-v8.js","40-studio-v9.js","50-studio-v10.js","60-studio-v11.js","70-studio-v12.js","80-studio-v13.js","81-v13-1-hotfix.js","82-v13-1-1-responsive-title.js","83-v13-2-antialiasing.js","90-v14-frustum-culling.js","91-v14-1-bedrock-behavior.js","92-v14-2-bedrock-audio.js","93-v14-3-physics-entity-world-polish.js","94a-v14-4-java-data-assets.js","94b-v14-4-java-combat-hud.js","94c-v14-4-java-ui-runtime.js","95a-v14-5-java-assets-render.js","95b-v14-5-java-ui.js","95c-v14-5-java-audio.js","95d-v14-5-java-celestials.js","95e-v14-5-java-passive-ai.js","95f-v14-5-java-collision-combat.js","95g-v14-5-java-icon-hotfix.js","96a-v14-6-render-sections.js","96b-v14-6-scheduling-entities.js","96c-v14-6-performance-governor.js","97a-v14-7-render-ui.js","97b-v14-7-items-audio.js","97c-v14-7-animation-collision.js","97d-v14-7-fidelity-hotfix.js","99-finalize.js"],
   "systems": {
     "v146Foundation":"Preserved: 16x16x16 render sections, portal/BFS occlusion, prioritized chunk jobs, entity visibility, spatial indexing, AI throttling, instanced particles and adaptive mobile quality",
-    "celestials":"Java sun/moon alpha cleanup, horizon fade and terrain depth occlusion",
-    "breaking":"World-space transparent Java destroy-stage overlay instead of gray screen-space fill",
+    "celestials":"Java sun/moon alpha cleanup, edge-connected black-background removal, horizon fade and terrain depth occlusion",
+    "breaking":"World-space Java destroy-stage overlay with softened alpha blending; material hit and final break sounds are invoked by the mining path",
     "heldItems":"Native blocky 3D pickaxe/axe/sword/shovel/hoe/shears models plus UV-correct textured 3D torch",
     "thirdPerson":"Procedural fallback limb animation and held-item attachment to right arm",
     "sheep":"Connected Java sheep pivots plus swept passive-mob collision guard",
     "audio":"Java sounds.json routing with material sample fallbacks; quieter streamed music and randomized long in-game silence",
     "ui":"Safe-area centered inventory/crafting with gameplay HUD hidden while containers are open; camera switch toast removed",
-    "icons":"Block inventory icons resolve to Java block textures instead of missing item URLs"
+    "icons":"Block inventory icons resolve to local Java block textures with remote Java fallback instead of missing item URLs"
   },
   "nextOptimizationTargets": ["atlas-safe greedy rectangle meshing with repeatable tile coordinates","true Web Worker section meshing with cancellable generation IDs","material/render-region batching after section renderer profiling","palette-compressed chunk storage after compatibility testing"]
 }
