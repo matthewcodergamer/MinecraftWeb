@@ -18,10 +18,23 @@ PARTS = [
     "91-v14-1-bedrock-behavior.js",
     "92-v14-2-bedrock-audio.js",
     "93-v14-3-physics-entity-world-polish.js",
+    "94a-v14-4-java-data-assets.js",
+    "94b-v14-4-java-combat-hud.js",
+    "94c-v14-4-java-ui-runtime.js",
     "99-finalize.js",
 ]
 
-source = "".join((ROOT / "src" / "parts" / name).read_text(encoding="utf-8") for name in PARTS)
-(ROOT / "js" / "game.js").write_text(source, encoding="utf-8")
+def resolve_part(name: str) -> Path:
+    # GitHub Pages deployment keeps source parts flat at repository root, while
+    # the downloadable project ZIP keeps them organized under src/parts.
+    for path in (ROOT / name, ROOT / "src" / "parts" / name):
+        if path.exists():
+            return path
+    raise FileNotFoundError(f"Missing source part: {name}")
+
+source = "".join(resolve_part(name).read_text(encoding="utf-8") for name in PARTS)
 (ROOT / "game.js").write_text(source, encoding="utf-8")
-print(f"Built game.js + js/game.js from {len(PARTS)} source parts ({len(source):,} characters).")
+js_dir = ROOT / "js"
+if js_dir.exists():
+    (js_dir / "game.js").write_text(source, encoding="utf-8")
+print(f"Built game.js from {len(PARTS)} source parts ({len(source):,} characters).")

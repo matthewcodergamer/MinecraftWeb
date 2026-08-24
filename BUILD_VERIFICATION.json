@@ -1,42 +1,23 @@
 {
-  "original_html_bytes": 552014,
-  "original_js_chars": 536893,
-  "original_css_chars": 11022,
-  "js_parts": 14,
-  "js_sha256_original": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
-  "js_sha256_reconstructed": "96795f7f741bb1838e003d48a8304e87c8a1d08d4aba313894c0dff5b45a8aa6",
-  "js_exact_match": true,
-  "css_sha256": "99d08d7b33aadf04948a6f407b139be1a07b0a5980dba19b2497cc76160adb4e",
-  "files": [
-    ".nojekyll",
-    "README.md",
-    "assets/README.md",
-    "css/main.css",
-    "docs/ARCHITECTURE.md",
-    "docs/GITHUB_PAGES.md",
-    "index.html",
-    "js/boot.js",
-    "js/parts-manifest.js",
-    "js/parts/00-engine-core.js",
-    "js/parts/10-studio-v6.js",
-    "js/parts/20-studio-v7.js",
-    "js/parts/30-studio-v8.js",
-    "js/parts/40-studio-v9.js",
-    "js/parts/50-studio-v10.js",
-    "js/parts/60-studio-v11.js",
-    "js/parts/70-studio-v12.js",
-    "js/parts/80-studio-v13.js",
-    "js/parts/81-v13-1-hotfix.js",
-    "js/parts/82-v13-1-1-responsive-title.js",
-    "js/parts/83-v13-2-antialiasing.js",
-    "js/parts/90-v14-frustum-culling.js",
-    "js/parts/99-finalize.js",
-    "legacy/Minecraft_ThreeJS_Studio_V14_Standalone.html",
-    "project.json"
-  ],
-  "node_syntax_check": {
-    "available": true,
-    "passed": true,
-    "output": ""
+  "build": "Minecraft Three.js V14.4 Java Primary",
+  "version": "0.14.4-java-primary",
+  "verified_at_utc": "2026-08-24T00:02:08.483727+00:00",
+  "checks": {
+    "source_parts": 20,
+    "node_syntax_game_js": "pass",
+    "node_syntax_js_game_js": "pass",
+    "node_syntax_runtime_loader": "pass",
+    "node_syntax_v14_4_parts": "pass",
+    "game_js_matches_js_game_js": true
+  },
+  "sha256": {
+    "game.js": "b261c2d7b12c598311fdea86a02747323d5f1dfa60c21bb49906ce77cd6265e3",
+    "main.css": "4f3bb10271ea80df8b5945a9204bf50b78b926912705bd7713725da39fc9448f",
+    "v14-4-java.css": "e539c8dd542a2db0abc198130d4769ac2b4ac422979c50a8ebb35d3631c148f0",
+    "index.html": "c8a98032fd5e02f5e47cacaa28f024128ea1064cc040a00da711abd52a2e660f",
+    "runtime-loader.js": "a1ad51680fda437d0756becb8455b315e0bdeeaeb3c1dbe4bbbb2a03dd9aeea4",
+    "src/parts/94a-v14-4-java-data-assets.js": "450e1652ebb8df6973b51efe1124929d981597a0243e0f10f3cc8d4c4ff84679",
+    "src/parts/94b-v14-4-java-combat-hud.js": "f05a378ba91f8897d20a482504df8cdf0f5bb9b0f75551039c0d27ab7a3d0c4a",
+    "src/parts/94c-v14-4-java-ui-runtime.js": "a50e8a1cec49ef44bbe438166b0e0519123db6fd4f8d64940696dc616884341d"
   }
 }

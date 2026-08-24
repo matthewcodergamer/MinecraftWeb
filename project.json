@@ -1,12 +1,13 @@
 {
-  "name": "Minecraft Three.js V14.3 \u2014 Physics, Entity & World Polish",
-  "version": "0.14.3-physics-entity-world",
+  "name": "Minecraft Three.js V14.4 — Java Edition Primary",
+  "version": "0.14.4-java-primary",
   "entry": "index.html",
   "runtime": {
     "entry": "index.html",
     "css": "main.css",
     "javascript": "game.js",
-    "layout": "flat-root runtime for GitHub Pages/mobile upload reliability"
+    "layout": "flat-root runtime for GitHub Pages/mobile upload reliability",
+    "loader": "runtime-loader.js (GitHub Pages ordered source-part loader)"
   },
   "sourceParts": [
     "src/parts/00-engine-core.js",
@@ -25,20 +26,33 @@
     "src/parts/91-v14-1-bedrock-behavior.js",
     "src/parts/92-v14-2-bedrock-audio.js",
     "src/parts/93-v14-3-physics-entity-world-polish.js",
+    "src/parts/94a-v14-4-java-data-assets.js",
+    "src/parts/94b-v14-4-java-combat-hud.js",
+    "src/parts/94c-v14-4-java-ui-runtime.js",
     "src/parts/99-finalize.js"
   ],
   "integrity": {
-    "runtime_game_js_sha256": "d8363ce7119ed332e62c94508ea5d9d6433897473177ad33446cf99c7fcf7d5b",
-    "js_game_js_sha256": "d8363ce7119ed332e62c94508ea5d9d6433897473177ad33446cf99c7fcf7d5b",
+    "runtime_game_js_sha256": "b261c2d7b12c598311fdea86a02747323d5f1dfa60c21bb49906ce77cd6265e3",
+    "js_game_js_sha256": "b261c2d7b12c598311fdea86a02747323d5f1dfa60c21bb49906ce77cd6265e3",
     "source_parts_reconstruct_exactly": true,
-    "root_main_css_sha256": "a689ad31fc1f83247f64526dc893b2947e089e52835a84c735d964f230ffdd32"
+    "root_main_css_sha256": "4f3bb10271ea80df8b5945a9204bf50b78b926912705bd7713725da39fc9448f",
+    "runtime_loader_sha256": "a1ad51680fda437d0756becb8455b315e0bdeeaeb3c1dbe4bbbb2a03dd9aeea4",
+    "java_primary_parts_sha256": {
+      "94a-v14-4-java-data-assets.js": "450e1652ebb8df6973b51efe1124929d981597a0243e0f10f3cc8d4c4ff84679",
+      "94b-v14-4-java-combat-hud.js": "f05a378ba91f8897d20a482504df8cdf0f5bb9b0f75551039c0d27ab7a3d0c4a",
+      "94c-v14-4-java-ui-runtime.js": "a50e8a1cec49ef44bbe438166b0e0519123db6fd4f8d64940696dc616884341d"
+    }
   },
   "systems": {
-    "behavior": "Mojang Bedrock behavior JSON -> cached components/groups/events/properties -> strict filters -> priority goals -> collision-aware Three.js navigation",
-    "audio": "Mojang sounds.json + sound_definitions.json -> weighted event resolver -> generated FSB-to-MP3 cache/direct decode -> Web Audio stereo/HRTF; synthesized fallback disabled",
+    "behavior": "Bedrock behavior translator retained for data-driven entity AI where it remains the stronger source",
+    "audio": "Strict Bedrock/Mojang sound resolver retained; no synthesized fallback audio",
     "physics": "Sand/gravel falling-block simulation + multi-axis mob depenetration/recovery",
     "world": "Biome/slope/water-gated village template fallback + stronghold marker/fallback + spawn-rule cache",
     "rendering": "Quadruped pose/inheritance repair, cleaned fixed-direction sun/moon, cloud motion options, responsive VisualViewport sizing",
-    "player": "Calmer view bob, sprint FOV preserved, third-person walk/crouch/swim/attack animation hooks"
+    "player": "Calmer view bob, sprint FOV preserved, third-person walk/crouch/swim/attack animation hooks",
+    "javaData": "PrismarineJS minecraft-data version resolver -> cached Java registries for items/foods/blocks/collisions/entities/windows/sounds",
+    "javaAssets": "PrismarineJS minecraft-assets 1.21.8 -> Java title/HUD/container/item/block artwork preferred before hybrid fallbacks",
+    "combat": "Java-style item attack speed + cooldown strength scaling + Java HUD attack indicator",
+    "ui": "Real Java inventory/crafting-table container art layered over existing gesture-safe inventory transactions; visualViewport rotation scaling"
   }
 }

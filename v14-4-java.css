@@ -1,0 +1,56 @@
+/* ===================== V14.4 Java Edition primary UI ===================== */
+#crosshair.javaCrosshairV144{width:15px;height:15px;background-size:15px 15px!important;image-rendering:pixelated;filter:none}
+#crosshair.javaCrosshairV144:before,#crosshair.javaCrosshairV144:after{display:none!important}
+#javaAttackIndicatorV144{position:absolute;left:50%;top:calc(50% + 15px);width:18px;height:18px;transform:translateX(-50%);z-index:31;pointer-events:none;display:none;image-rendering:pixelated}
+#javaAttackIndicatorV144 img{position:absolute;inset:0;width:18px;height:18px;object-fit:contain;image-rendering:pixelated}
+.javaAttackClipV144{position:absolute;inset:0;overflow:hidden;clip-path:inset(var(--attack-empty,0%) 0 0 0)}
+.javaAttackClipV144 img{position:absolute;inset:0}.javaAttackFullV144{opacity:0}#javaAttackIndicatorV144.full .javaAttackFullV144{opacity:1}#javaAttackIndicatorV144.full .javaAttackClipV144{opacity:0}
+
+#javaEditionLogoV144{display:block;width:min(190px,42vw);height:auto;margin:-17px auto 1px;image-rendering:auto;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.75));pointer-events:none}
+#titleContent.v9Title #mcLogo.javaTitleLogoV144{object-fit:contain}
+.v144SourceText{margin-top:5px;padding:7px 8px;background:rgba(0,0,0,.38);border:1px solid #555;color:#ddd;font:9px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;text-align:left}
+
+#screenLayer:has(.javaInventoryViewportV144){background:rgba(0,0,0,.56);overflow:hidden!important;align-items:center!important;justify-content:center!important;padding:0!important;touch-action:none}
+.javaInventoryViewportV144{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;padding:max(7px,env(safe-area-inset-top)) max(7px,env(safe-area-inset-right)) max(7px,env(safe-area-inset-bottom)) max(7px,env(safe-area-inset-left));box-sizing:border-box}
+.javaInventoryShellV144{--java-ui-scale:2;position:relative;width:340px;height:166px;transform:scale(var(--java-ui-scale));transform-origin:center center;display:flex;align-items:flex-start;gap:8px;image-rendering:pixelated;filter:drop-shadow(4px 5px 0 rgba(0,0,0,.48));touch-action:none}
+.javaGuiV144{position:relative;flex:0 0 176px;width:176px;height:166px;background-repeat:no-repeat;background-size:176px 166px;background-position:0 0;image-rendering:pixelated;touch-action:none;color:#3f3f3f}
+.javaGuiV144 .inv-slot.javaSlotV144{position:absolute;width:16px;height:16px;min-width:16px;min-height:16px;aspect-ratio:auto;background:transparent;border:0;box-shadow:none;padding:0;margin:0;display:flex;align-items:center;justify-content:center;z-index:5;touch-action:none;overflow:visible}
+.javaGuiV144 .inv-slot.javaSlotV144:active,.javaGuiV144 .inv-slot.javaSlotV144.selected{background:rgba(255,255,255,.28);outline:0}
+.javaGuiV144 .javaSlotV144 .item-icon{width:16px;height:16px;max-width:16px;max-height:16px;image-rendering:pixelated;object-fit:contain;filter:none}
+.javaGuiV144 .javaSlotV144 .stack-count{right:-1px;bottom:-3px;font-size:7px;line-height:8px;text-shadow:1px 1px #222;font-family:ui-monospace,monospace;letter-spacing:-1px;z-index:8}
+.javaCloseV144{position:absolute;right:-11px;top:-11px;width:15px;height:15px;z-index:30;border:1px solid #111;background:#777;color:#fff;padding:0;font:900 11px/12px Arial;box-shadow:inset 1px 1px #aaa,inset -1px -1px #444;text-shadow:1px 1px #222;touch-action:manipulation}
+.javaCloseV144:active{background:#555}
+
+.javaPaperDollV144{position:absolute;left:26px;top:8px;width:48px;height:70px;z-index:2;pointer-events:none;transform:scale(.82);transform-origin:50% 50%;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.35))}
+.javaPaperDollV144 i{position:absolute;display:block;image-rendering:pixelated;background:#00a6a6;border:0}
+.javaPaperDollV144 .jHead{left:17px;top:2px;width:16px;height:16px;background:#9a603f;box-shadow:inset 5px -3px #633b2b}
+.javaPaperDollV144 .jBody{left:13px;top:18px;width:24px;height:25px;background:#00a8a8;box-shadow:inset 0 -5px #008d8d}
+.javaPaperDollV144 .jArm{top:18px;width:8px;height:25px;background:#9a603f}.javaPaperDollV144 .jArmL{left:5px}.javaPaperDollV144 .jArmR{right:3px}
+.javaPaperDollV144 .jLeg{top:43px;width:11px;height:25px;background:#3434a6}.javaPaperDollV144 .jLegL{left:13px}.javaPaperDollV144 .jLegR{left:25px}
+
+.javaRecipePanelV144{position:relative;flex:0 0 156px;width:156px;height:166px;box-sizing:border-box;padding:19px 8px 7px;background:#c6c6c6 url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/recipe_book.png') center/156px 166px no-repeat;color:#222;image-rendering:pixelated;touch-action:none}
+.javaRecipeSearchV144{position:relative;z-index:2;width:140px;height:18px;box-sizing:border-box;margin:0 0 4px;padding:2px 4px;border:1px solid #373737;background:#fff;color:#111;font:8px/12px ui-monospace,monospace;outline:none;touch-action:manipulation;-webkit-user-select:text;user-select:text}
+.javaRecipeListV144{position:relative;z-index:2;height:113px;max-height:113px!important;overflow-y:auto!important;overflow-x:hidden;padding:2px;background:rgba(198,198,198,.86);touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.javaRecipeListV144 .recipe-card{width:100%;min-height:28px;margin:0 0 2px;padding:2px;display:grid;grid-template-columns:32px minmax(0,1fr) 31px;gap:2px;align-items:center;background:#8b8b8b;border:1px solid #373737;box-shadow:inset 1px 1px #fff,inset -1px -1px #555;color:#fff;text-shadow:1px 1px #333;font-size:6px;line-height:1.1;touch-action:manipulation}
+.javaRecipeListV144 .recipe-card small{font-size:5px}.javaRecipeListV144 .recipe-pattern{transform:scale(.58);transform-origin:left center;width:31px}.javaRecipeListV144 .recipe-output{font-size:6px}.javaRecipeListV144 .recipe-output img{width:14px;height:14px}.javaRecipeListV144 .recipe-card.unavailable{opacity:.52}
+
+/* Portrait keeps the Java player inventory centered and moves the recipe book below it instead of shrinking the UI into unreadable pixels. */
+@media (orientation:portrait){
+  .javaInventoryShellV144.withRecipes{width:176px;height:340px;display:block}
+  .javaInventoryShellV144.withRecipes .javaRecipePanelV144{position:absolute;left:10px;top:174px;width:156px;height:166px}
+}
+@media (orientation:landscape) and (max-height:430px){#javaAttackIndicatorV144{top:calc(50% + 13px)}}
+
+/* V14.4 Java HUD / hotbar artwork */
+#heartBar .javaHudSpriteV144,#hungerBar .javaHudSpriteV144{width:18px;height:18px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.75));margin:0 -1px 0 0}
+#armorBarV13 .javaArmorUnitV144{width:18px;height:18px;margin-right:-1px;opacity:1;filter:none}
+#armorBarV13 .javaArmorUnitV144 img{width:18px;height:18px;opacity:1!important;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.7))!important;image-rendering:pixelated}
+#armorBarV13{bottom:32px!important;height:18px!important}
+#xpEmptyV12,#xpFullV12{height:5px!important;image-rendering:pixelated!important;object-fit:fill}
+#hotbar.javaHotbarV144{width:364px;height:44px;box-sizing:border-box;display:flex;gap:0;padding:0 0 0 2px;background:transparent url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/hud/hotbar.png') left top/364px 44px no-repeat;border-radius:0;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.55));overflow:visible}
+#hotbar.javaHotbarV144 .hot-slot{position:relative;flex:0 0 40px;width:40px;height:40px;margin-top:2px;background:transparent;border:0;box-shadow:none;overflow:visible;z-index:2}
+#hotbar.javaHotbarV144 .hot-slot.selected{border:0;box-shadow:none;z-index:4}
+#hotbar.javaHotbarV144 .hot-slot.selected:after{content:'';position:absolute;left:-4px;top:-3px;width:48px;height:46px;background:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/hud/hotbar_selection.png') center/48px 46px no-repeat;image-rendering:pixelated;pointer-events:none;z-index:9}
+#hotbar.javaHotbarV144 .hot-slot .item-icon{width:32px;height:32px;max-width:32px;max-height:32px;image-rendering:pixelated;z-index:6}
+#hotbar.javaHotbarV144 .hot-slot .stack-count{z-index:10;right:2px;bottom:1px;font-size:12px;text-shadow:1px 1px #222}
+@media (max-width:390px){#hotbar.javaHotbarV144{transform:translateX(-50%) scale(.94);transform-origin:center bottom}}

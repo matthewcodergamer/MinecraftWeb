@@ -11,7 +11,9 @@
 <meta name="application-name" content="Minecraft">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/pack_icon.png">
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/pack_icon.png">
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
 <link rel="stylesheet" href="./main.css">
+<link rel="stylesheet" href="./v14-4-java.css">
 
 </head>
 <body>
@@ -20,12 +22,12 @@
 <div id="titleScreen">
   <div id="titlePanorama"></div><div id="titleShade"></div>
   <div id="titleContent">
-    <img id="mcLogo" src="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/gui/title/minecraft.png" alt="Minecraft" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
+    <img id="mcLogo" src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/title/minecraft.png" alt="Minecraft" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
     <div id="logoFallback">MINECRAFT</div>
     <button class="titleBtn" id="playBtn">PLAY SURVIVAL</button>
     <button class="titleBtn" id="creativeBtn">PLAY CREATIVE</button>
     <button class="titleBtn" id="resetBtn">NEW WORLD</button>
-    <div id="titleSub">Fresh Three.js voxel engine • cached Mojang sample assets • mobile crafting</div>
+    <div id="titleSub">Java Edition data/UI preferred • Bedrock entity/audio translation • Three.js</div>
   </div>
 </div>
 <div id="loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Starting engine…</div></div>
@@ -45,12 +47,12 @@
 <div id="screenLayer"></div><div id="toast"></div>
 </div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
-<script type="module" src="./game.js"></script>
+<script type="module" src="./runtime-loader.js"></script>
 
 <script>
 window.__MC_BOOT_WATCHDOG__=setTimeout(function(){
-  if(!window.game && !document.querySelector('#titleScreen[style*="display: none"]')){
-    console.error('[BOOT] game.js did not finish starting. Check that game.js exists next to index.html.');
+  if(!window.__MC_RUNTIME_READY__){
+    console.error('[BOOT] the source-part runtime did not finish starting. Check runtime-loader.js and the numbered source parts.');
   }
 },8000);
 </script>
