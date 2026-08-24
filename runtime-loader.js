@@ -18,6 +18,12 @@ const SOURCE_PARTS = [
   '94a-v14-4-java-data-assets.js',
   '94b-v14-4-java-combat-hud.js',
   '94c-v14-4-java-ui-runtime.js',
+  '95a-v14-5-java-assets-render.js',
+  '95b-v14-5-java-ui.js',
+  '95c-v14-5-java-audio.js',
+  '95d-v14-5-java-celestials.js',
+  '95e-v14-5-java-passive-ai.js',
+  '95f-v14-5-java-collision-combat.js',
   '99-finalize.js'
 ];
 
@@ -39,26 +45,26 @@ async function fetchPart(name) {
 async function bootMinecraftFromParts() {
   const loadingText = document.getElementById('loadingText');
   try {
-    if (loadingText) loadingText.textContent = 'Loading Java-primary engine…';
+    if (loadingText) loadingText.textContent = 'Loading Java Edition engine…';
     const parts = [];
     for (let i = 0; i < SOURCE_PARTS.length; i++) {
-      if (loadingText) loadingText.textContent = `Loading engine ${i + 1}/${SOURCE_PARTS.length}…`;
+      if (loadingText) loadingText.textContent = `Loading Java engine ${i + 1}/${SOURCE_PARTS.length}…`;
       parts.push(await fetchPart(SOURCE_PARTS[i]));
     }
-    const source = `${parts.join('\n\n')}\n//# sourceURL=minecraft-v14-4-runtime.js`;
+    const source = `${parts.join('\n\n')}\n//# sourceURL=minecraft-v14-5-java-runtime.js`;
     const blob = new Blob([source], { type: 'text/javascript' });
     const url = URL.createObjectURL(blob);
     try {
       await import(url);
       window.__MC_RUNTIME_READY__ = true;
+      if (window.__MC_BOOT_WATCHDOG__) clearTimeout(window.__MC_BOOT_WATCHDOG__);
     } finally {
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
   } catch (error) {
-    console.error('[V14.4 BOOT]', error);
+    console.error('[V14.5 JAVA BOOT]', error);
     if (loadingText) loadingText.textContent = `Engine failed: ${error.message}`;
-    const loading = document.getElementById('loading');
-    loading?.classList?.add('show');
+    document.getElementById('loading')?.classList?.add('show');
   }
 }
 
