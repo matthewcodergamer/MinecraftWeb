@@ -21,20 +21,28 @@ PARTS = [
     "94a-v14-4-java-data-assets.js",
     "94b-v14-4-java-combat-hud.js",
     "94c-v14-4-java-ui-runtime.js",
+    "95a-v14-5-java-assets-render.js",
+    "95b-v14-5-java-ui.js",
+    "95c-v14-5-java-audio.js",
+    "95d-v14-5-java-celestials.js",
+    "95e-v14-5-java-passive-ai.js",
+    "95f-v14-5-java-collision-combat.js",
+    "95g-v14-5-java-icon-hotfix.js",
+    "96a-v14-6-render-sections.js",
+    "96b-v14-6-scheduling-entities.js",
+    "96c-v14-6-performance-governor.js",
     "99-finalize.js",
 ]
 
 def resolve_part(name: str) -> Path:
-    # GitHub Pages deployment keeps source parts flat at repository root, while
-    # the downloadable project ZIP keeps them organized under src/parts.
     for path in (ROOT / name, ROOT / "src" / "parts" / name):
         if path.exists():
             return path
     raise FileNotFoundError(f"Missing source part: {name}")
 
-source = "".join(resolve_part(name).read_text(encoding="utf-8") for name in PARTS)
+source = "\n\n".join(resolve_part(name).read_text(encoding="utf-8") for name in PARTS)
 (ROOT / "game.js").write_text(source, encoding="utf-8")
 js_dir = ROOT / "js"
 if js_dir.exists():
     (js_dir / "game.js").write_text(source, encoding="utf-8")
-print(f"Built game.js from {len(PARTS)} source parts ({len(source):,} characters).")
+print(f"Built V14.6 game.js from {len(PARTS)} source parts ({len(source):,} characters).")

@@ -25,6 +25,9 @@ const SOURCE_PARTS = [
   '95e-v14-5-java-passive-ai.js',
   '95f-v14-5-java-collision-combat.js',
   '95g-v14-5-java-icon-hotfix.js',
+  '96a-v14-6-render-sections.js',
+  '96b-v14-6-scheduling-entities.js',
+  '96c-v14-6-performance-governor.js',
   '99-finalize.js'
 ];
 
@@ -46,13 +49,13 @@ async function fetchPart(name) {
 async function bootMinecraftFromParts() {
   const loadingText = document.getElementById('loadingText');
   try {
-    if (loadingText) loadingText.textContent = 'Loading Java Edition engine…';
+    if (loadingText) loadingText.textContent = 'Loading Java Edition + V14.6 optimized engine…';
     const parts = [];
     for (let i = 0; i < SOURCE_PARTS.length; i++) {
-      if (loadingText) loadingText.textContent = `Loading Java engine ${i + 1}/${SOURCE_PARTS.length}…`;
+      if (loadingText) loadingText.textContent = `Loading optimized engine ${i + 1}/${SOURCE_PARTS.length}…`;
       parts.push(await fetchPart(SOURCE_PARTS[i]));
     }
-    const source = `${parts.join('\n\n')}\n//# sourceURL=minecraft-v14-5-java-runtime.js`;
+    const source = `${parts.join('\n\n')}\n//# sourceURL=minecraft-v14-6-optimized-runtime.js`;
     const blob = new Blob([source], { type: 'text/javascript' });
     const url = URL.createObjectURL(blob);
     try {
@@ -63,7 +66,7 @@ async function bootMinecraftFromParts() {
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
   } catch (error) {
-    console.error('[V14.5 JAVA BOOT]', error);
+    console.error('[V14.6 OPTIMIZED BOOT]', error);
     if (loadingText) loadingText.textContent = `Engine failed: ${error.message}`;
     document.getElementById('loading')?.classList?.add('show');
   }
