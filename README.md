@@ -1,102 +1,133 @@
-# Minecraft Web V15.1 — Java UI + Photon Web 1.3b Translation
+# Minecraft Web V15.2 — Java UI + Photon Web Gauntlet
 
-Minecraft Web Alpha **0.15.1** is a browser-based Minecraft Java-first client/runtime built on Three.js, with WebGPU/WebGL2 rendering work, responsive mobile controls, Java Edition-style menus/assets, and an evolving Photon Web graphics layer.
+Minecraft Web Alpha **0.15.2** is a browser-based Minecraft Java-first client/runtime built on Three.js, with responsive mobile controls, Java Edition-style menus/assets, and a source-informed Photon Web graphics layer.
 
 The live GitHub Pages runtime is `index.html` → `runtime-loader.js` → the ordered numbered source parts at repository root.
 
-## V15 Java UI Overhaul
+## Photon Web V15.2 Gauntlet Pass
 
-The title screen follows the Java Edition structure:
+V15.2 continues the Gauntlet loop against the user-supplied **Photon Shaders v1.3b** archive by Benjamin Stott / SixthSurge:
+
+1. inspect the original Photon subsystem and settings
+2. identify what can be translated safely to a browser renderer
+3. implement a native Three.js/WebGL equivalent
+4. syntax-check and integrate it without replacing the voxel engine
+5. expose diagnostics and keep mobile performance profiles
+
+The new browser-native pass is `98h-v15-2-photon-gauntlet.js` and builds on the earlier V15.1 study layer.
+
+### Photon runtime asset
+
+The supplied archive contains a 512×512 RGBA noise texture used by Photon. V15.2 commits a mobile-friendly 256×256 runtime derivative generated from `shaders/image/noise.png`:
+
+- `assets/photon/noise-256.png`
+
+The smaller derivative keeps the browser download lighter for iPhone while preserving Photon's source noise structure. The original uploaded archive remains the source reference. Photon’s supplied license remains at `licenses/PHOTON_SHADERS_LICENSE.txt`.
+
+### Cloud system
+
+V15.2 replaces the single generic Photon cloud shell with a layered browser translation based on Photon's cloud families and source defaults:
+
+- cumulus
+- altocumulus
+- cirrus
+- noctilucent clouds
+- independent wind directions and speeds
+- source-informed coverage, density and detail values
+- day/night lighting response
+- sunrise/sunset warm scattering
+- rain darkening
+- mobile quality tiers controlling how many layers are rendered
+
+The local Photon-derived `noise-256.png` is sampled when available. The shader keeps a procedural noise fallback only so a failed asset request cannot crash startup.
+
+### Cloud shadows
+
+V15.2 adds world-space moving cloud-shadow modulation to compatible Three.js terrain materials. The shadow pattern moves independently of the camera, is profile-scaled, and uses Photon's default cloud-shadow intensity as the Ultra target. Materials are patched once and reused instead of creating per-block lights or meshes.
+
+### Atmosphere and fog
+
+The browser atmosphere now uses source-informed Rayleigh/Mie behavior:
+
+- day/night color transition
+- stronger dawn/evening haze
+- rain and snow fog response
+- weather-colored horizon fog
+- profile-dependent density
+
+Photon's precomputed atmosphere lookup data was inspected in the supplied archive, but it is not claimed as directly executable by Three.js in this pass.
+
+### GTAO / ambient occlusion
+
+V15.2 adds a depth-aware post-processing AO approximation using the main WebGL depth texture. Photon's defaults (`GTAO_SLICES=2`, `GTAO_HORIZON_STEPS=3`, `GTAO_RADIUS=2.0`) remain design references while the browser implementation uses a cheaper neighborhood-depth method appropriate for WebGL/mobile.
+
+### Water
+
+Water materials discovered in the scene receive a lightweight Photon-style browser patch:
+
+- small multi-frequency surface displacement
+- moving ripple highlights
+- quality-scaled wave strength
+
+This does not yet claim parity with Photon's full refraction, caustics, SSR, parallax and underwater-scattering paths.
+
+### Bloom, color and AA
+
+On WebGL, V15.2 installs a guarded post chain with:
+
+- depth AO
+- bright-pass bloom approximation
+- exposure/color response
+- lightweight edge AA inspired by the original TAA/FXAA pipeline
+- per-profile internal render scale
+
+The wrapper is only installed on `WebGLRenderer`; unsupported renderer paths fall back to the existing MinecraftWeb pipeline instead of breaking startup.
+
+### Profiles
+
+Photon Web still exposes Lite / Balanced / High / Ultra. V15.2 maps them to cloud layers, cloud quality, cloud-shadow strength, atmospheric fog, AO, bloom, AA, water response and internal post scale. Touch devices receive conservative AO limits automatically.
+
+### Diagnostics
+
+Use the runtime console command:
+
+`photon152`
+
+It reports the loaded Photon asset state, active profile, translated subsystems and whether the WebGL post path is active.
+
+## Java UI / Options
+
+The V15 Java UI remains in place:
 
 - Singleplayer
 - Multiplayer
 - Minecraft Realms
 - Options...
 - Quit Game
+- Java-style Options and Video Settings
+- Resource Packs under Options
+- Java-style Create New World / Game Rules / pause-menu flows
 
-Resource Packs and engine graphics controls are accessed through the Java-style Options hierarchy instead of separate title-screen buttons.
+Graphics, Photon, renderer and performance controls remain organized under the Java-style Video Settings hierarchy.
 
-The Options UI contains FOV, Online, Skin Customization, Music & Sounds, Video Settings, Controls, Language, Chat Settings, Resource Packs and Accessibility Settings. Video Settings is the home for MinecraftWeb renderer, WebGPU/WebGL2, AA, Photon and performance settings.
+## Loading / PWA
 
-V15 also adds Java-style Create New World, Game Rules and pause-menu flows, while preserving the existing MinecraftWeb world engine underneath.
+V15.2 keeps the faster concurrent runtime-part loading and refines the darker Java-style loading presentation. The runtime and manifest are versioned to **0.15.2** to reduce stale Safari/PWA caching after the graphics update.
 
-## Photon Web 1.3b Study / Translation Layer
+## Accuracy statement
 
-V15.1 begins translating systems from the user-supplied **Photon Shaders v1.3b** archive by Benjamin Stott / SixthSurge into native Three.js/WebGL systems.
+Photon Web is a **browser-native translation**, not the original Iris/OptiFine runtime. Systems that depend on Minecraft-specific G-buffers, compute shaders, LPV volumes, temporal history buffers, SSR ray traversal or shader-pack engine hooks are reimplemented approximately or remain future work. The README only marks systems as complete when MinecraftWeb contains a working browser implementation.
 
-The supplied archive was inspected as a shader-pack reference rather than treated as directly executable browser code. It contains hundreds of Iris/OptiFine shader files and includes systems for atmosphere, multiple cloud families, cloud shadows, AO/GTAO, skylight, water, weather, post-processing, ACES tonemapping, LPV/colored lighting, bloom, TAA/FXAA, motion blur, depth of field and other effects.
+## Next Photon Gauntlet targets
 
-The first V15.1 translation module is `98g-v15-1-photon-1-3b-port.js`.
-
-Currently translated/connected:
-
-- Photon-derived profile values for shadow resolution/distance and mobile quality tiers.
-- Camera-relative atmospheric sky shell.
-- Procedural multi-octave cloud layer based on Photon cloud architecture rather than the old stretched cloud PNG approach.
-- Day/night and sunrise/sunset atmospheric response.
-- Weather darkening hook for clouds and atmosphere.
-- Cloud-shadow-ready sun/lighting configuration.
-- Three.js PCF soft-shadow profile configuration.
-- Source-derived diagnostics exposed through the `photon13` debug command.
-- Existing MinecraftWeb ACES/sRGB pipeline retained.
-
-This is a **Three.js translation**, not binary compatibility with Iris/OptiFine. Compute shaders, Iris-specific G-buffer layouts, LPV passes, full GTAO, SSR, volumetric raymarching, bloom and temporal passes still require dedicated browser-native implementations and are not claimed complete.
-
-Photon's supplied license is retained at `licenses/PHOTON_SHADERS_LICENSE.txt` because the project is examining and adapting ideas/settings from the supplied source.
-
-## Loading / Java Presentation
-
-V15.1 upgrades the boot/loading presentation:
-
-- Replaces the bright repeating low-resolution dirt backdrop with a darker Java Edition panorama background from the PrismarineJS Java asset set.
-- Uses a Java-style framed green loading bar instead of the previous plain progress strip.
-- Uses Minecraft-style font fallbacks and pixel-aligned text treatment for the boot UI.
-- Keeps the staged concurrent source loading introduced in V15 so the title/runtime can appear faster.
-- Cache-busts the V15.1 runtime, manifest and styles so iOS Safari does not keep the previous V15 boot assets unnecessarily.
-
-## Resource Packs
-
-Resource Packs are accessed through **Options → Resource Packs...**. Photon Web remains the current built-in optional graphics profile. The pack manager is responsive for desktop, iPhone portrait and short iPhone landscape layouts.
-
-## Java Assets
-
-Java-facing assets are sourced primarily through the project's PrismarineJS `minecraft-assets` pipeline. Mojang Bedrock samples remain part of the broader project where existing Bedrock-derived/runtime systems use them.
-
-`.github/workflows/build-java-runtime-assets.yml` runs `tools/build_java_runtime_assets.py` when the Java source/profile changes. It caches selected Java GUI, environment, entity, block, item and effect assets under `assets/java/`. Large music tracks remain streamed instead of being committed into the cache.
-
-Safari requires a user gesture before audio can begin, so title/runtime audio may begin only after the first tap or key interaction.
-
-## Responsive iPhone + Desktop UI
-
-MinecraftWeb continues to target iPhone Safari and desktop browsers:
-
-- safe-area-aware menus and controls
-- responsive portrait and landscape layouts
-- internally scrollable Options/Resource Pack screens
-- bottom-pinned hotbar
-- reduced landscape UI scale on short displays
-- standalone PWA metadata
-
-## PWA
-
-MinecraftWeb can be installed as a standalone web app. V15.1 keeps Minecraft branding and the Java Edition launcher icon configuration for favicon/Home Screen use. The manifest start URL is versioned to reduce stale iOS PWA caching after updates.
-
-## Current Direction
-
-V15.1 is the first source-informed Photon implementation pass. The next graphics work should continue the Gauntlet-style loop: inspect a Photon subsystem, translate it into a browser-native Three.js/WebGL implementation, test it against MinecraftWeb performance and visuals, then keep only the version that passes the game/runtime checks.
-
-Priority Photon systems after this pass:
-
-1. cloud structure/coverage and cloud shadows
-2. improved atmospheric scattering and fog
-3. GTAO/ambient occlusion
-4. water shading/reflections
-5. bloom and color grading
-6. temporal/AA improvements
-7. optional dynamic/colored lighting paths
+1. translate more of Photon's atmosphere scattering/LUT behavior where practical
+2. stronger volumetric/crepuscular light shafts
+3. improved water refraction/reflection and underwater fog
+4. temporal history/TAA path for capable desktop/WebGPU devices
+5. colored-light/LPV-inspired voxel lighting where it can be made mobile-safe
 
 ## Version
 
-**Minecraft Web V15.1 — Java UI + Photon Web 1.3b Translation**  
-Alpha **0.15.1**  
-Java-first UI • Three.js • Photon source-informed graphics • Responsive iPhone/Desktop
+**Minecraft Web V15.2 — Java UI + Photon Web Gauntlet**  
+Alpha **0.15.2**  
+Java-first UI • Three.js • Photon v1.3b source-informed graphics • Responsive iPhone/Desktop
