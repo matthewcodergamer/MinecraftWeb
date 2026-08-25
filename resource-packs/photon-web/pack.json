@@ -1,0 +1,25 @@
+{
+  "format": 1,
+  "id": "photon-web",
+  "name": "Photon Web",
+  "version": "1.0.0",
+  "type": "graphics",
+  "enabled_by_default": true,
+  "description": "Three.js/WebGL graphics pack for MinecraftWeb using the project palette with adaptive lighting, fog, shadows and ACES tonemapping.",
+  "profiles": ["Lite", "Balanced", "High", "Ultra"],
+  "palette": {
+    "sky_atmosphere": "#DFCCBE",
+    "vegetation_grass": "#655D2B",
+    "earth_terrain": "#3A381A",
+    "sunlight_highlight": "#DFCCBE",
+    "shadow": "#030302",
+    "accent": "#37595F"
+  },
+  "reference_project": {
+    "name": "Photon Shaders",
+    "author": "sixthsurge",
+    "url": "https://github.com/sixthsurge/photon",
+    "note": "MinecraftWeb implementation is native Three.js/WebGL code; this pack does not load the Iris/OptiFine shader pack directly."
+  },
+  "icon": "https://opengraph.githubassets.com/1/sixthsurge/photon"
+}
