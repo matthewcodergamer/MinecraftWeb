@@ -6,14 +6,18 @@
 <meta name="theme-color" content="#000000">
 <title>Minecraft</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Minecraft">
 <meta name="application-name" content="Minecraft">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/items/grass_block.png">
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/items/grass_block.png">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="./manifest.webmanifest?v=0.14.8">
+<link rel="apple-touch-icon" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg">
+<link rel="icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg">
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
-<link rel="stylesheet" href="./main.css?v=0.14.7.1">
-<link rel="stylesheet" href="./v14-4-java.css?v=0.14.7.1">
+<link rel="preconnect" href="https://www.minecraft.net" crossorigin>
+<link rel="stylesheet" href="./main.css?v=0.14.8">
+<link rel="stylesheet" href="./v14-4-java.css?v=0.14.8">
 <style id="javaBootStyleV145">
 .javaBootTitleV145{display:flex;flex-direction:column;align-items:center;gap:8px}.javaBootTitleV145 #mcLogo{width:min(520px,72vw);height:auto;image-rendering:auto;margin-bottom:14px;filter:drop-shadow(0 4px #0008)}.javaBootBtnV145{width:min(400px,72vw);min-height:40px;border:0;border-radius:0;color:#fff;text-shadow:2px 2px #3f3f3f;font:700 20px/1 ui-monospace,"Courier New",monospace;background:transparent url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button.png") center/100% 100% no-repeat;image-rendering:pixelated}.javaBootBtnV145:hover,.javaBootBtnV145:focus-visible{background-image:url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button_highlighted.png")}.javaBootBtnV145:active{filter:brightness(.82)}.javaBootTitleV145 #titleSub{color:#ddd;text-shadow:1px 1px #222;font:12px ui-monospace,"Courier New",monospace;margin-top:5px}
 </style>
@@ -28,10 +32,10 @@
     <button class="javaBootBtnV145" id="playBtn">Singleplayer</button>
     <button class="javaBootBtnV145" id="creativeBtn">Creative World</button>
     <button class="javaBootBtnV145" id="resetBtn">New World</button>
-    <div id="titleSub">Minecraft Web Alpha 0.14.7 • Loading Java Edition fidelity + optimized engine…</div>
+    <div id="titleSub">Minecraft Web Alpha 0.14.8 • Photon Web V1 + Resource Packs</div>
   </div>
 </div>
-<div id="loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Starting V14.7 Java Edition engine…</div></div>
+<div id="loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Starting V14.8 Java Edition + Photon Web engine…</div></div>
 <div id="hud">
   <div id="lookSurface"></div><div id="crosshair"></div><div id="damageVignette"></div>
   <div id="topStatus"></div><div id="debug"></div><div id="mobileHint">drag anywhere to look • tap mobs or attack/mine button to act</div>
@@ -48,12 +52,12 @@
 <div id="screenLayer"></div><div id="toast"></div>
 </div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
-<script>window.__MC_BUILD_ID__='0.14.7.1';</script>
-<script type="module" src="./runtime-loader.js?v=0.14.7.1"></script>
+<script>window.__MC_BUILD_ID__='0.14.8';</script>
+<script type="module" src="./runtime-loader.js?v=0.14.8"></script>
 <script>
 window.__MC_BOOT_WATCHDOG__=setTimeout(function(){
   if(!window.__MC_RUNTIME_READY__){
-    console.error('[BOOT] Java V14.7 source-part runtime did not finish starting. Check runtime-loader.js and the numbered source parts.');
+    console.error('[BOOT] V14.8 Java + Photon source-part runtime did not finish starting. Check runtime-loader.js and the numbered source parts.');
   }
 },8000);
 </script>
