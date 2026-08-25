@@ -22,19 +22,21 @@ jobs:
           python-version: '3.12'
       - name: Mirror complete PrismarineJS Java 26.1 asset tree
         run: python tools/sync_prismarine_26_1_assets.py
-      - name: Cache official Java Edition game icon
+      - name: Cache Java Edition game icon when Minecraft.net is reachable
         shell: bash
+        continue-on-error: true
         run: |
           mkdir -p assets/branding
-          curl -L --fail --retry 3 --retry-delay 2 \
+          curl --http1.1 -L --fail --retry 5 --retry-all-errors --retry-delay 2 \
             'https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg' \
-            -o assets/branding/icon_javaedition.jpg
+            -o assets/branding/icon_javaedition.jpg || rm -f assets/branding/icon_javaedition.jpg
       - name: Commit synchronized assets
         shell: bash
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add assets/java/26.1 assets/branding/icon_javaedition.jpg
+          git add assets/java/26.1
+          if [ -f assets/branding/icon_javaedition.jpg ]; then git add assets/branding/icon_javaedition.jpg; fi
           if git diff --cached --quiet; then
             echo 'No Java asset changes.'
           else
