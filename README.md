@@ -1,16 +1,12 @@
-# Minecraft Web V15 — Java UI Overhaul
+# Minecraft Web V15.1 — Java UI + Photon Web 1.3b Translation
 
-Minecraft Web Alpha **0.15.0** is a browser-based Minecraft Java-first client/runtime built on Three.js, with WebGPU/WebGL2 rendering work, Photon Web graphics work, responsive mobile controls, and Java Edition-style menus/assets.
+Minecraft Web Alpha **0.15.1** is a browser-based Minecraft Java-first client/runtime built on Three.js, with WebGPU/WebGL2 rendering work, responsive mobile controls, Java Edition-style menus/assets, and an evolving Photon Web graphics layer.
 
-V15 focuses on reorganizing the client around the **Minecraft Java Edition 1.21.x UI flow** while preserving the existing MinecraftWeb engine underneath.
-
-The live GitHub Pages runtime is `index.html` → `runtime-loader.js` → the ordered numbered source parts at the repository root.
+The live GitHub Pages runtime is `index.html` → `runtime-loader.js` → the ordered numbered source parts at repository root.
 
 ## V15 Java UI Overhaul
 
-### Main Menu
-
-The title screen now follows the Java Edition structure:
+The title screen follows the Java Edition structure:
 
 - Singleplayer
 - Multiplayer
@@ -18,103 +14,89 @@ The title screen now follows the Java Edition structure:
 - Options...
 - Quit Game
 
-Resource Packs, GPU/debug controls, and other engine settings are no longer separate title-screen buttons. Java Edition branding is positioned tightly beneath the Minecraft logo using Java assets from PrismarineJS.
+Resource Packs and engine graphics controls are accessed through the Java-style Options hierarchy instead of separate title-screen buttons.
 
-### Options
+The Options UI contains FOV, Online, Skin Customization, Music & Sounds, Video Settings, Controls, Language, Chat Settings, Resource Packs and Accessibility Settings. Video Settings is the home for MinecraftWeb renderer, WebGPU/WebGL2, AA, Photon and performance settings.
 
-The Java-style Options screen contains:
+V15 also adds Java-style Create New World, Game Rules and pause-menu flows, while preserving the existing MinecraftWeb world engine underneath.
 
-- FOV
-- Online
-- Skin Customization
-- Music & Sounds
-- Video Settings
-- Controls
-- Language
-- Chat Settings
-- Resource Packs
-- Accessibility Settings
+## Photon Web 1.3b Study / Translation Layer
 
-Engine-specific graphics configuration is organized under **Video Settings** rather than being exposed on the title screen.
+V15.1 begins translating systems from the user-supplied **Photon Shaders v1.3b** archive by Benjamin Stott / SixthSurge into native Three.js/WebGL systems.
 
-### Video Settings / Photon
+The supplied archive was inspected as a shader-pack reference rather than treated as directly executable browser code. It contains hundreds of Iris/OptiFine shader files and includes systems for atmosphere, multiple cloud families, cloud shadows, AO/GTAO, skylight, water, weather, post-processing, ACES tonemapping, LPV/colored lighting, bloom, TAA/FXAA, motion blur, depth of field and other effects.
 
-The V15 Video Settings UI includes Minecraft-facing and engine-facing controls for graphics quality, render distance, simulation distance, clouds, smooth lighting, entity shadows, brightness, GUI scale, Photon profiles, renderer selection, anti-aliasing and related graphics diagnostics.
+The first V15.1 translation module is `98g-v15-1-photon-1-3b-port.js`.
 
-The renderer remains built around Three.js with the existing WebGPU/WebGL2 work underneath MinecraftWeb. Photon Web is an in-progress graphics layer rather than a claim of compatibility with the original Minecraft Java shader/mod.
+Currently translated/connected:
 
-### Resource Packs
+- Photon-derived profile values for shadow resolution/distance and mobile quality tiers.
+- Camera-relative atmospheric sky shell.
+- Procedural multi-octave cloud layer based on Photon cloud architecture rather than the old stretched cloud PNG approach.
+- Day/night and sunrise/sunset atmospheric response.
+- Weather darkening hook for clouds and atmosphere.
+- Cloud-shadow-ready sun/lighting configuration.
+- Three.js PCF soft-shadow profile configuration.
+- Source-derived diagnostics exposed through the `photon13` debug command.
+- Existing MinecraftWeb ACES/sRGB pipeline retained.
 
-Resource Packs are now accessed through **Options → Resource Packs...**. The existing MinecraftWeb pack manager is retained and its layout is adjusted for desktop, iPhone portrait and short landscape displays.
+This is a **Three.js translation**, not binary compatibility with Iris/OptiFine. Compute shaders, Iris-specific G-buffer layouts, LPV passes, full GTAO, SSR, volumetric raymarching, bloom and temporal passes still require dedicated browser-native implementations and are not claimed complete.
 
-Photon Web remains the current built-in optional graphics/resource profile. Future pack work may include additional animation, physics, lighting and visual systems as they are implemented.
+Photon's supplied license is retained at `licenses/PHOTON_SHADERS_LICENSE.txt` because the project is examining and adapting ideas/settings from the supplied source.
 
-### Create New World
+## Loading / Java Presentation
 
-V15 adds a Java-style world-creation flow with:
+V15.1 upgrades the boot/loading presentation:
 
-- Game / World / More tabs
-- World name
-- Survival / Hardcore / Creative selection
-- Difficulty
-- Commands
-- Seed
-- Generate Structures
-- Bonus Chest
-- Game Rules
+- Replaces the bright repeating low-resolution dirt backdrop with a darker Java Edition panorama background from the PrismarineJS Java asset set.
+- Uses a Java-style framed green loading bar instead of the previous plain progress strip.
+- Uses Minecraft-style font fallbacks and pixel-aligned text treatment for the boot UI.
+- Keeps the staged concurrent source loading introduced in V15 so the title/runtime can appear faster.
+- Cache-busts the V15.1 runtime, manifest and styles so iOS Safari does not keep the previous V15 boot assets unnecessarily.
 
-The Game Rules screen includes MinecraftWeb settings such as Keep Inventory, Mob Griefing, Fire Tick, Mob Spawning, Daylight Cycle, Weather Cycle, damage rules, natural regeneration, immediate respawn, sleep percentage, spawn radius and random tick speed.
+## Resource Packs
 
-### Pause Menu
+Resource Packs are accessed through **Options → Resource Packs...**. Photon Web remains the current built-in optional graphics profile. The pack manager is responsive for desktop, iPhone portrait and short iPhone landscape layouts.
 
-The Java-style Game Menu includes:
+## Java Assets
 
-- Back to Game
-- Advancements
-- Statistics
-- Give Feedback
-- Report Bugs
-- Options...
-- Open to LAN
-- Save and Quit to Title
+Java-facing assets are sourced primarily through the project's PrismarineJS `minecraft-assets` pipeline. Mojang Bedrock samples remain part of the broader project where existing Bedrock-derived/runtime systems use them.
 
-Unsupported network/service features remain visible where needed for Java UI parity but are not presented as implemented functionality.
+`.github/workflows/build-java-runtime-assets.yml` runs `tools/build_java_runtime_assets.py` when the Java source/profile changes. It caches selected Java GUI, environment, entity, block, item and effect assets under `assets/java/`. Large music tracks remain streamed instead of being committed into the cache.
 
-### Loading / Runtime
+Safari requires a user gesture before audio can begin, so title/runtime audio may begin only after the first tap or key interaction.
 
-V15 replaces the generic black boot presentation with a Java-style dirt loading screen. Runtime source parts are fetched concurrently and then assembled in their required execution order to reduce startup waiting while preserving dependency order.
+## Responsive iPhone + Desktop UI
 
-### Responsive iPhone + Desktop UI
-
-V15 continues to target Safari/iPhone as well as desktop browsers:
+MinecraftWeb continues to target iPhone Safari and desktop browsers:
 
 - safe-area-aware menus and controls
 - responsive portrait and landscape layouts
 - internally scrollable Options/Resource Pack screens
 - bottom-pinned hotbar
 - reduced landscape UI scale on short displays
-- standalone PWA layout
-
-## Java Assets
-
-Java-facing assets are sourced through the project's Java asset pipeline, primarily from the PrismarineJS `minecraft-assets` data used by MinecraftWeb. Mojang/Bedrock sample resources remain part of the broader project where applicable to existing Bedrock-derived/runtime work.
-
-`.github/workflows/build-java-runtime-assets.yml` runs `tools/build_java_runtime_assets.py` when the Java source/profile changes. It caches selected Java GUI, environment, entity, block, item and effect assets under `assets/java/`. Large music tracks remain streamed instead of being committed into the cache.
-
-Safari requires a user gesture before audio can begin, so title/runtime audio may begin only after the first tap or key interaction.
+- standalone PWA metadata
 
 ## PWA
 
-MinecraftWeb can be installed as a standalone web app. V15 uses Minecraft branding, standalone display metadata and the Java Edition launcher icon configuration for the favicon/Home Screen experience.
+MinecraftWeb can be installed as a standalone web app. V15.1 keeps Minecraft branding and the Java Edition launcher icon configuration for favicon/Home Screen use. The manifest start URL is versioned to reduce stale iOS PWA caching after updates.
 
 ## Current Direction
 
-V15 is primarily the **Java UI overhaul**. It does not mean every Java Edition system is already implemented. Existing world generation, renderer, entities, combat, inventory/crafting, audio and mobile systems continue underneath the new UI.
+V15.1 is the first source-informed Photon implementation pass. The next graphics work should continue the Gauntlet-style loop: inspect a Photon subsystem, translate it into a browser-native Three.js/WebGL implementation, test it against MinecraftWeb performance and visuals, then keep only the version that passes the game/runtime checks.
 
-The next development stage is continued Photon Web graphics and gameplay/visual systems such as dynamic lighting, improved entity animation, physics effects, wakes and footprints as those systems are actually implemented and tested.
+Priority Photon systems after this pass:
+
+1. cloud structure/coverage and cloud shadows
+2. improved atmospheric scattering and fog
+3. GTAO/ambient occlusion
+4. water shading/reflections
+5. bloom and color grading
+6. temporal/AA improvements
+7. optional dynamic/colored lighting paths
 
 ## Version
 
-**Minecraft Web V15 — Java UI Overhaul**  
-Alpha **0.15.0**  
-Java-first UI • Three.js • Photon Web • Responsive iPhone/Desktop
+**Minecraft Web V15.1 — Java UI + Photon Web 1.3b Translation**  
+Alpha **0.15.1**  
+Java-first UI • Three.js • Photon source-informed graphics • Responsive iPhone/Desktop
