@@ -11,25 +11,26 @@
 <meta name="apple-mobile-web-app-title" content="Minecraft">
 <meta name="application-name" content="Minecraft">
 <meta name="format-detection" content="telephone=no">
-<link rel="manifest" href="./manifest.webmanifest?v=0.14.8c3">
-<!-- Mojang's modern Java Edition game icon: favicon + installed web-app icon. -->
+<link rel="manifest" href="./manifest.webmanifest?v=0.15.0">
 <link rel="apple-touch-icon" sizes="180x180" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=2023-java">
 <link rel="icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=2023-java">
 <link rel="shortcut icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=2023-java">
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
 <link rel="preconnect" href="https://www.minecraft.net" crossorigin>
-<link rel="stylesheet" href="./main.css?v=0.14.8c3">
-<link rel="stylesheet" href="./v14-4-java.css?v=0.14.8c3">
-<style id="javaBootStyleV145">
-.javaBootTitleV145{display:flex;flex-direction:column;align-items:center;gap:7px;width:min(92vw,500px)}
-.javaBootTitleV145 #mcLogo{width:min(470px,82vw);height:auto;image-rendering:auto;margin:0;filter:drop-shadow(0 4px #0008)}
-.javaBootTitleV145 #javaBootEdition{width:min(250px,46vw);height:auto;image-rendering:pixelated;margin:-24px auto 7px;filter:drop-shadow(2px 3px #0008)}
-.javaBootBtnV145{width:100%;min-height:40px;border:0;border-radius:0;color:#fff;text-shadow:2px 2px #3f3f3f;font:700 18px/1 ui-monospace,"Courier New",monospace;background:transparent url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button.png") center/100% 100% no-repeat;image-rendering:pixelated}
-.javaBootBtnV145:hover,.javaBootBtnV145:focus-visible{background-image:url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button_highlighted.png")}
-.javaBootBtnV145:active{filter:brightness(.82)}
-.javaBootRowV145{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
-.javaBootTitleV145 #titleSub{color:#ddd;text-shadow:1px 1px #222;font:12px ui-monospace,"Courier New",monospace;margin-top:5px}
-@media(orientation:landscape) and (max-height:520px){.javaBootTitleV145{transform:scale(.78);transform-origin:center}.javaBootTitleV145 #mcLogo{max-height:27vh;object-fit:contain}}
+<link rel="stylesheet" href="./main.css?v=0.15.0">
+<link rel="stylesheet" href="./v14-4-java.css?v=0.15.0">
+<style id="javaBootStyleV15">
+:root{--boot-button:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button.png');--boot-button-hi:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button_highlighted.png');--boot-dirt:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/dirt.png')}
+html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overflow:hidden;overscroll-behavior:none;background:#000}
+.javaBootTitleV15{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:min(430px,84vw);max-height:92dvh}
+.javaBootTitleV15 #mcLogo{width:min(500px,82vw);max-height:28vh;height:auto;object-fit:contain;margin:0;filter:drop-shadow(0 4px #0008)}
+.javaBootTitleV15 #javaBootEdition{width:min(238px,44vw);height:auto;image-rendering:pixelated;margin:-31px auto 7px;filter:drop-shadow(2px 3px #0008)}
+.javaBootBtnV15{width:100%;min-height:38px;border:0;border-radius:0;color:#fff;text-shadow:2px 2px #3f3f3f;font:700 17px/1 ui-monospace,'Courier New',monospace;background:#777 var(--boot-button) center/100% 100% no-repeat;image-rendering:pixelated;-webkit-tap-highlight-color:transparent}
+.javaBootBtnV15:hover,.javaBootBtnV15:focus-visible{background-image:var(--boot-button-hi)}.javaBootBtnV15:active{filter:brightness(.82)}
+.javaBootRowV15{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}.javaBootSmall{font:11px ui-monospace,'Courier New',monospace;color:#ddd;text-shadow:1px 1px #111;margin-top:3px}
+#loading{background:#33291f var(--boot-dirt) repeat!important;background-size:32px 32px!important;color:#fff!important;text-shadow:2px 2px #222!important}
+#hotbar{top:auto!important;bottom:max(10px,calc(env(safe-area-inset-bottom) + 6px))!important}
+@media(orientation:landscape) and (max-height:520px){.javaBootTitleV15{transform:scale(.84);transform-origin:center;width:min(390px,70vw)}.javaBootTitleV15 #mcLogo{max-height:25vh}.javaBootTitleV15 #javaBootEdition{margin-top:-24px}.javaBootBtnV15{min-height:34px}}
 </style>
 </head>
 <body>
@@ -37,42 +38,34 @@
 <canvas id="gameCanvas"></canvas>
 <div id="titleScreen">
   <div id="titlePanorama"></div><div id="titleShade"></div>
-  <div id="titleContent" class="javaBootTitleV145">
+  <div id="titleContent" class="javaBootTitleV15">
     <img id="mcLogo" src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/title/minecraft.png" alt="Minecraft">
     <img id="javaBootEdition" src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/title/edition.png" alt="Java Edition">
-    <button class="javaBootBtnV145" id="playBtn">Singleplayer</button>
-    <button class="javaBootBtnV145" id="creativeBtn">Multiplayer</button>
-    <div class="javaBootRowV145"><button class="javaBootBtnV145" id="bootResourcePacks" disabled>Resource Packs...</button><button class="javaBootBtnV145" id="bootOptions" disabled>Options...</button></div>
-    <div id="titleSub">Minecraft Web Alpha 0.14.8c3 • Java UI loading…</div>
+    <button class="javaBootBtnV15" id="playBtn">Singleplayer</button>
+    <button class="javaBootBtnV15" id="creativeBtn">Multiplayer</button>
+    <button class="javaBootBtnV15" id="bootRealms" disabled>Minecraft Realms</button>
+    <div class="javaBootRowV15"><button class="javaBootBtnV15" id="bootOptions" disabled>Options...</button><button class="javaBootBtnV15" id="bootQuit" disabled>Quit Game</button></div>
+    <div class="javaBootSmall">Minecraft Web 0.15.0 • Java UI loading…</div>
   </div>
 </div>
-<div id="loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Starting V14.8c3 Java Edition + Photon Web engine…</div></div>
+<div id="loading" class="v15Loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Loading Minecraft Web…</div></div>
 <div id="hud">
   <div id="lookSurface"></div><div id="crosshair"></div><div id="damageVignette"></div>
   <div id="topStatus"></div><div id="debug"></div><div id="mobileHint">drag anywhere to look • tap mobs or attack/mine button to act</div>
   <button id="voxelDiagToggle" type="button">DBG</button>
-  <div id="voxelOptions">
-    <div class="voxOptRow"><label><span>Texture quality ceiling</span><b id="voxelQualityValue">100%</b></label><input id="voxelQuality" type="range" min="25" max="100" step="25" value="100"></div>
-    <div class="voxOptRow"><label><span>LOD near distance</span><b id="voxelLodNearValue">10</b></label><input id="voxelLodNear" type="range" min="4" max="20" step="1" value="10"></div>
-    <div class="voxOptRow"><label><span>LOD far distance</span><b id="voxelLodFarValue">32</b></label><input id="voxelLodFar" type="range" min="16" max="60" step="1" value="32"></div>
-  </div>
+  <div id="voxelOptions"><div class="voxOptRow"><label><span>Texture quality ceiling</span><b id="voxelQualityValue">100%</b></label><input id="voxelQuality" type="range" min="25" max="100" step="25" value="100"></div><div class="voxOptRow"><label><span>LOD near distance</span><b id="voxelLodNearValue">10</b></label><input id="voxelLodNear" type="range" min="4" max="20" step="1" value="10"></div><div class="voxOptRow"><label><span>LOD far distance</span><b id="voxelLodFarValue">32</b></label><input id="voxelLodFar" type="range" min="16" max="60" step="1" value="32"></div></div>
   <div id="voxelDiag"><div id="voxelDiagBar"><button class="voxBtn" id="voxelCopy" type="button">COPY</button><button class="voxBtn" id="voxelClear" type="button">CLEAR</button><button class="voxBtn" id="voxelValidate" type="button">VALIDATE</button><button class="voxBtn" id="voxelInspect" type="button">INSPECT BLOCK</button><button class="voxBtn" id="voxelTextures" type="button">TEXTURES</button><button class="voxBtn" id="voxelWorld" type="button">WORLD</button><button class="voxBtn" id="voxelExport" type="button">EXPORT</button><button class="voxBtn" id="voxelOptionsBtn" type="button">OPTIONS</button></div><div id="voxelCommandRow"><input id="voxelCommand" autocomplete="off" spellcheck="false" placeholder="help / inspect / faces / textures / chunks / uv / winding / renderer / world"><button class="voxBtn" id="voxelRunCommand" type="button">RUN</button></div><div id="voxelDiagText"></div></div>
   <div id="hotbar"></div>
   <div id="mobileControls"><div id="movePad"><div id="moveStick"></div></div><button class="actionBtn" id="jumpBtn">↑</button><button class="actionBtn" id="useBtn">▣</button><button class="actionBtn" id="breakBtn">⛏</button><button class="actionBtn" id="invBtn" aria-label="Inventory">☷</button><button class="actionBtn" id="craftBtn" aria-label="Crafting">⚒</button></div>
 </div>
 <div id="screenLayer"></div><div id="toast"></div>
-<!-- Legacy core still binds this control during boot. Keep it hidden so boot cannot fail on a null DOM reference. -->
 <button id="resetBtn" type="button" hidden aria-hidden="true" tabindex="-1"></button>
 </div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
-<script>window.__MC_BUILD_ID__='0.14.8c3';</script>
-<script type="module" src="./runtime-loader.js?v=0.14.8c3"></script>
+<script>window.__MC_BUILD_ID__='0.15.0';</script>
+<script type="module" src="./runtime-loader.js?v=0.15.0"></script>
 <script>
-window.__MC_BOOT_WATCHDOG__=setTimeout(function(){
-  if(!window.__MC_RUNTIME_READY__){
-    console.error('[BOOT] V14.8c3 Java + Photon source-part runtime did not finish starting. Check runtime-loader.js and the numbered source parts.');
-  }
-},8000);
+window.__MC_BOOT_WATCHDOG__=setTimeout(function(){if(!window.__MC_RUNTIME_READY__){console.error('[BOOT] V15 Java UI runtime did not finish starting. Check runtime-loader.js and source parts.');}},8000);
 </script>
 </body>
 </html>
