@@ -11,26 +11,30 @@
 <meta name="apple-mobile-web-app-title" content="Minecraft">
 <meta name="application-name" content="Minecraft">
 <meta name="format-detection" content="telephone=no">
-<link rel="manifest" href="./manifest.webmanifest?v=0.15.0">
+<link rel="manifest" href="./manifest.webmanifest?v=0.15.1">
 <link rel="apple-touch-icon" sizes="180x180" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=2023-java">
 <link rel="icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=2023-java">
 <link rel="shortcut icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=2023-java">
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
 <link rel="preconnect" href="https://www.minecraft.net" crossorigin>
-<link rel="stylesheet" href="./main.css?v=0.15.0">
-<link rel="stylesheet" href="./v14-4-java.css?v=0.15.0">
-<style id="javaBootStyleV15">
-:root{--boot-button:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button.png');--boot-button-hi:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button_highlighted.png');--boot-dirt:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/dirt.png')}
+<link rel="stylesheet" href="./main.css?v=0.15.1">
+<link rel="stylesheet" href="./v14-4-java.css?v=0.15.1">
+<style id="javaBootStyleV151">
+:root{--boot-button:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button.png');--boot-button-hi:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/sprites/widget/button_highlighted.png');--boot-panorama:url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/title/background/panorama_0.png')}
 html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overflow:hidden;overscroll-behavior:none;background:#000}
 .javaBootTitleV15{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:min(430px,84vw);max-height:92dvh}
 .javaBootTitleV15 #mcLogo{width:min(500px,82vw);max-height:28vh;height:auto;object-fit:contain;margin:0;filter:drop-shadow(0 4px #0008)}
 .javaBootTitleV15 #javaBootEdition{width:min(238px,44vw);height:auto;image-rendering:pixelated;margin:-31px auto 7px;filter:drop-shadow(2px 3px #0008)}
-.javaBootBtnV15{width:100%;min-height:38px;border:0;border-radius:0;color:#fff;text-shadow:2px 2px #3f3f3f;font:700 17px/1 ui-monospace,'Courier New',monospace;background:#777 var(--boot-button) center/100% 100% no-repeat;image-rendering:pixelated;-webkit-tap-highlight-color:transparent}
+.javaBootBtnV15{width:100%;min-height:38px;border:0;border-radius:0;color:#fff;text-shadow:2px 2px #3f3f3f;font:700 17px/1 'Minecraft Seven','Minecraft','Courier New',monospace;background:#777 var(--boot-button) center/100% 100% no-repeat;image-rendering:pixelated;-webkit-tap-highlight-color:transparent}
 .javaBootBtnV15:hover,.javaBootBtnV15:focus-visible{background-image:var(--boot-button-hi)}.javaBootBtnV15:active{filter:brightness(.82)}
-.javaBootRowV15{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}.javaBootSmall{font:11px ui-monospace,'Courier New',monospace;color:#ddd;text-shadow:1px 1px #111;margin-top:3px}
-#loading{background:#33291f var(--boot-dirt) repeat!important;background-size:32px 32px!important;color:#fff!important;text-shadow:2px 2px #222!important}
+.javaBootRowV15{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}.javaBootSmall{font:11px 'Minecraft Seven','Minecraft','Courier New',monospace;color:#ddd;text-shadow:1px 1px #111;margin-top:3px}
+#loading{position:absolute!important;inset:0!important;background-image:linear-gradient(rgba(22,18,15,.62),rgba(22,18,15,.72)),var(--boot-panorama)!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;color:#fff!important;text-shadow:2px 2px #222!important;image-rendering:auto!important}
+#loading::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0 42%,rgba(0,0,0,.28) 100%);pointer-events:none}
+#loadingBar{position:relative!important;z-index:2!important;width:min(640px,74vw)!important;height:18px!important;padding:3px!important;background:#111!important;border:2px solid #8a8a8a!important;box-shadow:inset 1px 1px #000,inset -1px -1px #d0d0d0,0 2px 5px #0008!important;border-radius:0!important;overflow:hidden!important}
+#loadingFill{height:100%!important;background:linear-gradient(#8fcf55 0 18%,#66ad3b 18% 82%,#4b842d 82% 100%)!important;box-shadow:inset 1px 0 #a7e56b,inset -1px 0 #3d6d25!important;transition:width .12s linear!important}
+#loadingText{position:relative!important;z-index:2!important;margin-top:16px!important;color:#fff!important;font-family:'Minecraft Seven','Minecraft','Courier New',monospace!important;font-size:clamp(15px,2vw,22px)!important;line-height:1.2!important;letter-spacing:.01em!important;text-shadow:2px 2px 0 #222!important;text-align:center!important}
 #hotbar{top:auto!important;bottom:max(10px,calc(env(safe-area-inset-bottom) + 6px))!important}
-@media(orientation:landscape) and (max-height:520px){.javaBootTitleV15{transform:scale(.84);transform-origin:center;width:min(390px,70vw)}.javaBootTitleV15 #mcLogo{max-height:25vh}.javaBootTitleV15 #javaBootEdition{margin-top:-24px}.javaBootBtnV15{min-height:34px}}
+@media(orientation:landscape) and (max-height:520px){.javaBootTitleV15{transform:scale(.84);transform-origin:center;width:min(390px,70vw)}.javaBootTitleV15 #mcLogo{max-height:25vh}.javaBootTitleV15 #javaBootEdition{margin-top:-24px}.javaBootBtnV15{min-height:34px}#loadingBar{width:min(620px,66vw)!important;height:15px!important}#loadingText{margin-top:10px!important;font-size:15px!important}}
 </style>
 </head>
 <body>
@@ -45,7 +49,7 @@ html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overfl
     <button class="javaBootBtnV15" id="creativeBtn">Multiplayer</button>
     <button class="javaBootBtnV15" id="bootRealms" disabled>Minecraft Realms</button>
     <div class="javaBootRowV15"><button class="javaBootBtnV15" id="bootOptions" disabled>Options...</button><button class="javaBootBtnV15" id="bootQuit" disabled>Quit Game</button></div>
-    <div class="javaBootSmall">Minecraft Web 0.15.0 • Java UI loading…</div>
+    <div class="javaBootSmall">Minecraft Web 0.15.1 • Photon Web loading…</div>
   </div>
 </div>
 <div id="loading" class="v15Loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Loading Minecraft Web…</div></div>
@@ -62,10 +66,10 @@ html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overfl
 <button id="resetBtn" type="button" hidden aria-hidden="true" tabindex="-1"></button>
 </div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
-<script>window.__MC_BUILD_ID__='0.15.0';</script>
-<script type="module" src="./runtime-loader.js?v=0.15.0"></script>
+<script>window.__MC_BUILD_ID__='0.15.1';</script>
+<script type="module" src="./runtime-loader.js?v=0.15.1"></script>
 <script>
-window.__MC_BOOT_WATCHDOG__=setTimeout(function(){if(!window.__MC_RUNTIME_READY__){console.error('[BOOT] V15 Java UI runtime did not finish starting. Check runtime-loader.js and source parts.');}},8000);
+window.__MC_BOOT_WATCHDOG__=setTimeout(function(){if(!window.__MC_RUNTIME_READY__){console.error('[BOOT] V15.1 Photon runtime did not finish starting. Check runtime-loader.js and source parts.');}},8000);
 </script>
 </body>
 </html>
