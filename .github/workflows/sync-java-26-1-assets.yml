@@ -8,6 +8,9 @@ on:
       - '.github/workflows/sync-java-26-1-assets.yml'
   schedule:
     - cron: '17 5 * * 1'
+concurrency:
+  group: java-26-1-asset-sync
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
@@ -27,7 +30,7 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p assets/branding
-          curl --http1.1 -L --fail --retry 5 --retry-all-errors --retry-delay 2 \
+          timeout 10s curl --http1.1 -A 'Mozilla/5.0' -L --fail --connect-timeout 4 --max-time 8 \
             'https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg' \
             -o assets/branding/icon_javaedition.jpg || rm -f assets/branding/icon_javaedition.jpg
       - name: Commit synchronized assets
