@@ -21,5 +21,5 @@
     "url": "https://github.com/sixthsurge/photon",
     "note": "MinecraftWeb implementation is native Three.js/WebGL code; this pack does not load the Iris/OptiFine shader pack directly."
   },
-  "icon": "https://opengraph.githubassets.com/1/sixthsurge/photon"
+  "icon": "https://cdn.modrinth.com/data/lLqFfGNs/39cb5f12e7dcc68d6cb666f225fcb2b801dd70fb_96.webp"
 }
