@@ -1,220 +1,33 @@
 /* ===================== V14.8: RESOURCE PACKS + PHOTON WEB V1 ===================== */
-const STUDIO_V14_8=Object.freeze({
-  version:'0.14.8-photon-web-v1',
-  packStorage:'minecraftWebResourcePacksV148',
-  profileStorage:'minecraftWebPhotonProfileV148'
-});
-window.STUDIO_PATCH_VERSION=STUDIO_V14_8.version;
-window.MINECRAFT_WEB_VERSION='0.14.8';
-
-const GAME_PALETTE=Object.freeze({
-  sky_atmosphere:0xDFCCBE,
-  vegetation_grass:0x655D2B,
-  earth_terrain:0x3A381A,
-  sunlight_highlight:0xDFCCBE,
-  shadow:0x030302,
-  accent:0x37595F
-});
-const DOMINANT_PALETTE=Object.freeze([0xDFCCBE,0xB29F99,0x837F96,0x030302,0x3A381A,0x8B7359,0x655D2B,0x37595F,0xB48F2C,0xC73B36]);
-window.GAME_PALETTE=GAME_PALETTE;
-
-const RESOURCE_PACKS=Object.freeze([
-  {
-    id:'photon-web',
-    name:'Photon Web',
-    author:'MinecraftWeb adaptation; visual reference: sixthsurge/Photon',
-    description:'Three.js/WebGL graphics pack: palette-driven sky, ACES tonemapping, sunlight/skylight rig, fog, shadows and adaptive mobile profiles.',
-    icon:'https://opengraph.githubassets.com/1/sixthsurge/photon',
-    homepage:'https://github.com/sixthsurge/photon',
-    kind:'graphics',
-    defaultEnabled:true,
-    profiles:['Lite','Balanced','High','Ultra']
-  }
-]);
+const STUDIO_V14_8=Object.freeze({version:'0.14.8-photon-web-v1',packStorage:'minecraftWebResourcePacksV148',profileStorage:'minecraftWebPhotonProfileV148'});
+window.STUDIO_PATCH_VERSION=STUDIO_V14_8.version;window.MINECRAFT_WEB_VERSION='0.14.8';
+const GAME_PALETTE=Object.freeze({sky_atmosphere:0xDFCCBE,vegetation_grass:0x655D2B,earth_terrain:0x3A381A,sunlight_highlight:0xDFCCBE,shadow:0x030302,accent:0x37595F});
+const DOMINANT_PALETTE=Object.freeze([0xDFCCBE,0xB29F99,0x837F96,0x030302,0x3A381A,0x8B7359,0x655D2B,0x37595F,0xB48F2C,0xC73B36]);window.GAME_PALETTE=GAME_PALETTE;
+const RESOURCE_PACKS=Object.freeze([{id:'photon-web',name:'Photon Web',author:'MinecraftWeb adaptation; visual reference: sixthsurge/Photon',description:'Three.js/WebGL graphics pack: palette-driven sky, ACES tonemapping, sunlight/skylight rig, fog, shadows and adaptive mobile profiles.',icon:'https://cdn.modrinth.com/data/lLqFfGNs/39cb5f12e7dcc68d6cb666f225fcb2b801dd70fb_96.webp',homepage:'https://github.com/sixthsurge/photon',kind:'graphics',defaultEnabled:true,profiles:['Lite','Balanced','High','Ultra']}]);
 window.MINECRAFT_WEB_RESOURCE_PACKS=RESOURCE_PACKS;
-
-class ResourcePackManagerV148{
-  constructor(){
-    this.state=this.load();
-    this.listeners=new Set();
-  }
-  load(){
-    try{
-      const raw=JSON.parse(localStorage.getItem(STUDIO_V14_8.packStorage)||'{}');
-      const out={};
-      for(const pack of RESOURCE_PACKS)out[pack.id]=raw[pack.id]??pack.defaultEnabled;
-      return out;
-    }catch{return Object.fromEntries(RESOURCE_PACKS.map(p=>[p.id,p.defaultEnabled]));}
-  }
-  save(){try{localStorage.setItem(STUDIO_V14_8.packStorage,JSON.stringify(this.state));}catch{}}
-  enabled(id){return !!this.state[id];}
-  set(id,value){this.state[id]=!!value;this.save();for(const fn of this.listeners)try{fn(id,!!value)}catch{};}
-  toggle(id){this.set(id,!this.enabled(id));}
-  onChange(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn);}
-}
-const resourcePacksV148=new ResourcePackManagerV148();
-window.resourcePacksV148=resourcePacksV148;
-
-const PHOTON_PROFILES=Object.freeze({
-  Lite:{exposure:1.00,hemi:0.90,sun:1.15,fogNear:46,fogFar:150,shadows:false,pixelRatio:1.00},
-  Balanced:{exposure:1.05,hemi:1.00,sun:1.40,fogNear:56,fogFar:180,shadows:true,pixelRatio:1.15},
-  High:{exposure:1.10,hemi:1.08,sun:1.65,fogNear:64,fogFar:210,shadows:true,pixelRatio:1.35},
-  Ultra:{exposure:1.15,hemi:1.14,sun:1.90,fogNear:72,fogFar:250,shadows:true,pixelRatio:1.55}
-});
-
+class ResourcePackManagerV148{constructor(){this.state=this.load();this.listeners=new Set()}load(){try{const raw=JSON.parse(localStorage.getItem(STUDIO_V14_8.packStorage)||'{}'),out={};for(const pack of RESOURCE_PACKS)out[pack.id]=raw[pack.id]??pack.defaultEnabled;return out}catch{return Object.fromEntries(RESOURCE_PACKS.map(p=>[p.id,p.defaultEnabled]))}}save(){try{localStorage.setItem(STUDIO_V14_8.packStorage,JSON.stringify(this.state))}catch{}}enabled(id){return!!this.state[id]}set(id,value){this.state[id]=!!value;this.save();for(const fn of this.listeners)try{fn(id,!!value)}catch{}}toggle(id){this.set(id,!this.enabled(id))}onChange(fn){this.listeners.add(fn);return()=>this.listeners.delete(fn)}}
+const resourcePacksV148=new ResourcePackManagerV148();window.resourcePacksV148=resourcePacksV148;
+const PHOTON_PROFILES=Object.freeze({Lite:{exposure:1,hemi:.9,sun:1.15,fogNear:46,fogFar:150,shadows:false,pixelRatio:1},Balanced:{exposure:1.05,hemi:1,sun:1.4,fogNear:56,fogFar:180,shadows:true,pixelRatio:1.15},High:{exposure:1.1,hemi:1.08,sun:1.65,fogNear:64,fogFar:210,shadows:true,pixelRatio:1.35},Ultra:{exposure:1.15,hemi:1.14,sun:1.9,fogNear:72,fogFar:250,shadows:true,pixelRatio:1.55}});
 class PhotonWebV148{
-  constructor(gameRef){
-    this.game=gameRef;
-    this.scene=gameRef?.renderer?.scene||null;
-    this.webgl=gameRef?.renderer?.renderer||null;
-    this.enabled=resourcePacksV148.enabled('photon-web');
-    this.profile=this.loadProfile();
-    this.rig=new THREE.Group();
-    this.rig.name='photon_web_v148_rig';
-    this.hemi=new THREE.HemisphereLight(GAME_PALETTE.sky_atmosphere,GAME_PALETTE.earth_terrain,1);
-    this.sun=new THREE.DirectionalLight(GAME_PALETTE.sunlight_highlight,1.4);
-    this.sun.position.set(48,96,36);
-    this.sun.castShadow=true;
-    this.rig.add(this.hemi,this.sun);
-    this.scene?.add(this.rig);
-    this.apply();
-  }
-  loadProfile(){
-    const p=localStorage.getItem(STUDIO_V14_8.profileStorage);
-    if(PHOTON_PROFILES[p])return p;
-    return matchMedia('(pointer:coarse)').matches?'Lite':'Balanced';
-  }
-  setProfile(name){if(!PHOTON_PROFILES[name])return;this.profile=name;try{localStorage.setItem(STUDIO_V14_8.profileStorage,name)}catch{};this.apply();}
-  setEnabled(value){this.enabled=!!value;this.apply();}
-  profileData(){return PHOTON_PROFILES[this.profile]||PHOTON_PROFILES.Lite;}
-  apply(){
-    if(!this.scene||!this.webgl)return;
-    const p=this.profileData();
-    this.rig.visible=this.enabled;
-    if(!this.enabled){
-      if(this.scene.userData?.photonFogV148===this.scene.fog)this.scene.fog=null;
-      return;
-    }
-    this.webgl.outputColorSpace=THREE.SRGBColorSpace;
-    this.webgl.toneMapping=THREE.ACESFilmicToneMapping;
-    this.webgl.toneMappingExposure=p.exposure;
-    const maxPR=matchMedia('(pointer:coarse)').matches?1.25:1.75;
-    const pr=Math.min(devicePixelRatio||1,p.pixelRatio,maxPR);
-    this.webgl.setPixelRatio?.(pr);
-    this.hemi.intensity=p.hemi;
-    this.sun.intensity=p.sun;
-    this.sun.castShadow=!!p.shadows;
-    if(this.webgl.shadowMap){this.webgl.shadowMap.enabled=!!p.shadows;this.webgl.shadowMap.type=THREE.PCFSoftShadowMap;}
-    const fog=new THREE.Fog(new THREE.Color(GAME_PALETTE.sky_atmosphere),p.fogNear,p.fogFar);
-    this.scene.fog=fog;this.scene.userData.photonFogV148=fog;
-    if(this.scene.background?.isColor)this.scene.background.set(GAME_PALETTE.sky_atmosphere);
-  }
-  update(){
-    if(!this.enabled||!this.scene)return;
-    const phase=(typeof dayClock!=='undefined'&&dayClock?.phase)?dayClock.phase():0.25;
-    const a=phase*Math.PI*2;
-    const sunY=Math.sin(a),sunX=Math.cos(a);
-    const daylight=clamp((sunY+0.12)/0.55,0,1);
-    const dawn=Math.max(0,1-Math.abs(sunY)/0.28)*(sunY>-0.30?1:0);
-    const daySky=new THREE.Color(0x8fc9ff),nightSky=new THREE.Color(0x071024),warm=new THREE.Color(GAME_PALETTE.sky_atmosphere);
-    const sky=nightSky.clone().lerp(daySky,daylight).lerp(warm,dawn*.32);
-    if(this.scene.background?.isColor)this.scene.background.copy(sky);
-    if(this.scene.fog?.color)this.scene.fog.color.copy(sky);
-    this.hemi.color.copy(sky.clone().lerp(new THREE.Color(0xffffff),.22));
-    this.hemi.groundColor.set(GAME_PALETTE.earth_terrain);
-    this.sun.color.copy(new THREE.Color(GAME_PALETTE.sunlight_highlight).lerp(new THREE.Color(0xffb36a),dawn*.55));
-    this.sun.intensity=this.profileData().sun*(0.08+daylight*.92);
-    const cam=this.game?.renderer?.camera;
-    if(cam){
-      this.rig.position.copy(cam.position);
-      this.sun.position.set(cam.position.x+sunX*92,cam.position.y+Math.max(-24,sunY*110),cam.position.z+42);
-      this.sun.target.position.copy(cam.position);if(!this.sun.target.parent)this.scene.add(this.sun.target);
-    }
-  }
-  diagnostics(){return{enabled:this.enabled,profile:this.profile,palette:GAME_PALETTE,shadowMap:!!this.webgl?.shadowMap?.enabled,toneMapping:this.webgl?.toneMapping,exposure:this.webgl?.toneMappingExposure,pixelRatio:this.webgl?.getPixelRatio?.()};}
+ constructor(gameRef){this.game=gameRef;this.scene=gameRef?.renderer?.scene||null;this.webgl=gameRef?.renderer?.renderer||null;this.enabled=resourcePacksV148.enabled('photon-web');this.profile=this.loadProfile();this.rig=new THREE.Group();this.rig.name='photon_web_v148_rig';this.hemi=new THREE.HemisphereLight(GAME_PALETTE.sky_atmosphere,GAME_PALETTE.earth_terrain,1);this.sun=new THREE.DirectionalLight(GAME_PALETTE.sunlight_highlight,1.4);this.sun.position.set(48,96,36);this.sun.castShadow=true;this.rig.add(this.hemi,this.sun);this.scene?.add(this.rig);this.apply()}
+ loadProfile(){const p=localStorage.getItem(STUDIO_V14_8.profileStorage);if(PHOTON_PROFILES[p])return p;return matchMedia('(pointer:coarse)').matches?'Lite':'Balanced'}
+ setProfile(name){if(!PHOTON_PROFILES[name])return;this.profile=name;try{localStorage.setItem(STUDIO_V14_8.profileStorage,name)}catch{}this.apply()}
+ setEnabled(value){this.enabled=!!value;this.apply()}
+ profileData(){return PHOTON_PROFILES[this.profile]||PHOTON_PROFILES.Lite}
+ apply(){if(!this.scene||!this.webgl)return;const p=this.profileData();this.rig.visible=this.enabled;if(!this.enabled){if(this.scene.userData?.photonFogV148===this.scene.fog)this.scene.fog=null;return}this.webgl.outputColorSpace=THREE.SRGBColorSpace;this.webgl.toneMapping=THREE.ACESFilmicToneMapping;this.webgl.toneMappingExposure=p.exposure;const maxPR=matchMedia('(pointer:coarse)').matches?1.25:1.75,pr=Math.min(devicePixelRatio||1,p.pixelRatio,maxPR);this.webgl.setPixelRatio?.(pr);this.hemi.intensity=p.hemi;this.sun.intensity=p.sun;this.sun.castShadow=!!p.shadows;if(this.webgl.shadowMap){this.webgl.shadowMap.enabled=!!p.shadows;this.webgl.shadowMap.type=THREE.PCFSoftShadowMap}const fog=new THREE.Fog(new THREE.Color(GAME_PALETTE.sky_atmosphere),p.fogNear,p.fogFar);this.scene.fog=fog;this.scene.userData.photonFogV148=fog;if(this.scene.background?.isColor)this.scene.background.set(GAME_PALETTE.sky_atmosphere)}
+ update(){if(!this.enabled||!this.scene)return;const phase=(typeof dayClock!=='undefined'&&dayClock?.phase)?dayClock.phase():.25,a=phase*Math.PI*2,sunY=Math.sin(a),sunX=Math.cos(a),daylight=clamp((sunY+.12)/.55,0,1),dawn=Math.max(0,1-Math.abs(sunY)/.28)*(sunY>-.3?1:0),daySky=new THREE.Color(0x8fc9ff),nightSky=new THREE.Color(0x071024),warm=new THREE.Color(GAME_PALETTE.sky_atmosphere),sky=nightSky.clone().lerp(daySky,daylight).lerp(warm,dawn*.32);if(this.scene.background?.isColor)this.scene.background.copy(sky);if(this.scene.fog?.color)this.scene.fog.color.copy(sky);this.hemi.color.copy(sky.clone().lerp(new THREE.Color(0xffffff),.22));this.hemi.groundColor.set(GAME_PALETTE.earth_terrain);this.sun.color.copy(new THREE.Color(GAME_PALETTE.sunlight_highlight).lerp(new THREE.Color(0xffb36a),dawn*.55));this.sun.intensity=this.profileData().sun*(.08+daylight*.92);const cam=this.game?.renderer?.camera;if(cam){this.sun.position.set(cam.position.x+sunX*92,cam.position.y+Math.max(-24,sunY*110),cam.position.z+42);this.sun.target.position.copy(cam.position);if(!this.sun.target.parent)this.scene.add(this.sun.target)}}
+ diagnostics(){return{enabled:this.enabled,profile:this.profile,palette:GAME_PALETTE,shadowMap:!!this.webgl?.shadowMap?.enabled,toneMapping:this.webgl?.toneMapping,exposure:this.webgl?.toneMappingExposure,pixelRatio:this.webgl?.getPixelRatio?.()}}
 }
 window.PhotonWebV148=PhotonWebV148;
-
-/* ------------------------- HUD bottom-position repair ------------------------- */
-(function installV148HUDRepair(){
-  document.getElementById('v148HudStyle')?.remove();
-  const style=document.createElement('style');style.id='v148HudStyle';style.textContent=`
-html,body,#app{overflow:hidden!important;overscroll-behavior:none!important;width:100%!important;height:100%!important;width:100dvw!important;height:100dvh!important}
-#hotbar,#hotbar.javaHotbarV144{position:absolute!important;top:auto!important;left:50%!important;right:auto!important;bottom:max(10px,calc(env(safe-area-inset-bottom) + 6px))!important;transform:translateX(-50%)!important;margin:0!important;z-index:42!important}
-#titleScreen{overflow:hidden!important;overscroll-behavior:none!important}
-#titleContent{max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)))!important;overflow:hidden!important}
-.v148PacksBtn{margin-top:2px!important}
-#resourcePackPanelV148{position:absolute;inset:0;z-index:250;display:none;align-items:center;justify-content:center;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));background:rgba(0,0,0,.58)}
-#resourcePackPanelV148.open{display:flex}
-.v148PackWindow{width:min(720px,94dvw);max-height:min(720px,92dvh);overflow:auto;background:#c6c6c6;border:3px solid #111;box-shadow:inset 3px 3px #fff,inset -3px -3px #555,8px 8px #0007;color:#111;padding:12px;touch-action:pan-y}
-.v148PackTitle{text-align:center;font:900 20px/1.1 ui-monospace,monospace;margin:2px 0 10px;text-shadow:1px 1px #fff}
-.v148PackCard{display:grid;grid-template-columns:78px 1fr auto;gap:10px;align-items:center;background:#8b8b8b;border:2px solid #222;box-shadow:inset 2px 2px #aaa,inset -2px -2px #444;padding:8px;margin:7px 0;color:#fff;text-shadow:1px 1px #222}
-.v148PackIcon{width:72px;height:72px;object-fit:cover;image-rendering:auto;background:#222;border:2px solid #111}
-.v148PackName{font:900 17px ui-monospace,monospace}.v148PackDesc{font:11px/1.3 Arial,sans-serif;opacity:.92;margin-top:4px;text-shadow:none}.v148PackMeta{font:10px ui-monospace,monospace;opacity:.75;margin-top:4px}
-.v148PackToggle,.v148PackProfile,.v148PackClose{border:2px solid #222;background:#777;color:#fff;box-shadow:inset 2px 2px #aaa,inset -2px -2px #444;font-weight:900;text-shadow:1px 1px #333;padding:8px 10px;touch-action:manipulation}.v148PackToggle.on{background:#4c8f35}.v148PackActions{display:flex;flex-direction:column;gap:6px;min-width:98px}
-@media(orientation:landscape) and (max-height:520px){#titleContent{transform:scale(.82);transform-origin:center}.v148PackWindow{max-height:94dvh}.v148PackCard{grid-template-columns:58px 1fr auto}.v148PackIcon{width:54px;height:54px}}
-@media(max-width:620px){.v148PackCard{grid-template-columns:58px 1fr}.v148PackIcon{width:54px;height:54px}.v148PackActions{grid-column:1/-1;flex-direction:row;justify-content:flex-end}}
-`;
-  document.head.appendChild(style);
-})();
-
-function ensureHotbarBottomV148(){
-  const hb=document.getElementById('hotbar');if(!hb)return;
-  hb.style.setProperty('top','auto','important');
-  hb.style.setProperty('bottom','max(10px, calc(env(safe-area-inset-bottom) + 6px))','important');
-  hb.style.setProperty('left','50%','important');
-  hb.style.setProperty('transform','translateX(-50%)','important');
-}
-new MutationObserver(ensureHotbarBottomV148).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style']});
-addEventListener('resize',ensureHotbarBottomV148,{passive:true});addEventListener('orientationchange',()=>setTimeout(ensureHotbarBottomV148,100),{passive:true});
-
-function ensureResourcePackPanelV148(){
-  let panel=document.getElementById('resourcePackPanelV148');if(panel)return panel;
-  panel=document.createElement('div');panel.id='resourcePackPanelV148';
-  panel.innerHTML=`<div class="v148PackWindow"><div class="v148PackTitle">Resource & Graphics Packs</div><div id="v148PackList"></div><div style="display:flex;justify-content:center;margin-top:10px"><button class="v148PackClose" id="v148PackClose">Done</button></div></div>`;
-  document.getElementById('titleScreen')?.appendChild(panel);
-  panel.addEventListener('pointerdown',e=>{if(e.target===panel)panel.classList.remove('open')});
-  panel.querySelector('#v148PackClose')?.addEventListener('click',()=>panel.classList.remove('open'));
-  renderResourcePacksV148();
-  return panel;
-}
-function renderResourcePacksV148(){
-  const list=document.getElementById('v148PackList');if(!list)return;
-  list.innerHTML=RESOURCE_PACKS.map(pack=>{
-    const on=resourcePacksV148.enabled(pack.id),profile=window.game?.photonV148?.profile||localStorage.getItem(STUDIO_V14_8.profileStorage)||'Lite';
-    return `<div class="v148PackCard" data-pack="${pack.id}"><img class="v148PackIcon" src="${pack.icon}" alt="${pack.name}" onerror="this.style.visibility='hidden'"><div><div class="v148PackName">${pack.name}</div><div class="v148PackDesc">${pack.description}</div><div class="v148PackMeta">${pack.author}</div></div><div class="v148PackActions"><button class="v148PackToggle ${on?'on':''}" data-toggle="${pack.id}">${on?'Enabled':'Disabled'}</button>${pack.profiles?`<select class="v148PackProfile" data-profile="${pack.id}">${pack.profiles.map(p=>`<option ${p===profile?'selected':''}>${p}</option>`).join('')}</select>`:''}</div></div>`;
-  }).join('');
-  list.querySelectorAll('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{resourcePacksV148.toggle(btn.dataset.toggle);renderResourcePacksV148();}));
-  list.querySelectorAll('[data-profile]').forEach(sel=>sel.addEventListener('change',()=>{if(sel.dataset.profile==='photon-web')window.game?.photonV148?.setProfile(sel.value);else try{localStorage.setItem(STUDIO_V14_8.profileStorage,sel.value)}catch{};renderResourcePacksV148();}));
-}
-function addResourcePackTitleButtonV148(){
-  const content=document.getElementById('titleContent');if(!content||content.querySelector('.v148PacksBtn'))return;
-  const btn=document.createElement('button');btn.className='javaBootBtnV145 v148PacksBtn';btn.type='button';btn.textContent='Resource Packs…';btn.addEventListener('click',()=>{ensureResourcePackPanelV148().classList.add('open');renderResourcePacksV148();});
-  const sub=content.querySelector('#titleSub,.v9Small');content.insertBefore(btn,sub||null);
-}
-const v148BuildTitleBase=typeof v9BuildTitle==='function'?v9BuildTitle:null;
-if(v148BuildTitleBase)v9BuildTitle=function(...args){const r=v148BuildTitleBase.apply(this,args);queueMicrotask(()=>{addResourcePackTitleButtonV148();ensureResourcePackPanelV148();ensureHotbarBottomV148();});return r;};
-
-resourcePacksV148.onChange((id,on)=>{if(id==='photon-web')window.game?.photonV148?.setEnabled(on);renderResourcePacksV148();});
-
-const v148BootBase=Game.prototype.boot;
-Game.prototype.boot=async function(...args){
-  const r=await v148BootBase.apply(this,args);
-  this.photonV148?.rig?.parent?.remove?.(this.photonV148.rig);
-  this.photonV148=new PhotonWebV148(this);
-  ensureHotbarBottomV148();addResourcePackTitleButtonV148();ensureResourcePackPanelV148();
-  window.__voxelDiag?.log?.(`V14.8 READY: Photon Web V1 ${this.photonV148.enabled?'enabled':'disabled'} (${this.photonV148.profile}); pack manager + permanent bottom hotbar + iOS standalone layout active.`,'ok');
-  return r;
-};
-
-(function photonFrameLoopV148(){
-  requestAnimationFrame(photonFrameLoopV148);
-  try{window.game?.photonV148?.update?.()}catch(e){if(!window.__photonV148Err){window.__photonV148Err=true;console.warn('[Photon Web V1]',e)}}
-})();
-
-try{
-  runtimeCommands.register('photon',()=>window.game?.photonV148?.diagnostics?.()||{ready:false},'Inspect Photon Web V1 graphics pack.');
-  runtimeCommands.register('packs',()=>RESOURCE_PACKS.map(p=>({id:p.id,name:p.name,enabled:resourcePacksV148.enabled(p.id)})),'List resource/graphics packs.');
-}catch{}
-
-queueMicrotask(()=>{ensureHotbarBottomV148();addResourcePackTitleButtonV148();ensureResourcePackPanelV148();});
+(function installV148HUDRepair(){document.getElementById('v148HudStyle')?.remove();const style=document.createElement('style');style.id='v148HudStyle';style.textContent=`html,body,#app{overflow:hidden!important;overscroll-behavior:none!important;width:100%!important;height:100%!important;width:100dvw!important;height:100dvh!important}#hotbar,#hotbar.javaHotbarV144{position:absolute!important;top:auto!important;left:50%!important;right:auto!important;bottom:max(10px,calc(env(safe-area-inset-bottom) + 6px))!important;transform:translateX(-50%)!important;margin:0!important;z-index:42!important}#titleScreen{overflow:hidden!important;overscroll-behavior:none!important}#titleContent{max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)))!important;overflow:hidden!important}.v148PacksBtn{margin-top:2px!important}#resourcePackPanelV148{position:absolute;inset:0;z-index:250;display:none;align-items:center;justify-content:center;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));background:rgba(0,0,0,.58)}#resourcePackPanelV148.open{display:flex}.v148PackWindow{width:min(720px,94dvw);max-height:min(720px,92dvh);overflow:auto;background:#c6c6c6;border:3px solid #111;box-shadow:inset 3px 3px #fff,inset -3px -3px #555,8px 8px #0007;color:#111;padding:12px;touch-action:pan-y}.v148PackTitle{text-align:center;font:900 20px/1.1 ui-monospace,monospace;margin:2px 0 10px;text-shadow:1px 1px #fff}.v148PackCard{display:grid;grid-template-columns:78px 1fr auto;gap:10px;align-items:center;background:#8b8b8b;border:2px solid #222;box-shadow:inset 2px 2px #aaa,inset -2px -2px #444;padding:8px;margin:7px 0;color:#fff;text-shadow:1px 1px #222}.v148PackIcon{width:72px;height:72px;object-fit:cover;image-rendering:auto;background:#222;border:2px solid #111}.v148PackName{font:900 17px ui-monospace,monospace}.v148PackDesc{font:11px/1.3 Arial,sans-serif;opacity:.92;margin-top:4px;text-shadow:none}.v148PackMeta{font:10px ui-monospace,monospace;opacity:.75;margin-top:4px}.v148PackToggle,.v148PackProfile,.v148PackClose{border:2px solid #222;background:#777;color:#fff;box-shadow:inset 2px 2px #aaa,inset -2px -2px #444;font-weight:900;text-shadow:1px 1px #333;padding:8px 10px;touch-action:manipulation}.v148PackToggle.on{background:#4c8f35}.v148PackActions{display:flex;flex-direction:column;gap:6px;min-width:98px}@media(orientation:landscape) and (max-height:520px){#titleContent{transform:scale(.82);transform-origin:center}.v148PackWindow{max-height:94dvh}.v148PackCard{grid-template-columns:58px 1fr auto}.v148PackIcon{width:54px;height:54px}}@media(max-width:620px){.v148PackCard{grid-template-columns:58px 1fr}.v148PackIcon{width:54px;height:54px}.v148PackActions{grid-column:1/-1;flex-direction:row;justify-content:flex-end}}`;document.head.appendChild(style)})();
+function ensureHotbarBottomV148(){const hb=document.getElementById('hotbar');if(!hb)return;hb.style.setProperty('top','auto','important');hb.style.setProperty('bottom','max(10px, calc(env(safe-area-inset-bottom) + 6px))','important');hb.style.setProperty('left','50%','important');hb.style.setProperty('transform','translateX(-50%)','important')}
+new MutationObserver(ensureHotbarBottomV148).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style']});addEventListener('resize',ensureHotbarBottomV148,{passive:true});addEventListener('orientationchange',()=>setTimeout(ensureHotbarBottomV148,100),{passive:true});
+function ensureResourcePackPanelV148(){let panel=document.getElementById('resourcePackPanelV148');if(panel)return panel;panel=document.createElement('div');panel.id='resourcePackPanelV148';panel.innerHTML=`<div class="v148PackWindow"><div class="v148PackTitle">Resource & Graphics Packs</div><div id="v148PackList"></div><div style="display:flex;justify-content:center;margin-top:10px"><button class="v148PackClose" id="v148PackClose">Done</button></div></div>`;document.getElementById('titleScreen')?.appendChild(panel);panel.addEventListener('pointerdown',e=>{if(e.target===panel)panel.classList.remove('open')});panel.querySelector('#v148PackClose')?.addEventListener('click',()=>panel.classList.remove('open'));renderResourcePacksV148();return panel}
+function renderResourcePacksV148(){const list=document.getElementById('v148PackList');if(!list)return;list.innerHTML=RESOURCE_PACKS.map(pack=>{const on=resourcePacksV148.enabled(pack.id),profile=window.game?.photonV148?.profile||localStorage.getItem(STUDIO_V14_8.profileStorage)||'Lite';return `<div class="v148PackCard" data-pack="${pack.id}"><img class="v148PackIcon" src="${pack.icon}" alt="${pack.name}" onerror="this.style.visibility='hidden'"><div><div class="v148PackName">${pack.name}</div><div class="v148PackDesc">${pack.description}</div><div class="v148PackMeta">${pack.author}</div></div><div class="v148PackActions"><button class="v148PackToggle ${on?'on':''}" data-toggle="${pack.id}">${on?'Enabled':'Disabled'}</button>${pack.profiles?`<select class="v148PackProfile" data-profile="${pack.id}">${pack.profiles.map(p=>`<option ${p===profile?'selected':''}>${p}</option>`).join('')}</select>`:''}</div></div>`}).join('');list.querySelectorAll('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{resourcePacksV148.toggle(btn.dataset.toggle);renderResourcePacksV148()}));list.querySelectorAll('[data-profile]').forEach(sel=>sel.addEventListener('change',()=>{if(sel.dataset.profile==='photon-web'){if(window.game?.photonV148)window.game.photonV148.setProfile(sel.value);else try{localStorage.setItem(STUDIO_V14_8.profileStorage,sel.value)}catch{}}renderResourcePacksV148()}))}
+function addResourcePackTitleButtonV148(){const content=document.getElementById('titleContent');if(!content||content.querySelector('.v148PacksBtn'))return;const btn=document.createElement('button');btn.className='javaBootBtnV145 v148PacksBtn';btn.type='button';btn.textContent='Resource Packs…';btn.addEventListener('click',()=>{ensureResourcePackPanelV148().classList.add('open');renderResourcePacksV148()});const sub=content.querySelector('#titleSub,.v9Small');content.insertBefore(btn,sub||null)}
+const v148BuildTitleBase=typeof v9BuildTitle==='function'?v9BuildTitle:null;if(v148BuildTitleBase)v9BuildTitle=function(...args){const r=v148BuildTitleBase.apply(this,args);queueMicrotask(()=>{addResourcePackTitleButtonV148();ensureResourcePackPanelV148();ensureHotbarBottomV148()});return r};
+resourcePacksV148.onChange((id,on)=>{if(id==='photon-web')window.game?.photonV148?.setEnabled(on);renderResourcePacksV148()});
+const v148BootBase=Game.prototype.boot;Game.prototype.boot=async function(...args){const r=await v148BootBase.apply(this,args);this.photonV148?.rig?.parent?.remove?.(this.photonV148.rig);this.photonV148=new PhotonWebV148(this);ensureHotbarBottomV148();addResourcePackTitleButtonV148();ensureResourcePackPanelV148();window.__voxelDiag?.log?.(`V14.8 READY: Photon Web V1 ${this.photonV148.enabled?'enabled':'disabled'} (${this.photonV148.profile}); pack manager + permanent bottom hotbar + iOS standalone layout active.`,'ok');return r};
+(function photonFrameLoopV148(){requestAnimationFrame(photonFrameLoopV148);try{window.game?.photonV148?.update?.()}catch(e){if(!window.__photonV148Err){window.__photonV148Err=true;console.warn('[Photon Web V1]',e)}}})();
+try{runtimeCommands.register('photon',()=>window.game?.photonV148?.diagnostics?.()||{ready:false},'Inspect Photon Web V1 graphics pack.');runtimeCommands.register('packs',()=>RESOURCE_PACKS.map(p=>({id:p.id,name:p.name,enabled:resourcePacksV148.enabled(p.id)})),'List resource/graphics packs.')}catch{}
+queueMicrotask(()=>{ensureHotbarBottomV148();addResourcePackTitleButtonV148();ensureResourcePackPanelV148()});
