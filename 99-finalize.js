@@ -1,5 +1,6 @@
-/* Finalize V14.7 after every Java-first, optimization and fidelity patch has been installed. */
+/* Finalize V14.8 after every Java-first, optimization, fidelity and resource-pack patch has been installed. */
 titlePreviewV8?.dispose();titlePreviewV8=null;ensureTitleWorldV9();v9BuildTitle();
-window.MINECRAFT_WEB_VERSION='0.14.7';window.STUDIO_PATCH_VERSION=typeof STUDIO_V14_7D!=='undefined'?STUDIO_V14_7D.version:STUDIO_V14_7.version;
-const v147Small=document.querySelector('#titleContent .v9Small');if(v147Small&&/Minecraft Web/.test(v147Small.textContent||''))v147Small.textContent='Minecraft Web Alpha 0.14.7 • Java-first • Optimized + Fidelity Repair';
-window.__voxelDiag?.log?.('FINAL READY Minecraft Web Alpha 0.14.7: all V14.6 section/occlusion/scheduling/mobile optimizations remain active; V14.7 fixes celestial alpha/depth/horizon behavior, transparent Java destroy-stage cracks, centered inventory UI, native 3D tools and UV-correct torch, Java-paced quieter music, mining hit/break audio including logs, connected sheep geometry, swept passive collision, procedural player animation, third-person held items and block-icon fallbacks.','ok');
+window.MINECRAFT_WEB_VERSION='0.14.8';window.STUDIO_PATCH_VERSION=typeof STUDIO_V14_8!=='undefined'?STUDIO_V14_8.version:(typeof STUDIO_V14_7D!=='undefined'?STUDIO_V14_7D.version:STUDIO_V14_7.version);
+const v148Small=document.querySelector('#titleContent .v9Small,#titleContent #titleSub');if(v148Small&&/Minecraft Web/.test(v148Small.textContent||''))v148Small.textContent='Minecraft Web Alpha 0.14.8 • Photon Web V1 • Resource Packs';
+try{addResourcePackTitleButtonV148?.();ensureResourcePackPanelV148?.();ensureHotbarBottomV148?.();}catch{}
+window.__voxelDiag?.log?.('FINAL READY Minecraft Web Alpha 0.14.8: all V14.6/V14.7 engine, rendering, Java UI, audio, entity, collision and fidelity systems remain active; V14.8 adds the Resource & Graphics Pack manager, Photon Web V1 palette/lighting/fog/tone-mapping profiles, persistent iOS-safe bottom hotbar positioning and updated standalone web-app metadata.','ok');
