@@ -2,8 +2,8 @@
   "id": "./",
   "name": "Minecraft",
   "short_name": "Minecraft",
-  "description": "Minecraft Web V15.3 — Java 26.1 asset mirror, Three.js voxel engine and Photon Web graphics",
-  "start_url": "./?source=pwa&v=0.15.3",
+  "description": "Minecraft Web — Java 26.1 assets, Three.js voxel engine and Photon Web graphics",
+  "start_url": "./?source=pwa&v=0.15.6",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -11,10 +11,16 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "./assets/branding/icon_javaedition.jpg",
-      "sizes": "any",
+      "src": "https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=0.15.6",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=0.15.6",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ]
 }
