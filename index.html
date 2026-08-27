@@ -11,30 +11,23 @@
 <meta name="apple-mobile-web-app-title" content="Minecraft">
 <meta name="application-name" content="Minecraft">
 <meta name="format-detection" content="telephone=no">
-<link rel="manifest" href="./manifest.webmanifest?v=0.15.6">
-<link rel="apple-touch-icon" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=0.15.6">
-<link rel="icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=0.15.6">
-<link rel="shortcut icon" type="image/jpeg" href="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/logos/icon_javaedition.jpg?v=0.15.6">
+<link rel="manifest" href="./manifest.webmanifest?v=0.15.7">
+<link rel="apple-touch-icon" href="./assets/branding/java-edition-icon.png?v=0.15.7">
+<link rel="icon" type="image/png" sizes="any" href="./assets/branding/java-edition-icon.png?v=0.15.7">
+<link rel="shortcut icon" type="image/png" href="./assets/branding/java-edition-icon.png?v=0.15.7">
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
-<link rel="preconnect" href="https://www.minecraft.net" crossorigin>
-<link rel="stylesheet" href="./main.css?v=0.15.6">
-<link rel="stylesheet" href="./v14-4-java.css?v=0.15.6">
-<style id="javaBootStyleV156">
+<link rel="stylesheet" href="./main.css?v=0.15.7">
+<link rel="stylesheet" href="./v14-4-java.css?v=0.15.7">
+<style id="javaBootStyleV157">
 :root{--boot-button:url('./assets/java/26.1/gui/sprites/widget/button.png');--boot-button-hi:url('./assets/java/26.1/gui/sprites/widget/button_highlighted.png');--boot-panorama:url('./assets/java/26.1/gui/title/background/panorama_0.png')}
 html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overflow:hidden;overscroll-behavior:none;background:#000}
-.javaBootTitleV15{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:min(430px,84vw);max-height:92dvh}
-.javaBootTitleV15 #mcLogo{width:min(500px,82vw);max-height:28vh;height:auto;object-fit:contain;margin:0;filter:drop-shadow(0 4px #0008);image-rendering:auto}
-.javaBootTitleV15 #javaBootEdition{width:min(238px,44vw);height:auto;image-rendering:pixelated;margin:-31px auto 7px;filter:drop-shadow(2px 3px #0008)}
-.javaBootBtnV15{width:100%;min-height:38px;border:0;border-radius:0;color:#fff;text-shadow:2px 2px #3f3f3f;font:700 17px/1 'Minecraft Seven','Minecraft','Courier New',monospace;background:#777 var(--boot-button) center/100% 100% no-repeat;image-rendering:pixelated;-webkit-tap-highlight-color:transparent}
-.javaBootBtnV15:hover,.javaBootBtnV15:focus-visible{background-image:var(--boot-button-hi)}.javaBootBtnV15:active{filter:brightness(.82)}
-.javaBootRowV15{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}.javaBootSmall{font:11px 'Minecraft Seven','Minecraft','Courier New',monospace;color:#ddd;text-shadow:1px 1px #111;margin-top:3px}
 #loading{position:absolute!important;inset:0!important;background-image:linear-gradient(rgba(17,14,12,.62),rgba(17,14,12,.73)),var(--boot-panorama)!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;color:#fff!important;text-shadow:2px 2px #222!important;image-rendering:auto!important}
 #loading::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0 42%,rgba(0,0,0,.3) 100%);pointer-events:none}
 #loadingBar{position:relative!important;z-index:2!important;width:min(640px,74vw)!important;height:18px!important;padding:3px!important;background:#080808!important;border:2px solid #7b7b7b!important;box-shadow:inset 1px 1px #000,inset -1px -1px #c7c7c7,0 2px 5px #0009!important;border-radius:0!important;overflow:hidden!important}
 #loadingFill{height:100%!important;background:linear-gradient(#82bd4b 0 18%,#5b9b33 18% 82%,#3e7124 82% 100%)!important;box-shadow:inset 1px 0 #9bd15e,inset -1px 0 #345f20!important;transition:width .12s linear!important}
-#loadingText{position:relative!important;z-index:2!important;margin-top:16px!important;color:#fff!important;font-family:'Minecraft Seven','Minecraft','Courier New',monospace!important;font-size:clamp(15px,2vw,22px)!important;line-height:1.2!important;letter-spacing:.01em!important;text-shadow:2px 2px 0 #222!important;text-align:center!important}
+#loadingText{position:relative!important;z-index:2!important;margin-top:16px!important;color:#fff!important;font-family:'Minecraft Seven','Minecraft','Courier New',monospace!important;font-size:clamp(15px,2vw,22px)!important;line-height:1.2!important;text-shadow:2px 2px 0 #222!important;text-align:center!important}
 #hotbar{top:auto!important;bottom:max(10px,calc(env(safe-area-inset-bottom) + 6px))!important}
-@media(orientation:landscape) and (max-height:520px){.javaBootTitleV15{transform:scale(.84);transform-origin:center;width:min(390px,70vw)}.javaBootTitleV15 #mcLogo{max-height:25vh}.javaBootTitleV15 #javaBootEdition{margin-top:-24px}.javaBootBtnV15{min-height:34px}#loadingBar{width:min(620px,66vw)!important;height:15px!important}#loadingText{margin-top:10px!important;font-size:15px!important}}
+@media(orientation:landscape) and (max-height:520px){#loadingBar{width:min(620px,66vw)!important;height:15px!important}#loadingText{margin-top:10px!important;font-size:15px!important}}
 </style>
 </head>
 <body>
@@ -42,15 +35,7 @@ html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overfl
 <canvas id="gameCanvas"></canvas>
 <div id="titleScreen">
   <div id="titlePanorama"></div><div id="titleShade"></div>
-  <div id="titleContent" class="javaBootTitleV15">
-    <img id="mcLogo" src="./assets/java/26.1/gui/title/minecraft.png" alt="Minecraft">
-    <img id="javaBootEdition" src="./assets/java/26.1/gui/title/edition.png" alt="Java Edition">
-    <button class="javaBootBtnV15" id="playBtn">Singleplayer</button>
-    <button class="javaBootBtnV15" id="creativeBtn">Multiplayer</button>
-    <button class="javaBootBtnV15" id="bootRealms" disabled>Minecraft Realms</button>
-    <div class="javaBootRowV15"><button class="javaBootBtnV15" id="bootOptions" disabled>Options...</button><button class="javaBootBtnV15" id="bootQuit" disabled>Quit Game</button></div>
-    <div class="javaBootSmall">Minecraft Web 0.15.6 • Java 26.1 assets • Photon Web</div>
-  </div>
+  <div id="titleContent"></div>
 </div>
 <div id="loading" class="v15Loading"><div id="loadingBar"><div id="loadingFill"></div></div><div id="loadingText">Loading Minecraft…</div></div>
 <div id="hud">
@@ -66,8 +51,8 @@ html,body,#app{margin:0;width:100%;height:100%;width:100dvw;height:100dvh;overfl
 <button id="resetBtn" type="button" hidden aria-hidden="true" tabindex="-1"></button>
 </div>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/webgpu":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.webgpu.js"}}</script>
-<script>window.__MC_BUILD_ID__='0.15.6';</script>
-<script type="module" src="./runtime-loader.js?v=0.15.6"></script>
-<script>window.__MC_BOOT_WATCHDOG__=setTimeout(function(){if(!window.__MC_RUNTIME_READY__){console.error('[BOOT] V15.6 Java 26.1 runtime did not finish starting. Check runtime-loader.js and source parts.');}},9000);</script>
+<script>window.__MC_BUILD_ID__='0.15.7';</script>
+<script type="module" src="./runtime-loader.js?v=0.15.7"></script>
+<script>window.__MC_BOOT_WATCHDOG__=setTimeout(function(){if(!window.__MC_RUNTIME_READY__){console.error('[BOOT] V15.7 Java 26.1 runtime did not finish starting. Check runtime-loader.js and source parts.');}},9000);</script>
 </body>
 </html>
