@@ -52,17 +52,12 @@
     const content=document.getElementById('titleContent');
     if(!title||!content)return;
 
-    // If an older patch replaced the title after V15.7, rebuild the one canonical menu.
-    if(typeof rebuildCanonicalTitleV158==='function'){
-      try{rebuildCanonicalTitleV158()}catch{}
-    }
-
     const logos=[...content.querySelectorAll('#mcLogo,img[src*="gui/title/minecraft.png"]')];
     logos.slice(1).forEach(el=>el.remove());
     const editions=[...content.querySelectorAll('#javaEditionV15,#javaBootEdition,img[src*="gui/title/edition.png"]')];
     editions.slice(1).forEach(el=>el.remove());
     const logo=content.querySelector('#mcLogo');if(logo)logo.src=`${JAVA}gui/title/minecraft.png`;
-    const edition=content.querySelector('#javaEditionV15,#javaBootEdition,img[src*="gui/title/edition.png"]`);
+    const edition=content.querySelector('#javaEditionV15,#javaBootEdition,img[src*="gui/title/edition.png"]');
     if(edition)edition.src=`${JAVA}gui/title/edition.png`;
 
     title.querySelectorAll('.v15Footer,.v9Small,#titleSub,.javaBootSmall,.javaSourceRowV144,.v148PacksBtn').forEach(el=>el.remove());
