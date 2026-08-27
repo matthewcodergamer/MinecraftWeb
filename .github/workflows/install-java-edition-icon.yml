@@ -1,0 +1,35 @@
+name: Install Java Edition icon
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/install-java-edition-icon.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  install-icon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Java Edition icon
+        run: |
+          mkdir -p assets/branding
+          curl -fL --retry 4 --retry-delay 2 \
+            'https://minecraft.wiki/w/Special:Redirect/file/Java_Edition_icon_3.png' \
+            -o assets/branding/java-edition-icon.png
+          file assets/branding/java-edition-icon.png
+          test -s assets/branding/java-edition-icon.png
+      - name: Commit icon
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/branding/java-edition-icon.png
+          if git diff --cached --quiet; then
+            echo 'Icon already current.'
+          else
+            git commit -m 'Install latest Minecraft Java Edition icon'
+            git push
+          fi
