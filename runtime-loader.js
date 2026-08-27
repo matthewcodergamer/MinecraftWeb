@@ -5,7 +5,7 @@ const SOURCE_PARTS = [
 (function installBootVisualsV158(){
  const old=document.querySelector('[id^="mcBootVisualsV15"]');if(old)old.remove();
  const style=document.createElement('style');style.id='mcBootVisualsV158';style.textContent=`
- @font-face{font-family:'Minecraft Seven';src:url('./assets/fonts/Minecraft-Seven.woff2?v=0.15.8') format('woff2'),url('https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+ @font-face{font-family:'Minecraft Seven';src:url('./assets/fonts/Minecraft-Seven.woff?v=0.15.8') format('woff'),url('https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff') format('woff');font-style:normal;font-weight:400;font-display:swap}
  #loading.v15Loading{background-image:linear-gradient(rgba(17,14,12,.52),rgba(17,14,12,.68)),url('./assets/java/26.1/gui/title/background/panorama_0.png')!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;image-rendering:auto!important;transition:opacity .16s linear!important}
  #loading.v15Loading::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0 40%,rgba(0,0,0,.32) 100%);pointer-events:none}
  #loading.v15Loading.mcBootLeaving{opacity:0!important;pointer-events:none!important}
