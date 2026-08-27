@@ -5,17 +5,15 @@
   const BUILD='0.15.8';
   const JAVA='./assets/java/26.1/';
   const ICON='./assets/icon/minecraft-java-icon.png?v=0.15.8';
-  const FONT_LOCAL='./assets/fonts/Minecraft-Seven.woff2?v=0.15.8';
-  const FONT_OFFICIAL='https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff2';
+  const FONT_LOCAL='./assets/fonts/Minecraft-Seven.woff?v=0.15.8';
+  const FONT_OFFICIAL='https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff';
 
   window.JAVA_261_ROOT=JAVA;
 
-  /* Official Mojang browser font. Java 26.1's font/ folder remains the source for
-   * bitmap glyph resources; Minecraft Seven is used for DOM/browser UI text. */
   const style=document.createElement('style');
   style.id='v158MinecraftSevenJavaUI';
   style.textContent=`
-    @font-face{font-family:'Minecraft Seven';src:url('${FONT_LOCAL}') format('woff2'),url('${FONT_OFFICIAL}') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+    @font-face{font-family:'Minecraft Seven';src:url('${FONT_LOCAL}') format('woff'),url('${FONT_OFFICIAL}') format('woff');font-style:normal;font-weight:400;font-display:swap}
     html,body,#app,#titleScreen,#screenLayer,#hud,#toast,#loading,
     button,input,select,textarea,label,.v15Screen,.v15Header,.v15Body,.v15Control,
     .v15JavaBtn,.v15Back,.v15Done,.mc-btn,.javaButtonV148C,.v9MenuBtn,
@@ -43,8 +41,6 @@
   }
   ensureMinecraftSeven();
 
-  /* The legacy core only needs playBtn/creativeBtn while it initializes. V15.7
-   * has already built the real Java title by the time this patch runs. */
   document.getElementById('legacyBootBindings')?.remove();
 
   function canonicalizeTitle(){
@@ -67,7 +63,6 @@
     if(footer){footer.id='v158Footer';footer.innerHTML='<span>Minecraft Web 0.15.8</span><span>Java 26.1 • Three.js • Photon Web</span>';}
   }
 
-  /* Correct icon path wins over every old branding patch, including delayed ones. */
   function applyIcon(){
     const ensure=(rel)=>{let l=document.head.querySelector(`link[rel="${rel}"]`);if(!l){l=document.createElement('link');l.rel=rel;document.head.appendChild(l)}l.href=ICON;l.type='image/png';return l};
     ensure('icon');ensure('shortcut icon');const apple=ensure('apple-touch-icon');apple.removeAttribute('type');
