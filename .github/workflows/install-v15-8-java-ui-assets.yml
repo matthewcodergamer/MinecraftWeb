@@ -45,9 +45,9 @@ jobs:
         run: |
           set -euo pipefail
           curl -fL --retry 4 --retry-delay 2 --connect-timeout 20 \
-            'https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff2' \
-            -o assets/fonts/Minecraft-Seven.woff2
-          test -s assets/fonts/Minecraft-Seven.woff2
+            'https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff' \
+            -o assets/fonts/Minecraft-Seven.woff
+          test -s assets/fonts/Minecraft-Seven.woff
 
       - name: Commit UI assets safely
         shell: bash
@@ -55,7 +55,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/icon/minecraft-java-icon.png assets/fonts/Minecraft-Seven.woff2
+          git add assets/icon/minecraft-java-icon.png assets/fonts/Minecraft-Seven.woff
           if git diff --cached --quiet; then
             echo 'UI assets already current.'
             exit 0
