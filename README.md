@@ -1,112 +1,52 @@
-# Minecraft Web V15.3 — Java 26.1 Asset Gauntlet + Photon Web
+# Minecraft Web V15.7 — Java 26.1 + Photon Web
 
-Minecraft Web Alpha **0.15.3** is a browser-based Minecraft Java-first client/runtime built on Three.js, with responsive mobile controls, Java Edition UI/assets, the existing voxel engine, and the Photon Web graphics translation layer.
+Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current build is **0.15.7** and targets responsive desktop and mobile play, including iPhone Safari.
 
-The live GitHub Pages runtime is `index.html` → `runtime-loader.js` → the ordered numbered source parts at repository root.
+The live runtime is:
 
-## V15.3 Java 26.1 Asset Gauntlet
+`index.html` → `runtime-loader.js` → ordered numbered source parts
 
-V15.3 applies the Gauntlet loop to the current PrismarineJS Java asset set:
+## What V15.7 fixes
 
-1. inspect the real `PrismarineJS/minecraft-assets/data/26.1` tree
-2. mirror the full version tree into MinecraftWeb
-3. bind local Java assets into the existing Three.js runtime instead of replacing the voxel engine
-4. translate Java-specific rendering behavior where the browser needs explicit geometry/material logic
-5. keep diagnostics and upstream fallbacks so missing files are visible rather than silently substituted
+V15.7 is a cleanup/stability pass focused on the title screen, Java audio response, and browser/PWA branding.
 
-The complete local mirror target is:
+- One canonical Minecraft title menu is built at runtime.
+- The title contains one `minecraft.png` logo and one Java Edition `edition.png` strip from the local Java 26.1 asset mirror.
+- Old V14/V15 footer fragments and duplicate version text are removed so the bottom-left/bottom-right status line is not stacked on itself.
+- The old static boot-menu markup was removed from `index.html`; the runtime owns the title menu now instead of multiple builders competing for the same DOM.
+- Java button audio still uses the real local OGG sound, but V15.7 keeps a warm HTMLAudio pool so button clicks do not create a brand-new audio element on every tap. This reduces the small Safari/iPhone click delay.
+- The latest Java Edition icon is stored locally at `assets/branding/java-edition-icon.png` and is used for favicon, Safari tab/site icon, Apple touch icon, Add to Home Screen, and the web-app manifest.
+- `manifest.webmanifest`, `index.html`, and the runtime branding patch all point to the same local icon.
+
+## Java 26.1 assets
+
+The local Java asset mirror is:
 
 `assets/java/26.1/`
 
-`.github/workflows/sync-java-26-1-assets.yml` and `tools/sync_prismarine_26_1_assets.py` mirror the entire PrismarineJS `data/26.1` directory, including its available block/item textures, GUI sprites, title assets, environment/celestial textures, entity textures, fonts, metadata, optimized atlases and other version data. MinecraftWeb resolves the local 26.1 mirror first; the PrismarineJS raw path is only an availability fallback while a fresh mirror is deploying.
+The project uses the PrismarineJS Java asset set as its Java-facing source for GUI, block/item textures, environment/celestial textures, entities, fonts, metadata, and related resources. Local files are preferred by the runtime.
 
-The sync workflow also caches the current Java Edition game icon from Minecraft.net as `assets/branding/icon_javaedition.jpg`, which is used by the favicon, manifest and iOS Home Screen metadata.
+Important Java title/UI assets include:
 
-## Java 26.1 Celestials
+- `assets/java/26.1/gui/title/minecraft.png`
+- `assets/java/26.1/gui/title/edition.png`
+- `assets/java/26.1/gui/title/background/panorama_*.png`
+- `assets/java/26.1/gui/sprites/widget/button.png`
+- `assets/java/26.1/gui/sprites/widget/button_highlighted.png`
+- `assets/java/26.1/gui/sprites/widget/button_disabled.png`
 
-`98i-v15-3-java-26-1-assets.js` replaces the old generic celestial asset path with the actual PrismarineJS 26.1 Java assets:
+## Java audio
 
-- `environment/celestial/sun.png`
-- `environment/celestial/moon/full_moon.png`
-- `environment/celestial/moon/waning_gibbous.png`
-- `environment/celestial/moon/third_quarter.png`
-- `environment/celestial/moon/waning_crescent.png`
-- `environment/celestial/moon/new_moon.png`
-- `environment/celestial/moon/waxing_crescent.png`
-- `environment/celestial/moon/first_quarter.png`
-- `environment/celestial/moon/waxing_gibbous.png`
+Java audio is backed by:
 
-Sun and moon sprites stay camera-relative and rotate with world time. The bridge includes a conservative **edge-connected black-matte sanitizer**: only near-black pixels connected to the outer image border are removed. Interior dark pixels in the art are preserved, so background cleanup does not indiscriminately erase black detail.
+- `assets/java/sounds.json`
+- `assets/java/sounds/**/*.ogg`
 
-The moon renderer changes the actual phase texture by world day instead of treating the moon as one fixed image.
+Minecraft Web keeps the Java sound-event catalog and local OGG files for UI clicks, block sounds, footsteps, damage, entities, items, and other supported events. Safari Web Audio is unlocked from a real user gesture, and the UI click sound is prewarmed for lower perceived latency.
 
-## Java 26.1 Clouds → Three.js
+## Title/menu structure
 
-The Java cloud path now reads the real:
-
-`environment/clouds.png`
-
-The texture is interpreted as Minecraft's repeating cloud coverage map rather than stretched across the sky as one billboard. MinecraftWeb translates it into a Fancy-style Three.js cloud mesh:
-
-- fixed Java cloud height at **Y=192**
-- each source cloud texel represents a **12×12** world footprint
-- Fancy-style **4-block thickness**
-- exposed top, bottom and side geometry
-- no collision / no gameplay voxel occupancy
-- westward world-space drift
-- camera-centered finite mesh window so mobile does not build the entire 3072×3072 repeated pattern at once
-- storm/weather darkening
-- normal perspective + fog handles the distant horizon
-
-This preserves the Java cloud pattern while keeping geometry appropriate for iPhone/desktop WebGL.
-
-## Java 26.1 GUI and Title Assets
-
-The Java-facing menus now bind against the local 26.1 GUI assets, including:
-
-- `gui/title/minecraft.png`
-- `gui/title/edition.png`
-- `gui/title/background/panorama_*.png`
-- `gui/sprites/widget/button.png`
-- `gui/sprites/widget/button_highlighted.png`
-- `gui/sprites/widget/button_disabled.png`
-- the rest of the GUI tree supplied by PrismarineJS 26.1
-
-The title therefore uses the 26.1 Minecraft logo with the Java Edition artwork directly below it, while Options/resource-pack/world screens can consume the mirrored Java GUI sprites rather than custom approximations.
-
-The boot/loading screen also points at the local Java 26.1 panorama and keeps the Java-style framed green progress bar.
-
-## Java Block Breaking
-
-`98j-v15-3-java-breaking-overlay.js` translates the real Java 26.1 destroy-stage textures:
-
-`blocks/destroy_stage_0.png` through `blocks/destroy_stage_9.png`
-
-The crack stage is now a **transparent overlay over the original block**, rather than a gray replacement material. The underlying grass, dirt, stone, log, ore or other block texture remains visible while the crack pattern advances. The overlay uses depth testing, no depth write, polygon offset and normal alpha blending to avoid the previous gray/washed-out appearance.
-
-## Java Asset Runtime Bridge
-
-Use the diagnostic command:
-
-`java261`
-
-It reports the active Java version, local/upstream asset roots, celestial paths and Java cloud parameters.
-
-For the break overlay use:
-
-`break261`
-
-This reports the destroy-stage source and active overlay settings.
-
-## Photon Web V15.2 Gauntlet — Preserved
-
-The V15.2 Photon Web pass remains installed underneath V15.3. It includes the source-informed Photon cloud families, cloud-shadow modulation, atmosphere/fog work, depth-aware AO approximation, water motion, bloom/color response and mobile quality profiles. V15.3 does not remove or replace those systems; the Java asset bridge gives the vanilla/Java-facing renderer better source assets while Photon remains an optional graphics layer.
-
-The Photon archive translation remains browser-native rather than binary Iris/OptiFine compatibility.
-
-## Java UI / Options
-
-The Java-style UI hierarchy remains:
+The intended main menu is exactly:
 
 - Singleplayer
 - Multiplayer
@@ -114,18 +54,58 @@ The Java-style UI hierarchy remains:
 - Options...
 - Quit Game
 
-Resource Packs and rendering controls remain under Options. The UI is safe-area aware and responsive for iPhone portrait, short iPhone landscape, iPad and desktop layouts.
+The title is one Minecraft logo with one Java Edition strip beneath it, spaced responsively for landscape and portrait layouts.
 
-## PWA
+Options/resource-pack/video/audio/control screens remain part of the Java-style UI hierarchy.
 
-V15.3 switches the manifest/favicon/Home Screen configuration to the locally cached Java Edition icon. The runtime, stylesheet and manifest URLs are versioned to `0.15.3` to reduce stale Safari/PWA caching after deployment.
+## Photon Web
 
-## Asset-source policy
+Photon Web remains an optional graphics layer on top of the existing voxel renderer. The current project retains the source-informed lighting, fog, atmosphere, cloud, water, AO, bloom/color-response, and mobile quality work from the earlier Photon passes.
 
-For Java Edition presentation and data, V15.3 prefers the local PrismarineJS 26.1 mirror. Existing Bedrock-derived systems may continue using Mojang Bedrock Samples where they already do so. MinecraftWeb does not silently replace a failed Java asset with an unrelated random image.
+## Java 26.1 rendering bridges
 
-## Version
+The Java 26.1 bridge includes:
 
-**Minecraft Web V15.3 — Java 26.1 Asset Gauntlet + Photon Web**  
-Alpha **0.15.3**  
-Java 26.1 assets • Three.js voxel engine • Photon Web • Responsive iPhone/Desktop
+- real Java sun texture
+- Java moon phases
+- Fancy-style cloud geometry derived from the Java cloud coverage map
+- Java destroy-stage overlays for block breaking
+- local-first GUI/title asset routing
+
+Useful diagnostic commands include:
+
+`java261`
+
+and
+
+`break261`
+
+## PWA / browser icon
+
+The canonical icon path is:
+
+`assets/branding/java-edition-icon.png`
+
+That one file is used for:
+
+- regular favicon
+- Safari tab/site icon
+- shortcut icon
+- `apple-touch-icon`
+- Add to Home Screen / installed PWA icon
+- manifest `any` icon
+- manifest `maskable` icon
+
+`.github/workflows/install-java-edition-icon.yml` installs the current `Java_Edition_icon_3.png` source into that local path so the site is not dependent on a remote icon URL at runtime.
+
+Safari and iOS can aggressively cache icons. New builds use versioned icon/manifest URLs. An already-installed Home Screen shortcut may still need to be removed and added again for iOS to replace its cached icon.
+
+## Source cleanup policy
+
+The numbered historical patches remain because later patches depend on parts of their runtime behavior, but V15.7 removes duplicate DOM/menu output at the final stage rather than allowing several generations of title UI to coexist visibly. Cleanup should preserve working gameplay, renderer, world, controls, assets, and audio behavior.
+
+## Current version
+
+**Minecraft Web V15.7 — Java 26.1 + Photon Web**  
+Build **0.15.7**  
+Java 26.1 assets • Three.js voxel engine • Photon Web • iPhone/Desktop responsive UI
