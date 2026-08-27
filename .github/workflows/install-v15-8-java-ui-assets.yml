@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install exact Minecraft Java icon
         shell: bash
@@ -21,8 +23,7 @@ jobs:
           set -euo pipefail
           mkdir -p assets/icon assets/fonts
           ICON_TMP="$(mktemp)"
-          # Exact Java_Edition_icon_3.png referenced by the project/user.
-          curl -fL --retry 3 --connect-timeout 20 \
+          curl -fL --retry 4 --retry-delay 2 --connect-timeout 20 \
             'https://minecraft.wiki/w/Special:Redirect/file/Java_Edition_icon_3.png' \
             -o "$ICON_TMP"
           file "$ICON_TMP"
@@ -43,12 +44,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fL --retry 3 --connect-timeout 20 \
+          curl -fL --retry 4 --retry-delay 2 --connect-timeout 20 \
             'https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff2' \
             -o assets/fonts/Minecraft-Seven.woff2
           test -s assets/fonts/Minecraft-Seven.woff2
 
-      - name: Commit UI assets
+      - name: Commit UI assets safely
         shell: bash
         run: |
           set -euo pipefail
@@ -60,4 +61,13 @@ jobs:
             exit 0
           fi
           git commit -m 'Install exact Java icon and Minecraft Seven font'
-          git push
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push race on attempt $attempt; retrying..."
+            sleep $((attempt * 2))
+          done
+          echo 'Unable to publish UI assets after retries.' >&2
+          exit 1
