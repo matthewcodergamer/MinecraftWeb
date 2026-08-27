@@ -14,6 +14,7 @@ V15.7 is a cleanup/stability pass focused on the title screen, Java audio respon
 - The title contains one `minecraft.png` logo and one Java Edition `edition.png` strip from the local Java 26.1 asset mirror.
 - Old V14/V15 footer fragments and duplicate version text are removed so the bottom-left/bottom-right status line is not stacked on itself.
 - The old static boot-menu markup was removed from `index.html`; the runtime owns the title menu now instead of multiple builders competing for the same DOM.
+- `99-finalize.js` no longer rebuilds the obsolete V14.8 title or writes an old 0.14.8 footer/version over the modern UI.
 - Java button audio still uses the real local OGG sound, but V15.7 keeps a warm HTMLAudio pool so button clicks do not create a brand-new audio element on every tap. This reduces the small Safari/iPhone click delay.
 - The latest Java Edition icon is stored locally at `assets/branding/java-edition-icon.png` and is used for favicon, Safari tab/site icon, Apple touch icon, Add to Home Screen, and the web-app manifest.
 - `manifest.webmanifest`, `index.html`, and the runtime branding patch all point to the same local icon.
@@ -102,7 +103,7 @@ Safari and iOS can aggressively cache icons. New builds use versioned icon/manif
 
 ## Source cleanup policy
 
-The numbered historical patches remain because later patches depend on parts of their runtime behavior, but V15.7 removes duplicate DOM/menu output at the final stage rather than allowing several generations of title UI to coexist visibly. Cleanup should preserve working gameplay, renderer, world, controls, assets, and audio behavior.
+The numbered historical patches remain only where later runtime behavior still depends on them. V15.7 removes duplicate DOM/menu output at the source where safe: the old boot-menu markup is gone from `index.html`, and the legacy finalizer no longer rebuilds the V14.8 title. The final V15.7 title cleanup also removes any surviving footer/title fragments without replacing working gameplay, renderer, world, controls, assets, or audio systems.
 
 ## Current version
 
