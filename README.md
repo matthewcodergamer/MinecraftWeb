@@ -11,8 +11,8 @@ The live runtime is:
 V15.8 fixes the startup regression visible in Safari and moves the browser UI closer to Minecraft Java presentation.
 
 - The `playBtn` / `creativeBtn` startup crash is fixed. The legacy engine core still expects those IDs during initialization, so `index.html` now provides invisible compatibility bindings. The real visible Java menu is still built once by the V15 title runtime.
-- Minecraft browser UI now uses **Minecraft Seven**, sourced from Mojang's public `web-theme-bootstrap` font assets. The font is installed locally at `assets/fonts/Minecraft-Seven.woff2`, with the Mojang raw file as a temporary availability fallback while a fresh deployment is completing.
-- The Java 26.1 bitmap font resources remain available in `assets/java/26.1/font/`; those are game/resource glyph assets, while Minecraft Seven is the browser-ready WOFF2 used by DOM menus, buttons, loading text, options, HUD text, and other HTML UI.
+- Minecraft browser UI now uses **Minecraft Seven**, sourced from Mojang's public `web-theme-bootstrap` font assets. The font is installed locally at `assets/fonts/Minecraft-Seven.woff`, with the Mojang raw WOFF as an availability fallback while a fresh deployment is completing.
+- The Java 26.1 bitmap font resources remain available in `assets/java/26.1/font/`; those are game/resource glyph assets, while Minecraft Seven is the browser-ready webfont used by DOM menus, buttons, loading text, options, HUD text, and other HTML UI.
 - The boot/loading presentation uses the local Java 26.1 panorama and Minecraft-style square progress treatment instead of a generic rounded web loader.
 - The canonical title continues to use only the local Java 26.1 `minecraft.png`, `edition.png`, and Java widget/button assets.
 - A final V15.8 UI bridge removes old title/footer fragments and applies one font/icon/UI source after the compatibility layers have loaded.
@@ -39,11 +39,11 @@ Older duplicate Java folders are **not blindly deleted** while legacy runtime mo
 
 ## Minecraft Seven font
 
-The browser UI font source is Mojang's public `Mojang/web-theme-bootstrap` repository:
+The browser UI font is the Minecraft Seven webfont published in Mojang's public `Mojang/web-theme-bootstrap` repository. V15.8 stores the local copy at:
 
-`assets/fonts/Minecraft-Seven.woff2`
+`assets/fonts/Minecraft-Seven.woff`
 
-V15.8 applies `Minecraft Seven` to the title menu, options screens, Java buttons, loading text, HUD/debug UI, inputs, and other browser-rendered game text. The local font is installed by:
+V15.8 applies `Minecraft Seven` to the title menu, options screens, Java buttons, loading text, HUD/debug UI, inputs, and other browser-rendered game text. The local font and icon are installed by:
 
 `.github/workflows/install-v15-8-java-ui-assets.yml`
 
@@ -80,16 +80,7 @@ Safari/iOS caches favicons and Home Screen icons aggressively. Build URLs are ve
 
 ## Java 26.1 rendering bridges
 
-The Java 26.1 bridge includes:
-
-- real Java sun texture
-- Java moon phases
-- Fancy-style cloud geometry derived from the Java cloud coverage map
-- Java destroy-stage overlays for block breaking
-- local-first GUI/title asset routing
-- Java 26.1 title panorama and widget assets
-
-Useful diagnostic commands include `java261` and `break261`.
+The Java 26.1 bridge includes real Java sun/moon assets, moon phases, Fancy-style clouds, Java destroy-stage block-breaking overlays, local-first GUI/title routing, and the Java 26.1 title panorama/widget assets. Useful diagnostic commands include `java261` and `break261`.
 
 ## Photon Web
 
