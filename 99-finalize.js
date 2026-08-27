@@ -1,6 +1,7 @@
-/* Finalize V14.8 after every Java-first, optimization, fidelity and resource-pack patch has been installed. */
-titlePreviewV8?.dispose();titlePreviewV8=null;ensureTitleWorldV9();v9BuildTitle();
-window.MINECRAFT_WEB_VERSION='0.14.8';window.STUDIO_PATCH_VERSION=typeof STUDIO_V14_8!=='undefined'?STUDIO_V14_8.version:(typeof STUDIO_V14_7D!=='undefined'?STUDIO_V14_7D.version:STUDIO_V14_7.version);
-const v148Small=document.querySelector('#titleContent .v9Small,#titleContent #titleSub');if(v148Small&&/Minecraft Web/.test(v148Small.textContent||''))v148Small.textContent='Minecraft Web Alpha 0.14.8 • Photon Web V1 • Resource Packs';
-try{addResourcePackTitleButtonV148?.();ensureResourcePackPanelV148?.();ensureHotbarBottomV148?.();}catch{}
-window.__voxelDiag?.log?.('FINAL READY Minecraft Web Alpha 0.14.8: all V14.6/V14.7 engine, rendering, Java UI, audio, entity, collision and fidelity systems remain active; V14.8 adds the Resource & Graphics Pack manager, Photon Web V1 palette/lighting/fog/tone-mapping profiles, persistent iOS-safe bottom hotbar positioning and updated standalone web-app metadata.','ok');
+/* Legacy engine/resource-pack finalizer.
+ * V15.7 owns the title/menu DOM. Do NOT rebuild the old V14.8 title here.
+ */
+try{titlePreviewV8?.dispose?.();titlePreviewV8=null;}catch{}
+try{ensureTitleWorldV9?.();}catch{}
+try{ensureResourcePackPanelV148?.();ensureHotbarBottomV148?.();}catch{}
+window.__voxelDiag?.log?.('LEGACY FINALIZER: engine/resource-pack helpers finalized; obsolete V14.8 title rebuild and duplicate version footer intentionally disabled for V15.7.','ok');
