@@ -1,0 +1,63 @@
+name: Install V15.8 Java UI assets
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/install-v15-8-java-ui-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  install-ui-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install exact Minecraft Java icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/icon assets/fonts
+          ICON_TMP="$(mktemp)"
+          # Exact Java_Edition_icon_3.png referenced by the project/user.
+          curl -fL --retry 3 --connect-timeout 20 \
+            'https://minecraft.wiki/w/Special:Redirect/file/Java_Edition_icon_3.png' \
+            -o "$ICON_TMP"
+          file "$ICON_TMP"
+          python3 - "$ICON_TMP" <<'PY'
+          import struct, sys
+          p=sys.argv[1]
+          b=open(p,'rb').read()
+          if not b.startswith(b'\x89PNG\r\n\x1a\n'):
+              raise SystemExit('Downloaded Java icon is not PNG')
+          w,h=struct.unpack('>II',b[16:24])
+          print(f'Java icon: {w}x{h}, {len(b)} bytes')
+          if w < 128 or h < 128:
+              raise SystemExit('Java icon is unexpectedly small')
+          PY
+          mv "$ICON_TMP" assets/icon/minecraft-java-icon.png
+
+      - name: Install official Mojang Minecraft Seven web font
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --connect-timeout 20 \
+            'https://raw.githubusercontent.com/Mojang/web-theme-bootstrap/main/assets/fonts/Minecraft-Seven_v2.woff2' \
+            -o assets/fonts/Minecraft-Seven.woff2
+          test -s assets/fonts/Minecraft-Seven.woff2
+
+      - name: Commit UI assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/icon/minecraft-java-icon.png assets/fonts/Minecraft-Seven.woff2
+          if git diff --cached --quiet; then
+            echo 'UI assets already current.'
+            exit 0
+          fi
+          git commit -m 'Install exact Java icon and Minecraft Seven font'
+          git push
