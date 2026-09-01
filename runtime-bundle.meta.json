@@ -1,5 +1,5 @@
 {
-  "build": "0.15.9.2",
+  "build": "0.16.0",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -53,7 +53,8 @@
     "104b-v15-9-lifecycle-quit.js",
     "104c-v15-9-inventory-hud-drop.js",
     "104d-v15-9-render-pipeline.js",
-    "105-v15-9-1-world-loading-title-dedupe.js"
+    "105-v15-9-1-world-loading-title-dedupe.js",
+    "106-v16-0-desktop-vanilla-fidelity.js"
   ],
-  "sha256": "ce4e0ac874438818db8c00326cb0a304190112c08f3fb046d1d2f83eb3c4ea1f"
+  "sha256": "4b3015ec412d3db28123b0c79ef0a5d8e4b6d97b229355896eae724a46a31cbe"
 }
