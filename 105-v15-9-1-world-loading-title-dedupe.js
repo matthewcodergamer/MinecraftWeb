@@ -1,17 +1,17 @@
-/* Minecraft Web V15.9.1 — canonical Java Edition title + Java-style world loading screen. */
+/* Minecraft Web V15.9.2 — stable title repair + Java-style world loading without persistent DOM churn. */
 (function(){
   'use strict';
 
-  const BUILD='0.15.9.1';
+  const BUILD='0.15.9.2';
   const JAVA='./assets/java/26.1/';
+  const MINECRAFT_SRC=`${JAVA}gui/title/minecraft.png`;
   const EDITION_SRC=`${JAVA}gui/title/edition.png`;
   const ICON_SRC=`./assets/icon/minecraft-java-icon.png?v=${BUILD}`;
   const $=id=>document.getElementById(id);
   const clamp01=v=>Math.max(0,Math.min(1,Number(v)||0));
 
   function installStyle(){
-    const old=$('v1591WorldLoadTitleStyle');
-    if(old)old.remove();
+    $('v1591WorldLoadTitleStyle')?.remove();
     const style=document.createElement('style');
     style.id='v1591WorldLoadTitleStyle';
     style.textContent=`
@@ -27,9 +27,7 @@
       #titleContent img[src*="gui/title/edition.png"]:not(#javaEditionV15),
       #titleContent #javaEditionLogoV148C2,
       #titleContent #javaEditionLogoV148C3,
-      #titleContent #javaBootEdition{
-        display:none!important;
-      }
+      #titleContent #javaBootEdition{display:none!important}
       @media(orientation:landscape) and (max-height:520px){
         #titleContent #javaEditionV15{width:min(164px,28vw)!important;max-width:38%!important;margin:-12px auto 7px!important}
       }
@@ -53,7 +51,8 @@
         background-position:0 0,0 0!important;
         background-repeat:repeat,repeat!important;
         image-rendering:pixelated!important;
-        transition:opacity .16s linear!important;
+        transition:opacity .14s linear!important;
+        will-change:opacity;
         pointer-events:auto!important;
       }
       #loading.v15Loading.v1591WorldLoading::before{
@@ -94,24 +93,12 @@
         text-shadow:2px 2px #222!important;
       }
       #v1591WorldLoadHeadline{
-        position:relative;
-        z-index:2;
-        order:1;
-        margin-bottom:7px;
-        color:#fff;
-        font:18px/1.2 'Minecraft Seven','Courier New',monospace;
-        text-align:center;
-        text-shadow:2px 2px #222;
+        position:relative;z-index:2;order:1;margin-bottom:7px;color:#fff;
+        font:18px/1.2 'Minecraft Seven','Courier New',monospace;text-align:center;text-shadow:2px 2px #222;
       }
       #v1591WorldLoadPercent{
-        position:relative;
-        z-index:2;
-        order:4;
-        margin-top:0;
-        color:#fff;
-        font:13px/1.2 'Minecraft Seven','Courier New',monospace;
-        text-align:center;
-        text-shadow:2px 2px #222;
+        position:relative;z-index:2;order:4;margin-top:0;color:#fff;
+        font:13px/1.2 'Minecraft Seven','Courier New',monospace;text-align:center;text-shadow:2px 2px #222;
       }
       @media(orientation:landscape) and (max-height:520px){
         #loading.v15Loading.v1591WorldLoading{gap:6px!important}
@@ -125,7 +112,7 @@
   }
 
   let canonicalizing=false;
-  let canonicalQueued=false;
+  let repairQueued=false;
 
   function isMinecraftLogo(img){
     const src=img.getAttribute('src')||'';
@@ -144,30 +131,30 @@
     if(!content)return;
     canonicalizing=true;
     try{
-      const logoCandidates=[...content.querySelectorAll('img')].filter(isMinecraftLogo);
-      let logo=logoCandidates.find(img=>img.id==='mcLogo')||logoCandidates[0]||null;
+      const logos=[...content.querySelectorAll('img')].filter(isMinecraftLogo);
+      let logo=logos.find(img=>img.id==='mcLogo')||logos[0]||null;
       if(logo){
         logo.id='mcLogo';
-        logo.alt='Minecraft';
-        logo.src=`${JAVA}gui/title/minecraft.png`;
-        logoCandidates.forEach(img=>{if(img!==logo)img.remove()});
+        if(logo.alt!=='Minecraft')logo.alt='Minecraft';
+        if(logo.getAttribute('src')!==MINECRAFT_SRC)logo.src=MINECRAFT_SRC;
+        logos.forEach(img=>{if(img!==logo)img.remove()});
       }
 
-      let editionCandidates=[...content.querySelectorAll('img')].filter(isJavaEditionLogo);
-      let edition=editionCandidates.find(img=>img.id==='javaEditionV15')||editionCandidates[0]||null;
+      let editions=[...content.querySelectorAll('img')].filter(isJavaEditionLogo);
+      let edition=editions.find(img=>img.id==='javaEditionV15')||editions[0]||null;
       if(!edition&&logo){
         edition=document.createElement('img');
         edition.id='javaEditionV15';
         edition.alt='Java Edition';
         edition.src=EDITION_SRC;
         logo.insertAdjacentElement('afterend',edition);
-        editionCandidates=[edition];
+        editions=[edition];
       }
       if(edition){
         edition.id='javaEditionV15';
-        edition.alt='Java Edition';
-        edition.src=EDITION_SRC;
-        editionCandidates.forEach(img=>{if(img!==edition)img.remove()});
+        if(edition.alt!=='Java Edition')edition.alt='Java Edition';
+        if(edition.getAttribute('src')!==EDITION_SRC)edition.src=EDITION_SRC;
+        editions.forEach(img=>{if(img!==edition)img.remove()});
         content.querySelectorAll('#javaEditionLogoV148C2,#javaEditionLogoV148C3,#javaBootEdition').forEach(img=>{if(img!==edition)img.remove()});
         if(logo&&logo.nextElementSibling!==edition)logo.insertAdjacentElement('afterend',edition);
       }
@@ -177,44 +164,34 @@
         const html=`<span>Minecraft Web ${BUILD}</span><span>Java 26.1 • Three.js • Photon Web</span>`;
         if(footer.innerHTML!==html)footer.innerHTML=html;
       }
-    } finally {
+    }finally{
       canonicalizing=false;
     }
   }
 
-  function queueCanonicalize(){
-    if(canonicalQueued)return;
-    canonicalQueued=true;
+  function queueTitleRepair(){
+    if(repairQueued)return;
+    repairQueued=true;
     queueMicrotask(()=>{
-      canonicalQueued=false;
+      repairQueued=false;
       canonicalizeTitle();
     });
   }
 
-  function installTitleObserver(){
-    const title=$('titleScreen');
-    if(!title)return;
-    const old=window.__v1591TitleObserver;
-    try{old?.disconnect?.()}catch{}
-    const observer=new MutationObserver(queueCanonicalize);
-    observer.observe(title,{childList:true,subtree:true});
-    window.__v1591TitleObserver=observer;
+  function installTitleRepair(){
+    try{window.__v1591TitleObserver?.disconnect?.()}catch{}
+    window.__v1591TitleObserver=null;
     canonicalizeTitle();
     requestAnimationFrame(canonicalizeTitle);
-    [80,240,650,1400,2800].forEach(ms=>setTimeout(canonicalizeTitle,ms));
+    [70,220,650].forEach(ms=>setTimeout(canonicalizeTitle,ms));
   }
 
   function applyVersionedIcon(){
     for(const rel of ['icon','shortcut icon','apple-touch-icon']){
       let link=document.head.querySelector(`link[rel="${rel}"]`);
-      if(!link){
-        link=document.createElement('link');
-        link.rel=rel;
-        document.head.appendChild(link);
-      }
-      link.href=ICON_SRC;
-      if(rel!=='apple-touch-icon')link.type='image/png';
-      else link.removeAttribute('type');
+      if(!link){link=document.createElement('link');link.rel=rel;document.head.appendChild(link)}
+      if(link.getAttribute('href')!==ICON_SRC)link.href=ICON_SRC;
+      if(rel!=='apple-touch-icon')link.type='image/png';else link.removeAttribute('type');
     }
   }
 
@@ -283,7 +260,7 @@
       ui.loading.style.setProperty('visibility','hidden','important');
       ui.loading.style.setProperty('pointer-events','none','important');
       document.documentElement.classList.remove('v1591WorldStarting');
-    },180);
+    },150);
   }
 
   function installWorldLoadingPatch(){
@@ -302,11 +279,8 @@
       Game.prototype.__v1591BootBase=Game.prototype.boot;
       Game.prototype.boot=async function(...args){
         this.__v1591FreshWorldLoading=!!args[1];
-        try{
-          return await this.__v1591BootBase.apply(this,args);
-        } finally {
-          this.__v1591FreshWorldLoading=false;
-        }
+        try{return await this.__v1591BootBase.apply(this,args)}
+        finally{this.__v1591FreshWorldLoading=false}
       };
     }
 
@@ -315,11 +289,17 @@
       Game.prototype.newWorld=async function(...args){
         this.__v1591FreshWorldLoading=true;
         presentWorldLoading(this,true,0,'Preparing for world creation...');
-        try{
-          return await this.__v1591NewWorldBase.apply(this,args);
-        } catch(error){
+        try{return await this.__v1591NewWorldBase.apply(this,args)}
+        catch(error){
           const ui=ensureWorldLoadingChrome();
-          if(ui?.text)ui.text.textContent=`World failed to load: ${error?.message||'Unknown error'}`;
+          if(ui){
+            ui.loading.classList.remove('mcBootLeaving','mcBootGone');
+            ui.loading.classList.add('show','v1591WorldLoading');
+            ui.loading.style.removeProperty('display');
+            ui.loading.style.removeProperty('visibility');
+            if(ui.text)ui.text.textContent=`World failed to load: ${error?.message||'Unknown error'}`;
+            if(ui.headline)ui.headline.textContent='Unable to start world';
+          }
           throw error;
         }
       };
@@ -328,21 +308,17 @@
 
   installStyle();
   applyVersionedIcon();
-  installTitleObserver();
+  installTitleRepair();
   installWorldLoadingPatch();
 
-  if(typeof window.rebuildCanonicalTitleV158==='function'&&!window.rebuildCanonicalTitleV158.__v1591Wrapped){
+  if(typeof window.rebuildCanonicalTitleV158==='function'&&!window.rebuildCanonicalTitleV158.__v1592Wrapped){
     const base=window.rebuildCanonicalTitleV158;
-    const wrapped=function(...args){
-      const result=base.apply(this,args);
-      queueCanonicalize();
-      return result;
-    };
-    wrapped.__v1591Wrapped=true;
+    const wrapped=function(...args){const r=base.apply(this,args);queueTitleRepair();return r};
+    wrapped.__v1592Wrapped=true;
     window.rebuildCanonicalTitleV158=wrapped;
   }
 
   window.MINECRAFT_WEB_VERSION=BUILD;
-  window.STUDIO_PATCH_VERSION='0.15.9.1-world-loading-title-dedupe';
-  window.__voxelDiag?.log?.('V15.9.1 READY: exactly one Java Edition title mark, corrected title sizing, and Java-style dirt world-loading screen for Create/Load World.','ok');
+  window.STUDIO_PATCH_VERSION='0.15.9.2-startup-world-loading-stability';
+  window.__voxelDiag?.log?.('V15.9.2 READY: title repair is bounded instead of continuously observed, and Java world loading is hardened against black-screen failure.','ok');
 })();
