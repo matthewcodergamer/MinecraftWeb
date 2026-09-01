@@ -1,0 +1,82 @@
+name: Build cached Minecraft runtime bundle
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '*.js'
+      - '!runtime-bundle.js'
+      - '!game.js'
+      - '.github/workflows/build-runtime-bundle.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: minecraft-runtime-bundle-main
+  cancel-in-progress: true
+
+jobs:
+  build-runtime-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build stable HTTP module bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('fs');
+          const crypto=require('crypto');
+          const loader=fs.readFileSync('runtime-loader.js','utf8');
+          const match=loader.match(/const\s+SOURCE_PARTS\s*=\s*\[([\s\S]*?)\]\s*;/);
+          if(!match)throw new Error('SOURCE_PARTS not found in runtime-loader.js');
+          const parts=[...match[1].matchAll(/'([^']+\.js)'/g)].map(m=>m[1]);
+          if(!parts.length)throw new Error('SOURCE_PARTS is empty');
+          for(const file of parts){if(!fs.existsSync(file))throw new Error(`Missing runtime source part: ${file}`)}
+          const buildMatch=loader.match(/const\s+RUNTIME_BUILD_ID\s*=\s*'([^']+)'/);
+          const build=buildMatch?buildMatch[1]:'unknown';
+          const chunks=[];
+          chunks.push(`/* Minecraft Web cached runtime bundle ${build}. Generated from runtime-loader.js SOURCE_PARTS. */`);
+          for(const file of parts){
+            chunks.push(`\n/* ===== BEGIN ${file} ===== */\n`);
+            chunks.push(fs.readFileSync(file,'utf8'));
+            chunks.push(`\n/* ===== END ${file} ===== */\n`);
+          }
+          chunks.push(`\n//# sourceURL=minecraft-runtime-bundle-${build.replace(/[^a-zA-Z0-9_-]/g,'-')}.js\n`);
+          const output=chunks.join('');
+          fs.writeFileSync('runtime-bundle.js',output);
+          const sha256=crypto.createHash('sha256').update(output).digest('hex');
+          fs.writeFileSync('runtime-bundle.meta.json',JSON.stringify({build,parts,sha256},null,2)+'\n');
+          console.log(`Built runtime-bundle.js: ${parts.length} parts, ${output.length} bytes, sha256=${sha256}`);
+          NODE
+          cp runtime-bundle.js /tmp/runtime-bundle.mjs
+          node --check /tmp/runtime-bundle.mjs
+
+      - name: Commit bundle if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add runtime-bundle.js runtime-bundle.meta.json
+          if git diff --cached --quiet; then
+            echo 'Runtime bundle already current.'
+            exit 0
+          fi
+          git commit -m 'Build cached Minecraft runtime bundle [skip ci]'
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push race on attempt $attempt; retrying..."
+            sleep $((attempt * 2))
+          done
+          echo 'Unable to publish runtime bundle after retries.' >&2
+          exit 1
