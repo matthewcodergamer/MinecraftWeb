@@ -1,35 +1,49 @@
-# Minecraft Web V15.9 — Java 26.1 + Minecraft Seven + Photon Web
+# Minecraft Web V16.0 — Java 26.1 Vanilla Fidelity + Desktop Controls
 
-Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current build is **0.15.9** and targets responsive desktop and mobile play, including iPhone Safari.
+Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current build is **0.16.0** and targets responsive desktop and mobile play, including iPhone Safari.
 
 The live runtime is:
 
-`index.html` → `runtime-loader.js` → ordered numbered source parts
+`index.html` → `runtime-loader.js` → cached `runtime-bundle.js` generated from the ordered numbered source parts
+
+## V16.0 desktop + vanilla fidelity repair
+
+V16.0 focuses on the visible desktop/rendering problems captured during real gameplay testing and on making the default world presentation much closer to Minecraft Java rather than a generic shader look.
+
+- **Desktop pointer lock is now authoritative.** On a fine mouse/keyboard device, the touch look surface no longer sits above the canvas. Clicking gameplay requests pointer lock, hides the operating-system cursor after lock, and leaves the Minecraft crosshair as the aiming reference.
+- **Desktop mouse actions are repaired.** Left mouse uses the existing primary attack/mine path, right mouse uses the selected item/block, and pointer lock exits when inventory, crafting, furnace, creative inventory, or the pause menu is opened.
+- **Desktop keyboard routing is de-duplicated.** Existing WASD/Space movement remains active, while E, C and 1–9 are intercepted once so older input layers cannot toggle the same UI/hotbar action twice.
+- **Touch-only controls are hidden on desktop.** The movement pad, mobile action buttons, mobile hint, sprint/drop/camera touch controls and related overlays remain available on coarse/touch devices but are removed from fine-pointer gameplay.
+- **The Java HUD is re-laid out around the 182-pixel Java hotbar geometry at 2× scale.** Hearts and hunger share the main row, XP aligns to the hotbar, armor sits above hearts, oxygen sits above hunger, and the entire HUD scales from the visual viewport so it remains usable in desktop windows and phone portrait/landscape layouts.
+- **The sun is a real depth-tested sky element again.** The Java 26.1 celestial patch had disabled depth testing and placed the sun very close to the camera. V16 keeps a camera-relative infinitely-distant sky direction, moves the disc near the far sky plane, enables depth testing, and allows terrain/grass/blocks to occlude it.
+- **The remaining dark matte around the Java sun is cleaned from the actual Java 26.1 sun texture at runtime.**
+- **Vanilla Java sky/day/night is authoritative over the Photon sky stack.** V16 uses the 24,000-tick / 20-minute cycle, full daylight sky-light level 15, sunset 12000–13000, night minimum internal sky-light level 4, and sunrise 23000–24000. The palette uses a lighter Minecraft-style daytime blue, warm sunrise/sunset horizon, dark navy night, and stars.
+- **Sky light now affects terrain instead of only recoloring the background.** Render-section vertex colors receive a cached sky-exposure factor so roofs and caves no longer receive the same sky contribution as exposed terrain. The global day/night sky contribution then changes every frame, keeping open terrain bright during the day and darkening it naturally at night.
+- **Mobs, first-person items and the player arm use lit Lambert materials** so the same world lighting affects them instead of leaving large flat unlit shapes over the scene.
+- **Java 26.1 Fancy clouds are restored as the visible cloud layer.** Day clouds are white, night clouds dim, sunrise/sunset adds a restrained warm tint, and side/underside shading is intentionally mild instead of the heavy Photon cloud-shadow look.
+- **Competing Photon atmosphere/cloud/post/shadow/water passes are suppressed in the vanilla-fidelity path.** Photon remains installed as compatibility/resource-pack code, but it no longer darkens the default world, overlays a second sky, adds procedural cloud shadows, or distorts the vanilla water path during this renderer mode.
+- **Pickaxes, axes, swords and other generated items now use their real Java item textures for 3D held and dropped models.** The V14.7 colored-cuboid tool substitute is bypassed in favor of the existing Java pixel-extrusion geometry.
+- **Dropped non-block items use opaque, depth-tested world materials.** Water keeps depth testing with depth writes disabled, reducing the incorrect water-color overlay on items that are physically above the water surface.
+- **Torch held/drop rendering uses the Java torch texture and 3D torch geometry**, while the existing local torch/block-light systems remain available for world lighting.
+- **The empty-hand arm is smaller and uses the Java 26.1 Steve skin** instead of the oversized flat peach cuboid.
+- A new diagnostic command, `v160`, reports pointer-lock state, HUD scale, current day tick/internal sky-light value, Java-cloud state, celestial depth testing and the active item-render path.
 
 ## V15.9 gameplay/render repair
 
-V15.9 is a stability and gameplay pass focused on the problems visible on mobile Safari/iPhone and the Photon renderer.
+- **Singleplayer opens a Java-style Select World screen** instead of immediately creating a Survival world. The current local browser save is selectable with Play Selected World, Create New World, Edit, Delete, Re-Create and Cancel actions.
+- **Quit Game terminates the active runtime state** and stops/suspends audio. When browser security prevents programmatically closing a tab/PWA, Minecraft enters an inert quit screen.
+- **PWA/background audio is suspended** on `visibilitychange`, `pagehide` and page `freeze` and resumes only after a new user gesture.
+- **Inventory drag-out/drop is repaired for touch/iOS.**
+- **Java-style quick dropping:** Q drops one item, Ctrl/Meta+Q drops the selected stack, and mobile has hold-to-repeat Q.
+- **Oxygen bubbles are separated from armor/hearts.**
+- **The original V15.9 sky/Photon clip repair** keeps oversized atmospheric geometry inside the camera far plane and limits expensive mobile post/cloud work.
 
-- **Singleplayer now opens a Java-style Select World screen** instead of immediately creating a new Survival world. The current local browser save is shown as a selectable world, with Play Selected World, Create New World, Edit, Delete, Re-Create and Cancel actions.
-- **Quit Game now terminates the active runtime state**: the game loop is stopped, music/audio are stopped and Web Audio contexts are suspended. Browsers are not allowed to close every tab/PWA programmatically, so when `window.close()` is denied the app enters a black, inert “Minecraft has quit” screen.
-- **PWA/background audio is suspended** on `visibilitychange`, `pagehide` and page `freeze`; audio can resume only after the app becomes visible and receives a user gesture.
-- **Inventory drag-out/drop is repaired for touch/iOS** with window-level pointer routing. A dragged stack is consumed from the inventory only after the dropped entity is actually spawned.
-- **Java-style quick dropping is restored/extended**: Q drops one item, Ctrl/Meta+Q drops the selected stack, and mobile has a hold-to-repeat Q control for rapidly throwing items.
-- **Underwater oxygen bubbles are moved above the hunger side of the HUD**, separate from armor/hearts.
-- **Vanilla sky and lighting are rebuilt around Minecraft's 24,000-tick / 20-minute day**, with sunrise/sunset warm horizons, dark-blue night, stars, weather-aware fog, and the existing Java 26.1 sun/moon/moon-phase assets.
-- **Photon's circular/fisheye clipping is repaired** by keeping its atmospheric/cloud geometry inside the camera far plane instead of letting oversized sky spheres intersect the far clip plane.
-- **Photon is lighter on phones**: the expensive full-screen post chain is disabled on coarse/touch devices, Lite uses one volumetric cloud layer, other mobile profiles use at most two, and duplicate vanilla/Photon cloud systems no longer render simultaneously.
+## V15.8 startup/UI repair
 
-## V15.8 critical fixes
-
-V15.8 fixes the startup regression visible in Safari and moves the browser UI closer to Minecraft Java presentation.
-
-- The `playBtn` / `creativeBtn` startup crash is fixed. The legacy engine core still expects those IDs during initialization, so `index.html` now provides invisible compatibility bindings. The real visible Java menu is still built once by the V15 title runtime.
-- Minecraft browser UI now uses **Minecraft Seven**, sourced from Mojang's public `web-theme-bootstrap` font assets. The font is installed locally at `assets/fonts/Minecraft-Seven.woff`, with the Mojang raw WOFF as an availability fallback while a fresh deployment is completing.
-- The Java 26.1 bitmap font resources remain available in `assets/java/26.1/font/`; those are game/resource glyph assets, while Minecraft Seven is the browser-ready webfont used by DOM menus, buttons, loading text, options, HUD text, and other HTML UI.
-- The boot/loading presentation uses the local Java 26.1 panorama and Minecraft-style square progress treatment instead of a generic rounded web loader.
-- The canonical title continues to use only the local Java 26.1 `minecraft.png`, `edition.png`, and Java widget/button assets.
-- A final V15.8 UI bridge removes old title/footer fragments and applies one font/icon/UI source after the compatibility layers have loaded.
+- Fixed the `playBtn` / `creativeBtn` compatibility-startup regression.
+- Browser UI uses **Minecraft Seven** from the local `assets/fonts/Minecraft-Seven.woff` copy with Mojang's public webfont as an availability fallback.
+- Loading/title presentation uses Java 26.1 panorama/widget assets.
+- The canonical title uses one Minecraft logo, one Java Edition strip, one menu and one footer.
 
 ## Java 26.1 is the Java-facing source of truth
 
@@ -37,29 +51,20 @@ The preferred Java asset root is:
 
 `assets/java/26.1/`
 
-The V15.8 bridge exposes this root as the canonical Java-facing asset location for GUI, title art, block/item textures, environment/celestial textures, entities, bitmap font resources, metadata and other files present in the PrismarineJS 26.1 mirror.
-
-Important UI assets include:
+Important assets include:
 
 - `assets/java/26.1/gui/title/minecraft.png`
 - `assets/java/26.1/gui/title/edition.png`
 - `assets/java/26.1/gui/title/background/panorama_*.png`
 - `assets/java/26.1/gui/sprites/widget/button.png`
 - `assets/java/26.1/gui/sprites/widget/button_highlighted.png`
-- `assets/java/26.1/gui/sprites/widget/button_disabled.png`
+- `assets/java/26.1/environment/celestial/sun.png`
+- `assets/java/26.1/environment/celestial/moon/`
+- `assets/java/26.1/environment/clouds.png`
+- `assets/java/26.1/entity/player/wide/steve.png`
 - `assets/java/26.1/font/`
 
-Older duplicate Java folders are **not blindly deleted** while legacy runtime modules still reference them. Cleanup is staged: new Java-facing UI/render paths are moved to `26.1` first, then an old duplicate may be removed only after its remaining references are eliminated. This avoids breaking working gameplay/audio just to reduce repository size.
-
-## Minecraft Seven font
-
-The browser UI font is the Minecraft Seven webfont published in Mojang's public `Mojang/web-theme-bootstrap` repository. V15.8 stores the local copy at:
-
-`assets/fonts/Minecraft-Seven.woff`
-
-V15.8 applies `Minecraft Seven` to the title menu, options screens, Java buttons, loading text, HUD/debug UI, inputs, and other browser-rendered game text. The local font and icon are installed by:
-
-`.github/workflows/install-v15-8-java-ui-assets.yml`
+Older duplicate Java folders are not blindly deleted while compatibility modules still reference them. New Java-facing paths move to 26.1 first; old fallbacks can be removed only after their remaining references are gone.
 
 ## Java audio
 
@@ -68,40 +73,14 @@ The current working Java OGG compatibility library remains under:
 - `assets/java/sounds.json`
 - `assets/java/sounds/**/*.ogg`
 
-The 26.1 mirror currently does not expose a matching `assets/java/26.1/sounds/` directory in this repository, so V15.8 does **not** break audio by redirecting working sound paths to a directory that is not present. UI click audio remains prewarmed for lower Safari latency.
+The 26.1 mirror does not currently expose a matching `assets/java/26.1/sounds/` directory in this repository, so working audio is not redirected to a missing path.
 
-## One canonical title/menu
+## Resource / graphics packs
 
-The intended main menu is exactly:
-
-- Singleplayer
-- Multiplayer
-- Minecraft Realms
-- Options...
-- Quit Game
-
-There is one Minecraft logo, one Java Edition strip beneath it, one menu, and one version footer. Historical title builders remain compatibility code only; they are not supposed to leave duplicate visible UI.
-
-## Exact Java Edition icon
-
-The new canonical browser/PWA icon path is:
-
-`assets/icon/minecraft-java-icon.png`
-
-The V15.8 installer retrieves the exact `Java_Edition_icon_3.png` referenced for the project and stores it under the dedicated `assets/icon/` directory. `index.html`, the runtime branding bridge, `apple-touch-icon`, favicon/shortcut icon, and `manifest.webmanifest` all point to this one path.
-
-Safari/iOS caches favicons and Home Screen icons aggressively. Build URLs are versioned to `0.15.9`; an already-installed Home Screen shortcut can still require removal and re-adding after deployment for iOS to discard its old cached icon.
-
-## Java 26.1 rendering bridges
-
-The Java 26.1 bridge includes real Java sun/moon assets, moon phases, Fancy-style clouds, Java destroy-stage block-breaking overlays, local-first GUI/title routing, and the Java 26.1 title panorama/widget assets. Useful diagnostic commands include `java261` and `break261`.
-
-## Photon Web
-
-Photon Web remains an optional graphics layer on top of the existing voxel renderer. The current project retains the lighting, fog, atmosphere, cloud, water, AO, bloom/color-response, and mobile quality work from the earlier Photon passes.
+Photon Web remains installed as an optional/compatibility graphics layer. V16.0 deliberately makes the vanilla Java-fidelity sky, clouds, water color and day/night lighting authoritative during normal gameplay so legacy Photon passes cannot stack on top of each other and produce the dark/fisheye/overlaid result seen in prior builds.
 
 ## Current version
 
-**Minecraft Web V15.9 — Java 26.1 + Minecraft Seven + Photon Web**  
-Build **0.15.9**  
-Java 26.1 assets • Minecraft Seven UI • Three.js voxel engine • Photon Web • iPhone/Desktop responsive UI
+**Minecraft Web V16.0 — Java 26.1 Vanilla Fidelity + Desktop Controls**  
+Build **0.16.0**  
+Java 26.1 assets • Minecraft Seven UI • Three.js voxel engine • responsive desktop/mobile controls • optional Photon compatibility
