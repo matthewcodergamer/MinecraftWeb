@@ -1,10 +1,24 @@
-# Minecraft Web V15.8 — Java 26.1 + Minecraft Seven + Photon Web
+# Minecraft Web V15.9 — Java 26.1 + Minecraft Seven + Photon Web
 
-Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current build is **0.15.8** and targets responsive desktop and mobile play, including iPhone Safari.
+Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current build is **0.15.9** and targets responsive desktop and mobile play, including iPhone Safari.
 
 The live runtime is:
 
 `index.html` → `runtime-loader.js` → ordered numbered source parts
+
+## V15.9 gameplay/render repair
+
+V15.9 is a stability and gameplay pass focused on the problems visible on mobile Safari/iPhone and the Photon renderer.
+
+- **Singleplayer now opens a Java-style Select World screen** instead of immediately creating a new Survival world. The current local browser save is shown as a selectable world, with Play Selected World, Create New World, Edit, Delete, Re-Create and Cancel actions.
+- **Quit Game now terminates the active runtime state**: the game loop is stopped, music/audio are stopped and Web Audio contexts are suspended. Browsers are not allowed to close every tab/PWA programmatically, so when `window.close()` is denied the app enters a black, inert “Minecraft has quit” screen.
+- **PWA/background audio is suspended** on `visibilitychange`, `pagehide` and page `freeze`; audio can resume only after the app becomes visible and receives a user gesture.
+- **Inventory drag-out/drop is repaired for touch/iOS** with window-level pointer routing. A dragged stack is consumed from the inventory only after the dropped entity is actually spawned.
+- **Java-style quick dropping is restored/extended**: Q drops one item, Ctrl/Meta+Q drops the selected stack, and mobile has a hold-to-repeat Q control for rapidly throwing items.
+- **Underwater oxygen bubbles are moved above the hunger side of the HUD**, separate from armor/hearts.
+- **Vanilla sky and lighting are rebuilt around Minecraft's 24,000-tick / 20-minute day**, with sunrise/sunset warm horizons, dark-blue night, stars, weather-aware fog, and the existing Java 26.1 sun/moon/moon-phase assets.
+- **Photon's circular/fisheye clipping is repaired** by keeping its atmospheric/cloud geometry inside the camera far plane instead of letting oversized sky spheres intersect the far clip plane.
+- **Photon is lighter on phones**: the expensive full-screen post chain is disabled on coarse/touch devices, Lite uses one volumetric cloud layer, other mobile profiles use at most two, and duplicate vanilla/Photon cloud systems no longer render simultaneously.
 
 ## V15.8 critical fixes
 
@@ -76,7 +90,7 @@ The new canonical browser/PWA icon path is:
 
 The V15.8 installer retrieves the exact `Java_Edition_icon_3.png` referenced for the project and stores it under the dedicated `assets/icon/` directory. `index.html`, the runtime branding bridge, `apple-touch-icon`, favicon/shortcut icon, and `manifest.webmanifest` all point to this one path.
 
-Safari/iOS caches favicons and Home Screen icons aggressively. Build URLs are versioned to `0.15.8`; an already-installed Home Screen shortcut can still require removal and re-adding after deployment for iOS to discard its old cached icon.
+Safari/iOS caches favicons and Home Screen icons aggressively. Build URLs are versioned to `0.15.9`; an already-installed Home Screen shortcut can still require removal and re-adding after deployment for iOS to discard its old cached icon.
 
 ## Java 26.1 rendering bridges
 
@@ -88,6 +102,6 @@ Photon Web remains an optional graphics layer on top of the existing voxel rende
 
 ## Current version
 
-**Minecraft Web V15.8 — Java 26.1 + Minecraft Seven + Photon Web**  
-Build **0.15.8**  
+**Minecraft Web V15.9 — Java 26.1 + Minecraft Seven + Photon Web**  
+Build **0.15.9**  
 Java 26.1 assets • Minecraft Seven UI • Three.js voxel engine • Photon Web • iPhone/Desktop responsive UI
