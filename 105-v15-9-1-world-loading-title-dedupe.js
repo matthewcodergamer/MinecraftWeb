@@ -173,7 +173,10 @@
       }
 
       const footer=$('v158Footer');
-      if(footer)footer.innerHTML=`<span>Minecraft Web ${BUILD}</span><span>Java 26.1 • Three.js • Photon Web</span>`;
+      if(footer){
+        const html=`<span>Minecraft Web ${BUILD}</span><span>Java 26.1 • Three.js • Photon Web</span>`;
+        if(footer.innerHTML!==html)footer.innerHTML=html;
+      }
     } finally {
       canonicalizing=false;
     }
