@@ -1,4 +1,4 @@
-/* Minecraft Web cached runtime bundle 0.15.9.1. Generated from runtime-loader.js SOURCE_PARTS. */
+/* Minecraft Web cached runtime bundle 0.15.9.2. Generated from runtime-loader.js SOURCE_PARTS. */
 /* ===== BEGIN 00-engine-core.js ===== */
 
 import * as THREE from 'three';
@@ -9328,4 +9328,4 @@ window.__voxelDiag?.log?.('V15.8 BRANDING compatibility bridge points to the can
 
 /* ===== END 105-v15-9-1-world-loading-title-dedupe.js ===== */
 
-//# sourceURL=minecraft-runtime-bundle-0-15-9-1.js
+//# sourceURL=minecraft-runtime-bundle-0-15-9-2.js
