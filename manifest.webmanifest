@@ -2,8 +2,8 @@
   "id": "./",
   "name": "Minecraft",
   "short_name": "Minecraft",
-  "description": "Minecraft Web — Java 26.1 assets, Minecraft Seven UI, Three.js voxel engine and Photon Web graphics",
-  "start_url": "./?source=pwa&v=0.15.9.2",
+  "description": "Minecraft Web — Java 26.1 assets, responsive desktop/mobile controls, vanilla fidelity rendering and optional Photon graphics",
+  "start_url": "./?source=pwa&v=0.16.0",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -11,13 +11,13 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.15.9.2",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.0",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.15.9.2",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.0",
       "sizes": "any",
       "type": "image/png",
       "purpose": "maskable"
