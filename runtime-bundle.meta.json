@@ -1,5 +1,5 @@
 {
-  "build": "0.16.1",
+  "build": "0.16.2",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -55,7 +55,8 @@
     "104d-v15-9-render-pipeline.js",
     "105-v15-9-1-world-loading-title-dedupe.js",
     "106-v16-0-desktop-vanilla-fidelity.js",
-    "107-v16-1-procedural-square-sun.js"
+    "107-v16-1-procedural-square-sun.js",
+    "108-v16-2-vanilla-polish-gameplay.js"
   ],
-  "sha256": "0ba2d038d456233c1ecdecbfc8cca8407bd5268e893b28887c6fbc991af60faa"
+  "sha256": "e6d26ab5fe176925839bc8ec5dc6b8800368dec231bafb17594f21cff5ebb7ab"
 }
