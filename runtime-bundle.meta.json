@@ -1,5 +1,5 @@
 {
-  "build": "0.16.5",
+  "build": "0.16.5.1",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -64,7 +64,8 @@
     "113-v16-5-modern-world-fluid.js",
     "114-v16-5-workers-lighting.js",
     "115-v16-5-java-data-inventory-combat.js",
-    "116-v16-5-world-systems.js"
+    "116-v16-5-world-systems.js",
+    "117-v16-5-1-player-render-kinematics.js"
   ],
-  "sha256": "ebf9cf997bfaaa1171f27f6c0f02021d371f0751a7dc4bafbf678c5130e0e580"
+  "sha256": "ef823ea3088f7ebd63f029b2f86b9b3b1eb2a5960d75e80fcc0db30d7e64d184"
 }
