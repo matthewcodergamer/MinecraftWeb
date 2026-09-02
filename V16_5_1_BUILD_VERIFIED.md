@@ -5,7 +5,7 @@ This checkpoint records the V16.5.1 player/render/kinematics hotfix after the pr
 ## Production runtime
 
 - Build: `0.16.5.1`
-- Runtime source count: 64 ordered parts
+- Runtime source count: **66 ordered parts**
 - Last hotfix parts:
   - `117-v16-5-1-player-render-kinematics.js`
   - `118-v16-5-1-stability-guard.js`
