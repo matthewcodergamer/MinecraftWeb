@@ -1,12 +1,26 @@
-# Minecraft Web V16.5 — Modern Java-Style World Architecture
+# Minecraft Web V16.5.1 — Player Render + Kinematics Hotfix
 
-Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current production build is **0.16.5** and targets responsive desktop and mobile play, including iPhone Safari.
+Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current production build is **0.16.5.1** and targets responsive desktop and mobile play, including iPhone Safari.
 
 The live runtime is:
 
 `index.html` → `runtime-loader.js` → cached `runtime-bundle.js` generated from the ordered numbered source parts
 
-The V16.5 browser entrypoint, loader, PWA cache keys and runtime bundle are all on **0.16.5**.
+The V16.5.1 browser entrypoint, loader, PWA cache keys and runtime bundle are all on **0.16.5.1**.
+
+## V16.5.1 player/render/kinematics hotfix
+
+V16.5.1 is a focused compatibility and presentation repair on top of the V16.5 architecture. It preserves the 384-block section world, fluids, worker generation/meshing, Java data, lighting and gameplay systems while fixing the regressions visible after the vertical-world migration.
+
+- **Modern-world bootstrap repair:** the original `Game` object is constructed before the numbered V16.5 patches execute, which could materialize legacy 96-block `ChunkData` around the initial player spawn. V16.5.1 detects and removes those stale chunks, rebuilds the V16.5 changed-block index, regenerates 24-section chunks, detaches stale render meshes, and moves the player to a safe surface only when the loaded position is embedded. This fixes the player appearing under/in the world and being unable to move.
+- **Third-person camera guard:** first-person always hides the local body, while third-person temporarily hides the local avatar only if wall clipping collapses the camera into the head. Normal third-person keeps the avatar visible.
+- **Centered Java attack cooldown:** the official Java `crosshair_attack_indicator_background`, `progress`, and `full` sprites are now positioned directly below the center crosshair. The 16×4 progress strip clips left-to-right as attack strength recharges, and the 16×16 ready icon replaces it at full strength.
+- **Front-facing generated tools/items:** sticks, swords, pickaxes, axes, shovels, hoes, bows, arrows and shears use a one-texture-pixel-deep generated extrusion. First-person display rotation is nearly front-on instead of exposing the thin edge, and only opaque source pixels generate geometry, eliminating the see-through/glitched tool face.
+- **Correct 3D inventory block faces:** inventory/hotbar cubes now use explicit Java 26.1 top/front/right face mappings for grass, logs, crafting tables, furnaces, TNT and the existing block set. Grass keeps an untinted side base with a biome-tinted side overlay; leaves retain foliage tint.
+- **Minecraft-style forward kinematics:** player and supported humanoid mob limb motion uses the familiar distance/speed-driven cosine gait, alternating left/right legs and counter-swinging arms while respecting the translated model's bind pose.
+- **Render-side inverse kinematics:** rigs that expose lower-leg/shin bones use a bounded analytical two-bone law-of-cosines solver. Single-segment Minecraft-style rigs fall back to cheap per-foot ground-contact correction, so the engine gains terrain awareness without forcing a heavyweight skeletal solver on every entity.
+- **Java-like cloud coordinates:** the cloud plane is horizontally anchored to player X/Z, remains vertically locked at public Java Y=192 (internal V16.5 Y=256), tiles its 128-pixel mask across a 512-block plane instead of stretching one image, scrolls through UV offset, remains visible when the player flies above it, and does not participate in block-light/cloud-shadow calculations.
+- Diagnostic command **`v1651`** reports legacy-chunk count, player/internal Java Y, camera/avatar visibility, attack cooldown state, cloud altitude/tiling, kinematics mode and generated-item facing.
 
 ## V16.5 architecture
 
@@ -276,6 +290,6 @@ Photon Web remains installed as optional/compatibility graphics code. Normal gam
 
 ## Current version
 
-**Minecraft Web V16.5 — Modern Java-Style World Architecture**  
-Build **0.16.5**  
+**Minecraft Web V16.5.1 — Player Render + Kinematics Hotfix**  
+Build **0.16.5.1**  
 24 vertical sections • Java Y -64..319 coordinate model • worker terrain generation • worker-assisted meshing • packed Sky/Block Light • persistent fluids • generated Java recipe registry • offhand/armor/shield semantics • sweep/sprint combat • swimming/buoyancy • spatial entity broadphase • GoalSelector/A* foundation • structure/dimension/weather foundations • Java 26.1 assets • Three.js voxel engine • responsive desktop/mobile controls
