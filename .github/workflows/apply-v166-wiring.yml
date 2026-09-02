@@ -73,6 +73,6 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add runtime-loader.js index.html manifest.webmanifest README.md .github/workflows/apply-v166-wiring.yml
+          git add -A
           git commit -m 'Wire Minecraft Web V16.6 release [skip ci]'
           git push
