@@ -1,0 +1,54 @@
+name: Sync Java crafting recipes
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: minecraft-data Java version
+        required: false
+        default: '1.21.8'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/export-java-recipes.mjs'
+      - '.github/workflows/sync-java-recipes.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-java-recipes-main
+  cancel-in-progress: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Export Java recipe registry
+        env:
+          MC_DATA_VERSION: ${{ inputs.version || '1.21.8' }}
+        run: |
+          npm install --no-save --ignore-scripts minecraft-data@latest
+          node tools/export-java-recipes.mjs
+      - name: Commit generated recipes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/java/data/recipes-v165.json
+          if git diff --cached --quiet; then
+            echo 'Java recipe registry already current.'
+            exit 0
+          fi
+          git commit -m 'Sync Java crafting recipe registry [skip ci]'
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
