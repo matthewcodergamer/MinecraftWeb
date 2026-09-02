@@ -1,0 +1,45 @@
+name: Package source ZIP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read runtime version
+        id: version
+        shell: bash
+        run: |
+          VERSION=$(node -e "const fs=require('fs');const s=fs.readFileSync('runtime-loader.js','utf8');const m=s.match(/RUNTIME_BUILD_ID='([^']+)'/);if(!m)process.exit(1);process.stdout.write(m[1])")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Packaging MinecraftWeb V$VERSION"
+
+      - name: Create ZIP
+        shell: bash
+        run: |
+          VERSION='${{ steps.version.outputs.version }}'
+          ZIP="MinecraftWeb-V${VERSION}.zip"
+          zip -qr "$ZIP" . \
+            -x '.git/*' \
+               "$ZIP"
+          sha256sum "$ZIP" | tee "$ZIP.sha256"
+          ls -lh "$ZIP" "$ZIP.sha256"
+
+      - name: Upload source ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MinecraftWeb-V${{ steps.version.outputs.version }}
+          path: |
+            MinecraftWeb-V${{ steps.version.outputs.version }}.zip
+            MinecraftWeb-V${{ steps.version.outputs.version }}.zip.sha256
+          if-no-files-found: error
+          retention-days: 14
