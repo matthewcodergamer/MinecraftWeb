@@ -1,5 +1,5 @@
 {
-  "build": "0.16.4.2",
+  "build": "0.16.5",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -60,7 +60,11 @@
     "109-v16-3-java-block-fidelity.js",
     "110-v16-4-java-parity-runtime.js",
     "111-v16-4-1-runtime-hotfix.js",
-    "112-v16-4-2-performance-stability.js"
+    "112-v16-4-2-performance-stability.js",
+    "113-v16-5-modern-world-fluid.js",
+    "114-v16-5-workers-lighting.js",
+    "115-v16-5-java-data-inventory-combat.js",
+    "116-v16-5-world-systems.js"
   ],
-  "sha256": "8a458a1b9bf6e4570e05363ca31465db3f325304fac250fb5c18c0b994c71079"
+  "sha256": "ebf9cf997bfaaa1171f27f6c0f02021d371f0751a7dc4bafbf678c5130e0e580"
 }
