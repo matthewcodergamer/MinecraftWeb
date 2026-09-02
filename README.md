@@ -1,66 +1,239 @@
-# Minecraft Web V16.3 — Java 26.1 Block Fidelity
+# Minecraft Web V16.5 — Modern Java-Style World Architecture
 
-Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current build is **0.16.3** and targets responsive desktop and mobile play, including iPhone Safari.
+Minecraft Web is a browser-based, Java-first Minecraft client/runtime built with Three.js and a custom voxel/gameplay stack. The current production build is **0.16.5** and targets responsive desktop and mobile play, including iPhone Safari.
 
 The live runtime is:
 
 `index.html` → `runtime-loader.js` → cached `runtime-bundle.js` generated from the ordered numbered source parts
 
+The V16.5 browser entrypoint, loader, PWA cache keys and runtime bundle are all on **0.16.5**.
+
+## V16.5 architecture
+
+V16.5 is the first large architecture pass that moves the project away from the old fixed-height/dense-world assumptions while deliberately preserving the working renderer, controls, Java 26.1 assets, gameplay systems and later section-based render pipeline.
+
+The production V16.5 runtime layers are:
+
+- `113-v16-5-modern-world-fluid.js`
+- `114-v16-5-workers-lighting.js`
+- `115-v16-5-java-data-inventory-combat.js`
+- `116-v16-5-world-systems.js`
+- `workers/world-worker-v165.js`
+- `workers/mesh-worker-v165.js`
+
+### 384-block / 24-section world foundation
+
+- Public Java-style world coordinates cover **Y = -64 through 319**.
+- The internal compatibility layer maps that range to **0 through 383** so the existing Three.js geometry, collision and section renderer can continue to operate without a destructive rewrite.
+- Java sea level **62** maps internally to **126**.
+- Each chunk is represented as **24 vertical 16×16×16 sections** instead of one permanently dense 16×384×16 allocation.
+- Sections use palette-backed storage and are allocated on demand.
+- Save migration understands the new V16.5 world descriptor and coordinate model.
+
+### Terrain and generation workers
+
+`workers/world-worker-v165.js` provides deterministic worker-side chunk generation with:
+
+- 384-block vertical world generation
+- caves
+- deepslate transition
+- deep lava
+- ores
+- sea-level mapping
+- surface vegetation
+- deterministic seeded terrain behavior
+
+Generation can be prefetched around the player without tying the expensive terrain pass directly to the DOM or Three.js render thread.
+
+### Worker-assisted section meshing
+
+`workers/mesh-worker-v165.js` performs voxel face extraction away from Three.js and the DOM. The main runtime can prepare padded 18³ section data, send it to the worker, and receive compact face records for the existing renderer to turn into final geometry.
+
+This keeps the mature section-oriented renderer instead of replacing the entire rendering stack.
+
+### Java-style sky and block lighting
+
+V16.5 adds packed 4-bit light storage using nibble arrays:
+
+- Sky Light
+- Block Light
+- per-section light storage
+- torch/glowstone/lava emission
+- relight queues
+- bounded propagation work per frame
+- lighting-aware mesh vertex brightness
+
+The worker/light layer now has the required V16.5 world descriptor and is part of the production source order.
+
+### Persistent fluids
+
+The modern world foundation adds persistent fluid state instead of treating water as a purely visual block:
+
+- persistent water metadata
+- persistent lava metadata
+- flowing-fluid levels
+- waterlogging metadata
+- infinite water source behavior
+- scheduled fluid updates
+- water/lava reactions
+- section/chunk dirtying after fluid changes
+
+The implementation builds on the existing working water renderer rather than replacing it.
+
+### Generated Java recipe registry
+
+The repository now contains a generated Java recipe pipeline rather than relying only on the old tiny hard-coded `RECIPES` array.
+
+Files:
+
+- `tools/export-java-recipes.mjs`
+- `.github/workflows/sync-java-recipes.yml`
+- `assets/java/data/recipes-v165.json`
+
+The exporter uses the public **PrismarineJS `minecraft-data`** registry to generate the recipe data used by the web runtime. The existing large Java item registry remains under `assets/java/data/items.json`.
+
+### Inventory, offhand and armor semantics
+
+V16.5 extends the inventory model with Java-style concepts including:
+
+- main inventory + hotbar behavior
+- offhand slot
+- armor slots
+- shift-click routing
+- right-click stack splitting/placement behavior
+- double-click collection behavior
+- equipment-aware item movement
+- shield equipment/blocking state
+
+### Combat and player movement
+
+The V16.5 gameplay layer adds or extends:
+
+- shield blocking
+- armor-aware incoming damage
+- sweep attacks
+- sprint attacks / sprint knockback behavior
+- attack cooldown integration
+- swimming state
+- buoyancy and water movement
+
+The existing combat and movement code remains in place where it is already functional; V16.5 layers Java-style behavior on top instead of rewriting it wholesale.
+
+### Entity broadphase and AI architecture
+
+The new entity/AI foundation includes:
+
+- spatial entity broadphase indexing
+- priority-based `GoalSelector`
+- A* pathfinding/navigation foundation
+- goal scheduling
+- villager memory/activity/trading foundation
+- preservation of existing working passive-AI behavior where it is already stronger
+
+This is an independent recreation of Java-like AI architecture rather than copied proprietary Mojang source.
+
+### Structures, dimensions and scheduled world systems
+
+V16.5 also introduces foundations for:
+
+- jigsaw-style structure planning
+- scheduled block ticks
+- neighbor updates
+- redstone-oriented scheduled tick infrastructure
+- preliminary Nether world container
+- preliminary End world container
+- precipitation/weather state
+- rain/snow visual hooks
+
+These systems are foundations for continued parity work; they are not a claim that every Java structure, redstone rule, Nether feature or End feature is already complete.
+
+### Java item models and first-person rendering
+
+The project already had a pixel-extrusion generator for held Java textures. V16.5 continues that architecture and adds/extends generated and extruded Java-style item models and first-person display transforms without copying Mojang rendering source.
+
+The intended rule remains:
+
+**use the real local Java item texture, recreate the geometry/runtime behavior independently, and preserve the existing working render path.**
+
+## V16.5 build and deployment status
+
+The first V16.5 bundle attempt exposed a source-list typo:
+
+`98c-v14-8c3-java-ui-assets-fix.js`
+
+The real file is:
+
+`98c-v14-8c-java-ui-assets-fix.js`
+
+That source-list error was corrected in commit:
+
+`85592c758a3da877bd192a37d2fcac6009c48cb5`
+
+After the correction:
+
+- **Build cached Minecraft runtime bundle — run 23: SUCCESS**
+- the workflow regenerated `runtime-bundle.js` for V16.5
+- GitHub Actions committed the rebuilt bundle as `33b21cc4a5a8ea29aaefd2627ceb863274d8bc9e`
+- **GitHub Pages deployment run 201: SUCCESS**
+
+So V16.5 is now committed, bundled and deployed rather than remaining an unwired local architecture pass.
+
+## V16.4 / V16.4.2 parity and stability base
+
+V16.5 builds on the existing V16.4-era runtime rather than discarding it. That base includes Java-style combat/HUD behavior, richer water/swimming behavior, 3D held items and shields, Java UI/runtime improvements, performance/stability work, section rendering, lifecycle fixes and the Java 26.1 asset stack.
+
 ## V16.3 Java block fidelity
 
-V16.3 makes the actual local Java 26.1 block assets authoritative for the current voxel/block set and fixes the inventory and destroy-stage presentation.
+V16.3 made the actual local Java 26.1 block assets authoritative for the current voxel/block set and fixed inventory and destroy-stage presentation.
 
-- **Core world block textures now prefer `assets/java/26.1/blocks/` directly.** Grass, dirt, stone, sand, gravel, logs, leaves, planks, cobblestone, glass, ores, bedrock, water, torch, crafting table, bricks, obsidian, snow, glowstone, furnace and TNT no longer depend on the older Java compatibility texture directory as their primary source.
-- **Grass keeps the V16.2 Java 26.1 biome tint path.** The grass top is biome-tinted, the dirt portion of the side remains untinted, and the real `grass_block_side_overlay.png` receives the same biome color as the top.
-- **Glass uses the actual Java 26.1 alpha texture at full frame opacity.** Transparent texels remain transparent while the border pixels stay at their authored opacity instead of washing the entire block out with a global 42% material opacity.
-- **Crafting tables and furnaces now include their real front/top/side textures** in the world atlas instead of showing one generic side on every lateral/top face.
-- **Inventory and hotbar block items are rendered as lightweight 3D Java-style cubes.** Grass, dirt, stone, sand, gravel, logs, leaves, planks, cobblestone, glass, ores, crafting tables, bricks, obsidian, snow, glowstone, furnaces, TNT and white wool (when available) use the same local Java 26.1 face textures as the world. Grass/leaf cube faces receive the biome tint path and grass sides keep the untinted dirt base plus tinted overlay.
-- **The Java destroy-stage textures are now true-alpha crack overlays.** The Java 26.1 files contain visually empty texels with alpha value 1; V16.3 converts those texels to alpha 0 before uploading the texture. Only the crack pixels render over the original block, so breaking no longer puts a gray/white veil across the entire block.
-- **Destroy-stage materials use full crack opacity with transparent background, no depth writes, no fog and no tone mapping.** This keeps the original block texture/color visible underneath the Java crack pattern and works through the existing block-target breaking path.
-- A new `blocks163` diagnostic command reports the active Java texture source, grass top/side/overlay URLs, glass alpha material state, number of 3D inventory block models and destroy-overlay material state.
+- **Core world block textures prefer `assets/java/26.1/blocks/` directly.**
+- **Grass keeps the Java 26.1 biome tint path.**
+- **Glass uses the actual Java 26.1 alpha texture at full frame opacity.**
+- **Crafting tables and furnaces use their real front/top/side textures.**
+- **Inventory and hotbar block items render as lightweight 3D Java-style cubes.**
+- **Java destroy-stage textures are converted to true-alpha crack overlays.**
+- Destroy-stage materials keep the original block visible underneath the crack pattern.
 
 ## V16.2 vanilla polish + gameplay
 
-- **The Java Edition title strip is larger and correctly centered beneath the Minecraft logo** with separate desktop, landscape-phone and portrait sizing.
-- **Grass and oak foliage use the real local Java 26.1 colormaps.** `assets/java/26.1/colormap/grass.png` and `foliage.png` are sampled using the current simplified biome climate values instead of relying on hand-picked generic greens.
-- **Grass sides use the real Java `grass_block_side_overlay.png` path.** The dirt/side base remains untinted while a second cutout quad receives the same biome grass tint as the top face.
-- **Java clouds are forced into the authoritative vanilla render path.** The old Photon compatibility pass can no longer leave the Java cloud mesh hidden at draw time.
-- **Daylight is brighter and uses one final canonical 24,000-tick environment state.** The sky, fog, HemisphereLight, directional sun, moon contribution and material response are synchronized immediately before the real world draw.
-- **The V16.1 procedural square sun remains authoritative**, with the legacy PNG sun hidden. The Java moon sprite remains opposite the canonical sun direction and depth-tested.
-- **The first-person arm uses the earlier V7 proportions** while remaining Lambert-lit by the world.
-- **The first-person view model renders in a dedicated second depth pass** so water behind the hand/held item cannot incorrectly tint or cover it.
-- **Desktop pointer-lock mouse look uses one capture path** with a Java-style cubic sensitivity response.
-- **Bread and apples have a timed eating action** with view-model animation, Java chew/burp sounds, hunger and saturation restoration.
+- Java Edition title strip sizing/centering improvements.
+- Real local Java 26.1 grass and foliage colormaps.
+- Real `grass_block_side_overlay.png` path.
+- Vanilla Java cloud path made authoritative.
+- Canonical 24,000-tick daylight/environment state.
+- Procedural square sun retained as authoritative.
+- Dedicated first-person depth pass.
+- Desktop pointer-lock mouse-look path.
+- Timed bread/apple eating with Java audio.
 
 ## V16.1 procedural square sun repair
 
-- The visible sun is generated procedurally as one 1:1 square celestial quad rather than relying on an asynchronously loaded PNG.
-- The old Java sun sprite is suppressed every celestial update.
-- The square stays near-white in daylight and warms toward sunrise/sunset.
-- Tick 0 is sunrise, 6000 noon, 12000 sunset and 18000 midnight.
-- The sun remains depth-tested so terrain and blocks occlude it.
-- Directional sunlight follows the same sky direction.
-- The moon remains texture-backed so Java moon phases remain available.
+- Procedural 1:1 square celestial sun.
+- Old Java sun sprite suppressed.
+- Warm sunrise/sunset transition.
+- Tick mapping: 0 sunrise, 6000 noon, 12000 sunset, 18000 midnight.
+- Terrain depth-tests the sun.
+- Directional sunlight follows the sky direction.
+- Java moon textures/phases remain available.
 
 ## V16.0 desktop + vanilla fidelity repair
 
-- Desktop gameplay uses pointer lock and hides touch-only controls on fine-pointer devices.
-- Left mouse uses attack/mining, right mouse uses/places, E opens inventory, C opens crafting, and 1–9 select hotbar slots.
-- Java HUD rows are laid out around the 182-pixel Java hotbar geometry and scale from the visual viewport.
-- Vanilla Java sky/day/night is authoritative over the older Photon sky stack.
-- Render-section sky exposure makes roofs/caves darker than exposed terrain.
-- Java 26.1 Fancy cloud geometry is used instead of Photon volumetric clouds in the vanilla path.
-- Generated tools use real Java item textures for held and dropped 3D geometry.
-- Torch held/drop rendering uses Java torch texture/geometry.
+- Desktop pointer lock and desktop-specific input path.
+- Left mouse attack/mine, right mouse use/place, E inventory, C crafting, 1–9 hotbar.
+- Java HUD sizing around the 182-pixel hotbar geometry.
+- Vanilla Java sky/day/night authoritative over legacy Photon sky passes.
+- Render-section sky exposure for caves/roofs.
+- Java 26.1 Fancy cloud geometry.
+- Generated tools and torch held/drop rendering use Java textures.
 
 ## V15.9 gameplay/render repair
 
-- Singleplayer opens a Java-style Select World screen.
-- Quit Game stops the active runtime/audio state.
-- PWA/background audio suspends on hide/pagehide/freeze.
-- Inventory drag-out/drop is repaired for touch/iOS.
-- Q drops one item, Ctrl/Meta+Q drops a stack, and mobile has hold-to-repeat dropping.
-- Oxygen bubbles are separated from armor/hearts.
+- Java-style Select World screen.
+- Quit Game stops runtime/audio state.
+- PWA/background audio suspend behavior.
+- Inventory drag-out/drop repair for touch/iOS.
+- Q / Ctrl+Q item dropping plus mobile hold-to-repeat.
+- Oxygen bubbles separated from armor/hearts.
 
 ## Java 26.1 is the Java-facing source of truth
 
@@ -103,6 +276,6 @@ Photon Web remains installed as optional/compatibility graphics code. Normal gam
 
 ## Current version
 
-**Minecraft Web V16.3 — Java 26.1 Block Fidelity**  
-Build **0.16.3**  
-Java 26.1 block assets • Java biome colormaps • 3D inventory block items • transparent Java destroy stages • Minecraft Seven UI • Three.js voxel engine • responsive desktop/mobile controls
+**Minecraft Web V16.5 — Modern Java-Style World Architecture**  
+Build **0.16.5**  
+24 vertical sections • Java Y -64..319 coordinate model • worker terrain generation • worker-assisted meshing • packed Sky/Block Light • persistent fluids • generated Java recipe registry • offhand/armor/shield semantics • sweep/sprint combat • swimming/buoyancy • spatial entity broadphase • GoalSelector/A* foundation • structure/dimension/weather foundations • Java 26.1 assets • Three.js voxel engine • responsive desktop/mobile controls
