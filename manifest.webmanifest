@@ -2,8 +2,8 @@
   "id": "./",
   "name": "Minecraft",
   "short_name": "Minecraft",
-  "description": "Minecraft Web V16.4 — Java 26.1 UI, flowing water, richer terrain and caves, critical combat, 3D held items, Java audio, Photon effects and responsive desktop/mobile controls",
-  "start_url": "./?source=pwa&v=0.16.4",
+  "description": "Minecraft Web V16.4.1 — Java 26.1 UI, flowing water, richer terrain and caves, critical combat, 3D held items, Java audio, Photon effects and responsive desktop/mobile controls",
+  "start_url": "./?source=pwa&v=0.16.4.1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -11,13 +11,13 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.4",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.4.1",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.4",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.4.1",
       "sizes": "any",
       "type": "image/png",
       "purpose": "maskable"
