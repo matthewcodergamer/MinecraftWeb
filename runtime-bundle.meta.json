@@ -1,5 +1,5 @@
 {
-  "build": "0.16.4.1",
+  "build": "0.16.4.2",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -59,7 +59,8 @@
     "108-v16-2-vanilla-polish-gameplay.js",
     "109-v16-3-java-block-fidelity.js",
     "110-v16-4-java-parity-runtime.js",
-    "111-v16-4-1-runtime-hotfix.js"
+    "111-v16-4-1-runtime-hotfix.js",
+    "112-v16-4-2-performance-stability.js"
   ],
-  "sha256": "618009ed828d2c32c5500575e3f01597160b355ccf7bbed4b00cc1b185d57d45"
+  "sha256": "8a458a1b9bf6e4570e05363ca31465db3f325304fac250fb5c18c0b994c71079"
 }
