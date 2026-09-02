@@ -1,5 +1,6 @@
 name: Build cached Minecraft runtime bundle
 
+# V16.6 production bundle verification gate.
 on:
   workflow_dispatch:
   push:
