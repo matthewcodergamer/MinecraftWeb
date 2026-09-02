@@ -65,7 +65,8 @@
     "114-v16-5-workers-lighting.js",
     "115-v16-5-java-data-inventory-combat.js",
     "116-v16-5-world-systems.js",
-    "117-v16-5-1-player-render-kinematics.js"
+    "117-v16-5-1-player-render-kinematics.js",
+    "118-v16-5-1-stability-guard.js"
   ],
-  "sha256": "ef823ea3088f7ebd63f029b2f86b9b3b1eb2a5960d75e80fcc0db30d7e64d184"
+  "sha256": "9f10bdafd2f4a18cb90d876c74e77a2cb1c42a988ed9009b21d740d2cc3a7c81"
 }
