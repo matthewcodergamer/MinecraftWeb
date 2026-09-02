@@ -1,5 +1,5 @@
 {
-  "build": "0.16.6",
+  "build": "0.16.7",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -69,7 +69,8 @@
     "118-v16-5-1-stability-guard.js",
     "119-v16-6-ender-dragon.js",
     "120-v16-6-advancements.js",
-    "121-v16-6-lan-multiplayer.js"
+    "121-v16-6-lan-multiplayer.js",
+    "122-v16-7-particles.js"
   ],
-  "sha256": "d8140ca160a779c2372ca72117f2cfe4c523be9f72f96dfca43c48ef5473707e"
+  "sha256": "6234f79b463e3959bec1a2cdef54ccf1e1ccac97b34335c2b85fd9140682218c"
 }
