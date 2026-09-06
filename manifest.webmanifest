@@ -2,8 +2,8 @@
   "id": "./",
   "name": "Minecraft",
   "short_name": "Minecraft",
-  "description": "Minecraft Web V16.7 — Java-style batched particles, Ender Dragon boss, advancements, local WebRTC LAN multiplayer, 384-block world, worker generation/meshing, fluids, lighting, AI, dimensions and weather",
-  "start_url": "./?source=pwa&v=0.16.7",
+  "description": "Minecraft Web V16.7.1 — Java-style particles, Ender Dragon, advancements, LAN multiplayer, 384-block world, Java held-item/inventory fixes, fluids, lighting, AI, dimensions and weather",
+  "start_url": "./?source=pwa&v=0.16.7.1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -11,13 +11,13 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.7",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.7.1",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.7",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.7.1",
       "sizes": "any",
       "type": "image/png",
       "purpose": "maskable"
