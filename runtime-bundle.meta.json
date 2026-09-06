@@ -1,5 +1,5 @@
 {
-  "build": "0.16.7",
+  "build": "0.16.7.1",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -70,7 +70,8 @@
     "119-v16-6-ender-dragon.js",
     "120-v16-6-advancements.js",
     "121-v16-6-lan-multiplayer.js",
-    "122-v16-7-particles.js"
+    "122-v16-7-particles.js",
+    "123-v16-7-1-hand-inventory-spawn-hotfix.js"
   ],
-  "sha256": "6234f79b463e3959bec1a2cdef54ccf1e1ccac97b34335c2b85fd9140682218c"
+  "sha256": "a6344c070d1b18a6cad46860b1bcadae8b218d7ac589fee6fa1ee00690488eff"
 }
