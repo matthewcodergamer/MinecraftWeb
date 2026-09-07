@@ -2,8 +2,8 @@
   "id": "./",
   "name": "Minecraft",
   "short_name": "Minecraft",
-  "description": "Minecraft Web V16.8.1 — render-gated surface spawn, conservative mobile section visibility, Prismarine-style camera-space held items, Java-like neutral daylight, real difficulty semantics, particles, LAN multiplayer, dimensions and Java 26.1 assets",
-  "start_url": "./?source=pwa&v=0.16.8.1",
+  "description": "Minecraft Web V16.9 — meshed surface-spawn gate, centered Java HUD/inventory, local Java torch texture, centered camera-space tools, biome-correct foliage tint, Java-like environment, dimensions, particles and LAN multiplayer",
+  "start_url": "./?source=pwa&v=0.16.9",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -11,13 +11,13 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.8.1",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.9",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.8.1",
+      "src": "./assets/icon/minecraft-java-icon.png?v=0.16.9",
       "sizes": "any",
       "type": "image/png",
       "purpose": "maskable"
