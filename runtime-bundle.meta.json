@@ -1,5 +1,5 @@
 {
-  "build": "0.16.8.1",
+  "build": "0.16.9",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -73,7 +73,8 @@
     "122-v16-7-particles.js",
     "123-v16-7-1-hand-inventory-spawn-hotfix.js",
     "124-v16-8-world-render-gameplay-stability.js",
-    "125-v16-8-1-java-client-render-stability.js"
+    "125-v16-8-1-java-client-render-stability.js",
+    "126-v16-9-bugfix-master.js"
   ],
-  "sha256": "fa556cba2dfe51c8f2a95b30f6ed36952221fedb64c8ee1bd1f839dfdd8979c6"
+  "sha256": "2a7f38b61dc1f9ac0935b22d549329e8527861ba55e4bdd9363ea8f9ac7220d3"
 }
