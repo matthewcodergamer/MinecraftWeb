@@ -1,5 +1,5 @@
 {
-  "build": "0.16.10",
+  "build": "0.16.11",
   "parts": [
     "00-engine-core.js",
     "10-studio-v6.js",
@@ -75,7 +75,8 @@
     "124-v16-8-world-render-gameplay-stability.js",
     "125-v16-8-1-java-client-render-stability.js",
     "126-v16-9-bugfix-master.js",
-    "127-v16-10-vanilla-runtime-stability.js"
+    "127-v16-10-vanilla-runtime-stability.js",
+    "128-v16-11-world-reveal-spawn-gate.js"
   ],
-  "sha256": "20dbb909873a78e681a1933f76382cfd556c1f74fd452e8e961e9b19831fbb46"
+  "sha256": "fba7f074d87da3ba646f6c580126555ef356b6923933d850cea8dcbd1b8df07c"
 }
